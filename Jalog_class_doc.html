@@ -197,7 +197,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">integer</A></B>(long i)</CODE>
+    <CODE><B><A HREF="#integer(long)">integer</A></B>(long i)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -210,7 +210,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">symbol</A></B>(String name)</CODE>
+    <CODE><B><A HREF="#symbol(String)">symbol</A></B>(String name)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -223,7 +223,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">real</A></B>(double r)</CODE>
+    <CODE><B><A HREF="#real(double)">real</A></B>(double r)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -236,7 +236,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">character</A></B>(char c)</CODE>
+    <CODE><B><A HREF="#character(char)">character</A></B>(char c)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -249,7 +249,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">string</A></B>(String s)</CODE>
+    <CODE><B><A HREF="#string(String)">string</A></B>(String s)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -262,7 +262,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#list(Term[])">list</A></B>(Term[] elements)</CODE>
+    <CODE><B><A HREF="#list(Jalog.Term[])">list</A></B>(Jalog.Term[] elements)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -275,7 +275,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">compound</A></B>(String name, Term[] arguments)
+    <CODE><B><A HREF="#compound(String,Jalog.Term[])">compound</A></B>(String name, Jalog.Term[] arguments)
     </CODE>
 
     <BR>
@@ -291,7 +291,7 @@ is of type symbol.
     <CODE>&nbsp;static void</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">consult_file</A></B>(String filename)</CODE>
+    <CODE><B><A HREF="#consult_file(String)">consult_file</A></B>(String filename)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -304,7 +304,7 @@ is of type symbol.
     <CODE>&nbsp;static boolean</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">call</A></B>(String predname, Pro_Term ... args)
+    <CODE><B><A HREF="#call(String,Jalog.Term...)">call</A></B>(String predname, Jalog.Term ... args)
     </CODE>
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -497,7 +497,7 @@ public static Jalog.Term <B>symbol</B>(String name)</PRE>
 </DL>
 <HR>
 
-<H3 id="real(long)">integer</H3>
+<H3 id="real(double)">real</H3>
 <PRE>
 public static Jalog.Term <B>real</B>(double r)</PRE>
 <DL>
@@ -548,9 +548,9 @@ public static Jalog.Term <B>string</B>(String s)</PRE>
 </DL>
 <HR>
 
-<H3 id="list(Term[])">list</H3>
+<H3 id="list(Jalog.Term[])">list</H3>
 <PRE>
-public static Jalog.Term <B>list</B>(Term[] elements)</PRE>
+public static Jalog.Term <B>list</B>(Jalog.Term[] elements)</PRE>
 <DL>
 <DD>Creates a new list term populated with items from <code>elements</code> 
 array.
@@ -566,9 +566,9 @@ array.
 </DL>
 <HR>
 
-<H3 id="integer(long)">compound</H3>
+<H3 id="compound(String,Jalog.Term[])">compound</H3>
 <PRE>
-public static Jalog.Term <B>compound</B>(String name, Term[] arguments)</PRE>
+public static Jalog.Term <B>compound</B>(String name, Jalog.Term[] arguments)</PRE>
 <DL>
 <DD>Creates a new compound term with functor name <code>name</code> and
 components from arguments array. If the arguments array is empty, the result
@@ -602,9 +602,9 @@ public static void <B>consult_file</B>(String filename)</PRE>
 <HR>
 
 
-<H3 id="call(long)">call</H3>
+<H3 id="call(String,Jalog.Term...)">call</H3>
 <PRE>
-public static boolean <B>call</B>(String predname, Pro_Term ... args)</PRE>
+public static boolean <B>call</B>(String predname, Jalog.Term ... args)</PRE>
 <DL>
 <DD>Calls a predicate defined in the consulted file.
 <P>
@@ -676,3 +676,4 @@ public final <A HREF="../../../java/awt/image/BufferedImage.html" title="class i
 <HR>
 </body>
 </html>
+    

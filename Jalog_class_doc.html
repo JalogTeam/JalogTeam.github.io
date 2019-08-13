@@ -182,7 +182,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <CODE>&nbsp;static boolean</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#call(String,Jalog.Term...)">call</A></B>(String predname, Jalog.Term ... args)
+    <CODE><B><A HREF="#call(String,Jalog.Term...)">call</A></B>(String predname, <a href="Jalog_Term_class_doc.html">Jalog.Term</a> ... args)
     </CODE>
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -192,7 +192,7 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
     <CODE><B><A HREF="#character(char)">character</A></B>(char c)</CODE>
@@ -205,10 +205,10 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#compound(String,Jalog.Term[])">compound</A></B>(String name, Jalog.Term[] arguments)
+    <CODE><B><A HREF="#compound(String,Jalog.Term[])">compound</A></B>(String name, <a href="Jalog_Term_class_doc.html">Jalog.Term</a>[] arguments)
     </CODE>
 
     <BR>
@@ -234,7 +234,20 @@ is of type symbol.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static void</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#dispose">dispose</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Clears the database of program and data..
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
     <CODE><B><A HREF="#integer(long)">integer</A></B>(long i)</CODE>
@@ -247,10 +260,10 @@ is of type symbol.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#list(Jalog.Term[])">list</A></B>(Jalog.Term[] elements)</CODE>
+    <CODE><B><A HREF="#list(Jalog.Term[])">list</A></B>(<a href="Jalog_Term_class_doc.html">Jalog.Term</a>[] elements)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -262,7 +275,7 @@ is of type symbol.
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
     <CODE>&nbsp;
     <!--<A HREF="#open()" title="class in java.awt.image">static Jalog.Term</A>
-    -->static Jalog.Term</CODE></FONT>
+    -->static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
     <CODE><B><A HREF="#open()">open</A></B>()</CODE>
@@ -275,7 +288,7 @@ is of type symbol.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
     <CODE><B><A HREF="#real(double)">real</A></B>(double r)</CODE>
@@ -288,7 +301,7 @@ is of type symbol.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
     <CODE><B><A HREF="#string(String)">string</A></B>(String s)</CODE>
@@ -301,7 +314,7 @@ is of type symbol.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static <a href="Jalog_Term_class_doc.html">Jalog.Term</a></CODE></FONT>
   </TD>
   <TD>
     <CODE><B><A HREF="#symbol(String)">symbol</A></B>(String name)</CODE>
@@ -446,7 +459,7 @@ Jalog</H3>
 
 <H3 id="open()">open</H3>
 <PRE>
-public static Jalog.Term <B>open</B>()</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>open</B>()</PRE>
 <DL>
 <DD>Creates a new open variable.
 <P>
@@ -465,7 +478,7 @@ public static Jalog.Term <B>open</B>()</PRE>
 
 <H3 id="integer(long)">integer</H3>
 <PRE>
-public static Jalog.Term <B>integer</B>(long i)</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>integer</B>(long i)</PRE>
 <DL>
 <DD>Creates a new integer term with value i.
 <P>
@@ -483,7 +496,7 @@ public static Jalog.Term <B>integer</B>(long i)</PRE>
 
 <H3 id="symbol(String)">symbol</H3>
 <PRE>
-public static Jalog.Term <B>symbol</B>(String name)</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>symbol</B>(String name)</PRE>
 <DL>
 <DD>Creates a new symbol term with value name.
 <P>
@@ -500,7 +513,7 @@ public static Jalog.Term <B>symbol</B>(String name)</PRE>
 
 <H3 id="real(double)">real</H3>
 <PRE>
-public static Jalog.Term <B>real</B>(double r)</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>real</B>(double r)</PRE>
 <DL>
 <DD>Creates a new real term with value r.
 <P>
@@ -517,7 +530,7 @@ public static Jalog.Term <B>real</B>(double r)</PRE>
 
 <H3 id="character(char)">character</H3>
 <PRE>
-public static Jalog.Term <B>character</B>(char c)</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>character</B>(char c)</PRE>
 <DL>
 <DD>Creates a new character term with value c.
 <P>
@@ -534,7 +547,7 @@ public static Jalog.Term <B>character</B>(char c)</PRE>
 
 <H3 id="string(String)">string</H3>
 <PRE>
-public static Jalog.Term <B>string</B>(String s)</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>string</B>(String s)</PRE>
 <DL>
 <DD>Creates a new string term with value s.
 <P>
@@ -551,7 +564,7 @@ public static Jalog.Term <B>string</B>(String s)</PRE>
 
 <H3 id="list(Jalog.Term[])">list</H3>
 <PRE>
-public static Jalog.Term <B>list</B>(Jalog.Term[] elements)</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>list</B>(<a href="Jalog_Term_class_doc.html">Jalog.Term</a>[] elements)</PRE>
 <DL>
 <DD>Creates a new list term populated with items from <code>elements</code> 
 array.
@@ -569,7 +582,7 @@ array.
 
 <H3 id="compound(String,Jalog.Term[])">compound</H3>
 <PRE>
-public static Jalog.Term <B>compound</B>(String name, Jalog.Term[] arguments)</PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>compound</B>(String name, <a href="Jalog_Term_class_doc.html">Jalog.Term</a>[] arguments)</PRE>
 <DL>
 <DD>Creates a new compound term with functor name <code>name</code> and
 components from arguments array. If the arguments array is empty, the result
@@ -602,10 +615,18 @@ public static void <B>consult_file</B>(String filename)</PRE>
 </DL>
 <HR>
 
+<H3 id="dispose">dispose</H3>
+<PRE>
+public static void <B>dispose</B>()</PRE>
+<DL>
+<DD>Clears the Prolog program, its data and the inference engine from the memory. Allows creating a new inference engine for another purpose.
+<P>
+</DL>
+<HR>
 
 <H3 id="call(String,Jalog.Term...)">call</H3>
 <PRE>
-public static boolean <B>call</B>(String predname, Jalog.Term ... args)</PRE>
+public static boolean <B>call</B>(String predname, <a href="Jalog_Term_class_doc.html">Jalog.Term</a> ... args)</PRE>
 <DL>
 <DD>Calls a predicate defined in the consulted file.
 <P>

@@ -78,10 +78,19 @@ Typical calling pattern:
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;String</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#OPEN">OPEN</A></B></CODE>
+<TD><CODE><B><A HREF="#CHARACTER">CHARACTER</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Code for open variable.</TD>
+Code for character variable.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#COMPOUND">COMPOUND</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Code for compound variable.</TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -96,10 +105,19 @@ Code for integer variable.</TD>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;String</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#SYMBOL">SYMBOL</A></B></CODE>
+<TD><CODE><B><A HREF="#LIST">LIST</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Code for symbol variable.</TD>
+Code for list variable.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#OPEN">OPEN</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Code for open variable.</TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -114,15 +132,6 @@ ode for real variable.</TD>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;String</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#CHARACTER">CHARACTER</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Code for character variable.</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;String</CODE></FONT></TD>
 <TD><CODE><B><A HREF="#STRING">STRING</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -132,19 +141,10 @@ Code for string variable.</TD>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;String</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#LIST">LIST</A></B></CODE>
+<TD><CODE><B><A HREF="#SYMBOL">SYMBOL</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Code for list variable.</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;String</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#COMPOUND">COMPOUND</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Code for compound variable.</TD>
+Code for symbol variable.</TD>
 </TR>
 
 
@@ -179,55 +179,14 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;
-    <!--<A HREF="#open()" title="class in java.awt.image">static Jalog.Term</A>
-    -->static Jalog.Term</CODE></FONT>
+    <CODE>&nbsp;static boolean</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#open()">open</A></B>()</CODE>
-
+    <CODE><B><A HREF="#call(String,Jalog.Term...)">call</A></B>(String predname, Jalog.Term ... args)
+    </CODE>
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new open variable.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#integer(long)">integer</A></B>(long i)</CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new integer term with value i.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#symbol(String)">symbol</A></B>(String name)</CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new symbol term with value name.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#real(double)">real</A></B>(double r)</CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new real term with value r.
+    Calls a predicate defined in the consulted file.
    </TD>
 </TR>
 
@@ -241,32 +200,6 @@ Constructs an <CODE>Jalog</CODE> engine instance.</TD>
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Creates a new character term with value c.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#string(String)">string</A></B>(String s)</CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new string term with value s.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#list(Jalog.Term[])">list</A></B>(Jalog.Term[] elements)</CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new list term populated with items from <code>elements</code> 
    </TD>
 </TR>
 
@@ -301,16 +234,84 @@ is of type symbol.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static boolean</CODE></FONT>
+    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#call(String,Jalog.Term...)">call</A></B>(String predname, Jalog.Term ... args)
-    </CODE>
+    <CODE><B><A HREF="#integer(long)">integer</A></B>(long i)</CODE>
+
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Calls a predicate defined in the consulted file.
+    Creates a new integer term with value i.
    </TD>
 </TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#list(Jalog.Term[])">list</A></B>(Jalog.Term[] elements)</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new list term populated with items from <code>elements</code> 
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;
+    <!--<A HREF="#open()" title="class in java.awt.image">static Jalog.Term</A>
+    -->static Jalog.Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#open()">open</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new open variable.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#real(double)">real</A></B>(double r)</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new real term with value r.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#string(String)">string</A></B>(String s)</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new string term with value s.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Jalog.Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#symbol(String)">symbol</A></B>(String name)</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new symbol term with value name.
+   </TD>
+</TR>
+
 </TABLE>
 <!--
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --#></A>
@@ -676,4 +677,3 @@ public final <A HREF="../../../java/awt/image/BufferedImage.html" title="class i
 <HR>
 </body>
 </html>
-    

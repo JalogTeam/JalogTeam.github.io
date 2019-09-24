@@ -6,6 +6,9 @@
   font-family: serif;
   font-style: italic;
 }
+#source a {
+  text-decoration: initial;
+}
 </style>
 </head>
 <body>
@@ -30,7 +33,50 @@ This example is mainly intended for developers. In order to develop the calling 
   <li><a href="SolveSudoku.java" download="SolveSudoku.java">Main Java program</a></li>
   <li><a href="sudoku_solver_component.pro" download="sudoku_solver_component.pro">Sudoku solver program</a></li>
 </ol>
-
+<p>It is simplest to download these to the same folder.</p>
+<h2>Compilation</h2>
+Use command:
+<pre>
+    javac -cp jalog.jar SolveSudoku.java
+</pre>
+This sould create <code>SolveSudoku.class</code>.
+<h2>Execution</h2>
+Use command:
+<pre>
+    java -cp "jalog.jar;." SolveSudoku
+</pre>
+This should display something like
+<pre>
+    SolveSudoku 0.1 by Ari Okkonen & Mikko Levanto 2019-09-17
+    Problem
+    -------------------------
+    | 8     |   2   |   3   |
+    | 9   4 | 6     |   1 2 |
+    |   5   |   7 1 |     6 |
+    -------------------------
+    |       |       |   7   |
+    | 6   2 |   3   |   8   |
+    | 4 8   |   1 9 |   6 5 |
+    -------------------------
+    |   6 8 | 7 5   | 9 4   |
+    | 1 2   |     4 | 7     |
+    |       | 1   8 | 6     |
+    -------------------------
+    Solution
+    -------------------------
+    | 8 1 6 | 9 2 5 | 4 3 7 |
+    | 9 7 4 | 6 8 3 | 5 1 2 |
+    | 2 5 3 | 4 7 1 | 8 9 6 |
+    -------------------------
+    | 5 3 1 | 8 4 6 | 2 7 9 |
+    | 6 9 2 | 5 3 7 | 1 8 4 |
+    | 4 8 7 | 2 1 9 | 3 6 5 |
+    -------------------------
+    | 3 6 8 | 7 5 2 | 9 4 1 |
+    | 1 2 9 | 3 6 4 | 7 5 8 |
+    | 7 4 5 | 1 9 8 | 6 2 3 |
+    -------------------------
+</pre>
 <h2>Structure</h2>
 
 The Java part is in the file <code>SolveSudoku.java</code>. 
@@ -545,10 +591,11 @@ This is executed, if an exception is encountered. This is indicated by filling t
 </svg>
 
 <h4>Jalog source code</h4>
+<div id="source">
 <pre id="sudoku">
 sudoku(Rows):-
-  make_links(Rows, Cols, SubSquares),
-  solve(Rows, Cols, SubSquares, 1, 1, 1, 0).
+  <a href="#make_links">make_links</a>(Rows, Cols, SubSquares),
+  <a href="#solve">solve</a>(Rows, Cols, SubSquares, 1, 1, 1, 0).
 </pre>
 
 <pre id="make_links">
@@ -557,9 +604,9 @@ sudoku(Rows):-
     easy access */
     
 make_links(Rows, Cols, SubSquares) :-
-  make_open_matrix(Cols, 9, 9),
-  make_open_matrix(SubSquares, 9, 9),
-  make_link(Rows, Cols, SubSquares, 1, 1).
+  <a href="#make_open_matrix">make_open_matrix</a>(Cols, 9, 9),
+  <a href="#make_open_matrix">make_open_matrix</a>(SubSquares, 9, 9),
+  <a href="#make_link">make_link</a>(Rows, Cols, SubSquares, 1, 1).
 </pre>
 
 <pre id="make_open_matrix">
@@ -567,9 +614,9 @@ make_open_matrix([],0,_) :-
   !.
 
 make_open_matrix([List|Matrix], NRow, NCol) :-
-  make_open_list(List, NCol),
+  <a href="#make_open_list">make_open_list</a>(List, NCol),
   N1Row = NRow - 1,
-  make_open_matrix(Matrix, N1Row, NCol).
+  <a href="#make_open_matrix">make_open_matrix</a>(Matrix, N1Row, NCol).
 </pre>
   
   
@@ -579,7 +626,7 @@ make_open_list([],0) :-
 
 make_open_list([_Item|List], NCol) :-
   N1Col = NCol - 1,
-  make_open_list(List,N1Col).
+  <a href="#make_open_list">make_open_list</a>(List,N1Col).
 </pre>
 
 <pre id="make_link">
@@ -591,19 +638,19 @@ make_link(_, _, _, 10, _) :- !.
 make_link(Rows, Cols, SubSquares, IRow, 10) :-
   !,
   IRow_1 = IRow + 1,
-  make_link(Rows, Cols, SubSquares, IRow_1, 1). 
+  <a href="#make_link">make_link</a>(Rows, Cols, SubSquares, IRow_1, 1). 
 
 make_link(Rows, Cols, SubSquares, IRow, ICol) :-
-  element_at(Rows, IRow, Row),
-  element_at(Row, ICol, TheElement),
-  element_at(Cols, ICol, Col),
-  element_at(Col, IRow, TheElement),
-  sub_square_index(IRow, ICol, ISSRow),
-  sub_square_elem_index(IRow, ICol, ISSCol),
-  element_at(SubSquares, ISSRow, SubSquare),
-  element_at(SubSquare, ISSCol, TheElement),
+  <a href="#element_at">element_at</a>(Rows, IRow, Row),
+  <a href="#element_at">element_at</a>(Row, ICol, TheElement),
+  <a href="#element_at">element_at</a>(Cols, ICol, Col),
+  <a href="#element_at">element_at</a>(Col, IRow, TheElement),
+  <a href="#sub_square_index">sub_square_index</a>(IRow, ICol, ISSRow),
+  <a href="#sub_square_elem_index">sub_square_elem_index</a>(IRow, ICol, ISSCol),
+  <a href="#element_at">element_at</a>(SubSquares, ISSRow, SubSquare),
+  <a href="#element_at">element_at</a>(SubSquare, ISSCol, TheElement),
   ICol_1 = ICol + 1,
-  make_link(Rows, Cols, SubSquares, IRow, ICol_1). 
+  <a href="#make_link">make_link</a>(Rows, Cols, SubSquares, IRow, ICol_1). 
 </pre>
 
 <pre id="sub_square_elem_index">
@@ -615,7 +662,7 @@ sub_square_elem_index(IRow, ICol, ISSE) :-
 
 <pre id="solve">
 solve(Rows, _Cols, _SubSquares, 10, _ICol, _IChoices, 0) :-
-  matrix_all_bound(Rows),
+  <a href="#matrix_all_bound">matrix_all_bound</a>(Rows),
   !. % Solution found!
   
   
@@ -632,7 +679,7 @@ solve(Rows, Cols, SubSquares, IRow, _ICol, IChoices, Max) :-
   IRow > 9,
   IChoices_1 = IChoices + 1,
   !,
-  solve(Rows, Cols, SubSquares, 1, 1, IChoices_1, Max).
+  <a href="#solve">solve</a>(Rows, Cols, SubSquares, 1, 1, IChoices_1, Max).
   
 
 solve(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max) :-
@@ -640,24 +687,24 @@ solve(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max) :-
   !,
   IRow_1 = IRow + 1,
   !,
-  solve(Rows, Cols, SubSquares, IRow_1, 1, IChoices, Max).
+  <a href="#solve">solve</a>(Rows, Cols, SubSquares, IRow_1, 1, IChoices, Max).
   
 solve(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max) :-
-  element_at(Rows, IRow, Row),
-  element_at(Row, ICol, ThisElement),
+  <a href="#element_at">element_at</a>(Rows, IRow, Row),
+  <a href="#element_at">element_at</a>(Row, ICol, ThisElement),
   not(bound(ThisElement)),
-  element_at(Cols, ICol, Col),
-  sub_square_index(IRow, ICol, ISubSquare),
-  element_at(SubSquares, ISubSquare, SubSquare),
-  find_choices(Row, Col, SubSquare, Choices),
-  len(Choices, IChoicesActual),
+  <a href="#element_at">element_at</a>(Cols, ICol, Col),
+  <a href="#sub_square_index">sub_square_index</a>(IRow, ICol, ISubSquare),
+  <a href="#element_at">element_at</a>(SubSquares, ISubSquare, SubSquare),
+  <a href="#find_choices">find_choices</a>(Row, Col, SubSquare, Choices),
+  <a href="#len">len</a>(Choices, IChoicesActual),
   !,
-  solve_1(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max, Choices, IChoicesActual, ThisElement).
+  <a href="#solve_1">solve_1</a>(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max, Choices, IChoicesActual, ThisElement).
 
 solve(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max) :-
   ICol_1 = ICol + 1,
   !,
-  solve(Rows, Cols, SubSquares, IRow, ICol_1, IChoices, Max).
+  <a href="#solve">solve</a>(Rows, Cols, SubSquares, IRow, ICol_1, IChoices, Max).
 </pre>
 
 <pre id="solve_1">
@@ -666,16 +713,16 @@ solve(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max) :-
 solve_1(Rows, Cols, SubSquares, _IRow, _ICol, IChoices, _Max, Choices, IChoicesActual, ThisElement) :-
   IChoicesActual = Ichoices,
   !,
-  pick_one(Choices, Choice),
+  <a href="#pick_one">pick_one</a>(Choices, Choice),
   ThisElement = Choice,
-  solve(Rows, Cols, SubSquares, 1, 1, 1, 0),
+  <a href="#solve">solve</a>(Rows, Cols, SubSquares, 1, 1, 1, 0),
   !.
   
 solve_1(Rows, Cols, SubSquares, IRow, ICol, IChoices, Max, _Choices, IChoicesActual, _) :-
   ICol_1 = ICol + 1,
-  max(Max, IChoicesActual, MaxNew),
+  <a href="#max">max</a>(Max, IChoicesActual, MaxNew),
   !,
-  solve(Rows, Cols, SubSquares, IRow, ICol_1, IChoices, MaxNew).
+  <a href="#solve">solve</a>(Rows, Cols, SubSquares, IRow, ICol_1, IChoices, MaxNew).
 </pre>
 
 <pre id="max">
@@ -690,7 +737,7 @@ max(_, B, B).
 pick_one([I|_], I).
 
 pick_one([_|Rest], I) :-
-  pick_one(Rest, I).
+  <a href="#pick_one">pick_one</a>(Rest, I).
 </pre>
 
 <pre id="element_at">
@@ -698,7 +745,7 @@ element_at([Elem|_], 1, Elem) :- !.
 
 element_at([_|Rest], N, Elem) :-
   Nm1 = N - 1,
-  element_at(Rest, Nm1, Elem).
+  <a href="#element_at">element_at</a>(Rest, Nm1, Elem).
 </pre>
 
 <pre id="sub_square_index">
@@ -712,7 +759,7 @@ sub_square_index(IRow, ICol, ISubSquare) :-
 /* find_choices: Find the possible choices for this location */
     
 find_choices(Row, Col, SubSquare, Choices) :-
-  find_rest_choices(Row, Col, SubSquare, 1, Choices).
+  <a href="#find_rest_choices">find_rest_choices</a>(Row, Col, SubSquare, 1, Choices).
 </pre>
 
 <pre id="find_rest_choices">
@@ -721,17 +768,17 @@ find_rest_choices(_, _, _, I, []) :-
   !.
 
 find_rest_choices(Row, Col, SubSquare, I, [I|Rest]) :-
-  not(bound_member(I, Row)),
-  not(bound_member(I, Col)),
-  not(bound_member(I, SubSquare)),
+  not(<a href="#bound_member">bound_member</a>(I, Row)),
+  not(<a href="#bound_member">bound_member</a>(I, Col)),
+  not(<a href="#bound_member">bound_member</a>(I, SubSquare)),
   !,
   I1 = I + 1,
-  find_rest_choices(Row, Col, SubSquare, I1, Rest).
+  <a href="#find_rest_choices">find_rest_choices</a>(Row, Col, SubSquare, I1, Rest).
     
 find_rest_choices(Row, Col, SubSquare, I, Rest) :-
   !,
   I1 = I + 1,
-  find_rest_choices(Row, Col, SubSquare, I1, Rest).
+  <a href="#find_rest_choices">find_rest_choices</a>(Row, Col, SubSquare, I1, Rest).
 </pre>
 
 <pre id="bound_member">
@@ -743,14 +790,14 @@ bound_member(I, [I1|_]) :-
   !.
   
 bound_member(I, [_|Rest]) :-
-  bound_member(I, Rest).        
+  <a href="#bound_member">bound_member</a>(I, Rest).        
 </pre>
 
 <pre id="len">
 len([], 0) :- !.
 
 len([_|Rest], I1) :-
-  len(Rest, I),
+  <a href="#len">len</a>(Rest, I),
   I1 = I + 1.
 </pre>
 
@@ -758,8 +805,8 @@ len([_|Rest], I1) :-
 matrix_all_bound([]) :- !.
 
 matrix_all_bound([List|More]) :-
-  list_all_bound(List),
-  matrix_all_bound(More).
+  <a href="#list_all_bound">list_all_bound</a>(List),
+  <a href="#matrix_all_bound">matrix_all_bound</a>(More).
 </pre>
 
 <pre id="list_all_bound">
@@ -767,9 +814,8 @@ list_all_bound([]) :- !.
 
 list_all_bound([H|T]) :-
   bound(H),
-  list_all_bound(T).
+  <a href="#list_all_bound">list_all_bound</a>(T).
 </pre>
-
-
+</div>
 </body>
 </html>

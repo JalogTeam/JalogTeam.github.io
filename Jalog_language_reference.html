@@ -58,7 +58,7 @@ of line is considered a comment.</p>
 <TR><TH>LBRAK</TH><TD>[</TD></TR>
 <TR><TH>RBRAK</TH><TD>]</TD></TR>
 <TR><TH>CUT</TH><TD>!</TD></TR>
-<TR><TH>VBAR</TH><TD>|</TD></TR>
+<TR><TH></TH><TD>|</TD></TR>
 <TR><TH>OPEN</TH><TD>_</TD></TR>
 <TR><TH></table>
 
@@ -295,84 +295,83 @@ These are mainly used when the predicate gives an output variable that is not ne
   BestOf3
 </pre>
 </p>
+<H3>EOF</H3>
+<p>Physical end-of-file.</p>
 <H2>Syntax</H2>
 <p><a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">
 Backus-Naur form</a> is used here to present the syntax. Names in <code>CAPITAL</code> letters refer to <a href="#tokens">tokens</a>.</p>
 <p>
 <pre>
-  &lt;clause&gt; ::= &lt;expr0&gt; POINT 
-            | &lt;eof&gt;
-  
-  &lt;clauses&gt; ::= &lt;clauses&gt; &lt;clause&gt; 
-            | &lt;eof&gt;
+  &lt;program&gt; ::= &lt;program&gt; &lt;clause&gt; 
+            | EOF
 
+  &lt;clause&gt; ::= &lt;sentence&gt; POINT 
+<!--  
   &lt;fact&gt; ::= &lt;expr8&gt; POINT
   
   &lt;facts&gt; ::= &lt;facts&gt; &lt;fact&gt; 
             | &lt;eof&gt;
-  
   &lt;term&gt; ::= &lt;expr6&gt;
+  &lt;expr&gt; ::= &lt;formula&gt;
+-->
+  &lt;sentence&gt; ::= IFSYM &lt;body&gt; 
+            | &lt;head&gt;
+            | &lt;head&gt; IFSYM &lt;body&gt;
+<!--
+  &lt;expr1&gt; ::= &lt;expr1&gt;
+            | &lt;expr1&gt; SEMICOLON &lt;expr1&gt;
+-->            
+  &lt;head&gt; ::= &lt;structure&gt;
+
+  &lt;body&gt; ::= &lt;formula&gt;
+            | &lt;body&gt; COMMA &lt;formula&gt;
+            
+  &lt;formula&gt; ::= &lt;addend&gt;
+            | &lt;addend&gt; EQ &lt;addend&gt;
+            | &lt;addend&gt; NE &lt;addend&gt;
+            | &lt;addend&gt; GT &lt;addend&gt;
+            | &lt;addend&gt; GE &lt;addend&gt;
+            | &lt;addend&gt; LT &lt;addend&gt;
+            | &lt;addend&gt; LE &lt;addend&gt;
+            
+  &lt;addend&gt; ::= PLUS &lt;factor&gt;
+            | MINUS &lt;factor&gt;
+            | &lt;factor&gt;
+            | &lt;addend&gt; PLUS &lt;factor&gt;
+            | &lt;addend&gt; MINUS &lt;factor&gt;
   
-  &lt;expr&gt; ::= &lt;expr3&gt;
+  &lt;factor&gt; ::= &lt;primary&gt;
+            | &lt;factor&gt; STAR &lt;primary&gt;
+            | &lt;factor&gt; SLASH &lt;primary&gt;
 
-  &lt;expr0&gt; ::= IFSYM &lt;expr1&gt; 
-            | &lt;expr3&gt;
-            | &lt;expr3&gt; IFSYM &lt;expr1&gt;
-
-  &lt;expr1&gt; ::= &lt;expr2&gt;
-            | &lt;expr1&gt; SEMICOLON &lt;expr2&gt;
-            
-  &lt;expr2&gt; ::= &lt;expr3&gt;
-            | &lt;expr2&gt; COMMA &lt;expr3&gt;
-            
-  &lt;expr3&gt; ::= &lt;expr4&gt;
-            | &lt;expr4&gt; EQ &lt;expr4&gt;
-            | &lt;expr4&gt; NE &lt;expr4&gt;
-            | &lt;expr4&gt; GT &lt;expr4&gt;
-            | &lt;expr4&gt; GE &lt;expr4&gt;
-            | &lt;expr4&gt; LT &lt;expr4&gt;
-            | &lt;expr4&gt; LE &lt;expr4&gt;
-            
-  &lt;expr4&gt; ::= PLUS &lt;expr5&gt;
-            | MINUS &lt;expr5&gt;
-            | &lt;expr5&gt;
-            | &lt;expr4&gt; PLUS &lt;expr5&gt;
-            | &lt;expr4&gt; MINUS &lt;expr5&gt;
-  
-  &lt;expr5&gt; ::= &lt;expr6&gt;
-            | &lt;expr5&gt; STAR &lt;expr6&gt;
-            | &lt;expr5&gt; SLASH &lt;expr6&gt;
-
-  &lt;expr6&gt; ::= VARNAME
+  &lt;primary&gt; ::= VARNAME
             | OPEN
             | INT
             | REAL
             | CHAR
             | CUT
-            | LPAR &lt;expr0&gt; RPAR
+            | LPAR &lt;sentence&gt; RPAR
             | &lt;string&gt;
-            | &lt;expr7&gt;
+            | &lt;list&gt;
+            | &lt;structure&gt;
 
   &lt;string&gt; ::= STRING
             | &lt;string&gt; STRING
 
-  &lt;expr7&gt; ::= LBRAK RBRAK
-            | LBRAK &lt;elemlist&gt; 
-            | &lt;expr3&gt; RBRAK
-            | LBRAK &lt;elemlist&gt; RBRAK
-            | &lt;expr8&gt;
+  &lt;list&gt; ::= LBRAK RBRAK
+            | LBRAK &lt;elements&gt; VBAR &lt;formula&gt; RBRAK
+            | LBRAK &lt;elements&gt; RBRAK
 
-  &lt;elemlist&gt; ::= &lt;expr3&gt;
-            | &lt;elemlist&gt; COMMA &lt;expr3&gt;
+  &lt;elements&gt; ::= &lt;formula&gt;
+            | &lt;elements&gt; COMMA &lt;formula&gt;
 
-  &lt;expr8&gt; ::= NAME LPAR RPAR
-            | NAME LPAR &lt;arglist&gt; RPAR
+  &lt;structure&gt; ::= NAME LPAR RPAR
+            | NAME LPAR &lt;arguments&gt; RPAR
             | NAME
 
-  &lt;arglist&gt; ::= &lt;expr0&gt;
-            | &lt;arglist&gt; COMMA &lt;expr0&gt;
+  &lt;arguments&gt; ::= &lt;formula&gt;
+            | &lt;arguments&gt; COMMA &lt;formula&gt;
 
-  &lt;eof&gt; means actual end-of-file.
 </pre>
 </p>
 

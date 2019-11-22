@@ -1,0 +1,219 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=0.8">
+<style>
+body {
+  height: 100%;
+  overflow: hidden;
+}
+.top {
+  padding: 2px;
+  border: 3px solid #73AD21;
+  background-color: white;
+  height: 25px;
+  margin-bottom: 2px;
+}
+.main {
+  height: calc(100% - 30px);
+  overflow: scroll;
+}
+
+pre {margin-left:1em;}
+</style>
+</head>
+<body>
+<div class="top">
+<button id="step" onclick="forwards()">Step</button> <button id="back" onclick="backwards()">back</button>
+</div>
+<div class="main">
+<p>
+<pre>
+road(joensuu, kajaani, 230). % 230 km road connection from Joensuu to Kajaani
+road(kajaani, oulu, 183). % 183 km road connection from Kajaani to Oulu
+
+<span id="connected_1_1">&rArr;</span> connected(<span id="connected_1_town1">Town1</span>, <span id="connected_1_town2">Town2</span>, <span id="connected_1_length">Length</span>) :- 
+<span id="connected_1_2">&rArr;</span>   road(<span id="connected_1_town1_0">Town1</span>, <span id="connected_1_town2_0">Town2</span>, <span id="connected_1_length_0">Length</span>). <span id="connected_1_2c">&rarr;</span>
+<span id="connected_2_1">&rArr;</span> connected(Town1, Town2, Length) :- 
+<span id="connected_2_2">&rArr;</span>   road(Town2, Town1, Length). <span id="connected_2_2c">&rarr;</span>
+
+<span id="route_1_1">&rArr;</span> route(<span id="route_1_town1">*Town1*</span>, <span id="route_1_town2">*Town2*</span>, <span id="route_1_length">Length</span>) :- 
+<span id="route_1_2">&rArr;</span>    connected(<span id="route_1_town1_0">*Town1*</span>, TownX, Length1), <span id="route_1_2c">&rarr;</span> 
+<span id="route_1_3">&rArr;</span>    route(TownX, <span id="route_1_town2_0">*Town2*</span>, Length2), <span id="route_1_3c">&rarr;</span>
+<span id="route_1_4">&rArr;</span>    <span id="route_1_length_0">Length</span> = Length1 + Length2.
+    
+<span id="_1_1">&rArr;</span> :- route(oulu, joensuu, <span id="_1_len">Len</span>), <span id="_1_1c">&rarr;</span> 
+<span id="_1_2">&rArr;</span>   write(Len, ' ').
+</pre>
+</p>
+</div>
+<script>
+var transitions = {
+  "_init":{
+    from:null, to:"start", assign:[],
+    style:[
+      {ids:["_1_1"], from:"", to:""},
+      {
+        ids:[
+          "connected_1_1",
+          "connected_1_2",
+          "connected_2_1",
+          "connected_2_2",
+          "connected_1_2c",
+          "connected_2_2c",
+          "route_1_1",
+          "route_1_2",
+          "route_1_2c",
+          "route_1_3",
+          "route_1_3c",
+          "route_1_4",
+          "_1_1c",
+          "_1_2"
+        ], 
+        from:"", to:"visibility:hidden;"
+      },
+    ]
+  },
+  "_start_1":{
+    from:"start", to:"s1", 
+    assign:[
+      {ids:["route_1_town1", "route_1_town1_0"], from:"Town1", to:"oulu"},
+      {ids:["route_1_town2", "route_1_town2_0"], from:"Town2", to:"joensuu"},
+      {ids:["route_1_length", "route_1_length_0"], from:"Length", to:"@Len"}
+    ],
+    style:[
+      {ids:["_1_1"], from:"", to:"visibility:hidden;"},
+      {ids:["_1_1c"], from:"visibility:hidden;", to:""},
+      {ids:["route_1_1"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t1":{
+    from:"s1", to:"s2", 
+    assign:[
+    ],
+    style:[
+      {ids:["route_1_1"], from:"", to:"visibility:hidden;"},
+      {ids:["route_1_2"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t2":{
+    from:"s2", to:"s3", 
+    assign:[
+      {ids:["connected_1_town1", "connected_1_town1_0"], from:"Town1", to:"oulu"},
+      {ids:["connected_1_town2", "connected_1_town2_0"], from:"Town2", to:"@TownX"},
+      {ids:["connected_1_length", "connected_1_length_0"], from:"Length", to:"@Length1"},
+    ],
+    style:[
+      {ids:["route_1_2"], from:"", to:"visibility:hidden;"},
+      {ids:["connected_1_1"], from:"visibility:hidden;", to:""},      {ids:["route_1_2c"], from:"visibility:hidden;", to:""},
+    ]
+  }
+};
+
+var states = {
+  "_init":{fw:"_init", bk:null},
+  "start":{fw:"_start_1", bk:null},
+  "s1":{fw:"t1", bk:"_start_1"},
+  "s2":{fw:"t2", bk:"t1"},
+  "s3":{fw:null, bk:"t2"},
+  "s4":{fw:null, bk:"t3"},
+  "s5":{fw:null, bk:"t1"},
+  "s6":{fw:null, bk:"t1"},
+  "s7":{fw:null, bk:"t1"}
+};
+
+var cur_state = "_init";
+
+var variables = {
+  "_1_1":null,
+  "_1_2":null,
+  "_1_len":null,
+  "_1_1c":null,
+  "route_1_1":null,
+  "route_1_2":null,
+  "route_1_3":null,
+  "route_1_4":null,
+  "route_1_town1":null,
+  "route_1_town2":null,
+  "route_1_length":null,
+  "route_1_town1_0":null,
+  "route_1_town2_0":null,
+  "route_1_length_0":null,
+  "route_1_2c":null,
+  "route_1_3c":null,
+  "connected_1_1":null,
+  "connected_1_2":null,
+  "connected_2_1":null,
+  "connected_2_2":null,
+  "connected_1_2c":null,
+  "connected_2_2c":null,
+  "connected_1_town1":null,
+  "connected_1_town2":null,
+  "connected_1_town1_0":null,
+  "connected_1_town2_0":null,
+  "connected_1_length":null,
+  "connected_1_length_0":null,
+//  "":null,
+}
+
+function forwards() {
+  var state = states[cur_state];
+  if (!state.fw) return;
+  var transition = transitions[state.fw];
+  var i, j, assign, style;
+  
+  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
+    assign = transition.assign[i];
+    for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
+      variables[assign.ids[j]].innerHTML = assign.to;
+    }
+  }
+    
+  for (i = 0; i < transition.style.length; i++) { // for all affected variables
+    style = transition.style[i];
+    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
+      variables[style.ids[j]].style.cssText = style.to;
+    }
+  }
+  
+  if(transition.to) cur_state = transition.to; // finally, change current state
+}
+
+function backwards() {
+  var state = states[cur_state];
+  if (!state.bk) return;
+  var transition = transitions[state.bk];
+  var i, j, assign;
+  
+  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
+    assign = transition.assign[i];
+    for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
+      variables[assign.ids[j]].innerHTML = assign.from;
+    }
+  }
+    
+  for (i = 0; i < transition.style.length; i++) { // for all affected variables
+    style = transition.style[i];
+    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
+      variables[style.ids[j]].style.cssText = style.from;
+    }
+  }
+  
+  if (transition.from) cur_state = transition.from; // finally, change current state
+}
+
+// Initialize
+
+var id
+
+for (id in variables) {
+  if (variables.hasOwnProperty(id)) {
+    variables[id] = document.getElementById(id);
+  }
+}  
+state = "_init";
+forwards();
+
+
+</script>
+</body>
+</html>

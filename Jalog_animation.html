@@ -28,18 +28,19 @@ pre {margin-left:1em;}
 <div class="main">
 <p>
 <pre>
-road(joensuu, kajaani, 230). % 230 km road connection from Joensuu to Kajaani
-road(kajaani, oulu, 183). % 183 km road connection from Kajaani to Oulu
+<span id="road_1">&rArr;</span> road(joensuu, kajaani, 230). <span id="road_1x"></span>% 230 km road connection from Joensuu to Kajaani
+<span id="road_2">&rArr;</span> road(kajaani, oulu, 183). <span id="road_2x"></span>% 183 km road connection from Kajaani to Oulu
 
 <span id="connected_1_1">&rArr;</span> connected(<span id="connected_1_town1">Town1</span>, <span id="connected_1_town2">Town2</span>, <span id="connected_1_length">Length</span>) :- 
-<span id="connected_1_2">&rArr;</span>   road(<span id="connected_1_town1_0">Town1</span>, <span id="connected_1_town2_0">Town2</span>, <span id="connected_1_length_0">Length</span>). <span id="connected_1_2c">&rarr;</span>
-<span id="connected_2_1">&rArr;</span> connected(Town1, Town2, Length) :- 
-<span id="connected_2_2">&rArr;</span>   road(Town2, Town1, Length). <span id="connected_2_2c">&rarr;</span>
+<span id="connected_1_2">&rArr;</span>   road(<span id="connected_1_town1_0">Town1</span>, <span id="connected_1_town2_0">Town2</span>, <span id="connected_1_length_0">Length</span>). <span id="connected_1_2c">&rarr;</span><span id="connected_1_2x"></span>
+
+<span id="connected_2_1">&rArr;</span> connected(<span id="connected_2_town1">Town1</span>, <span id="connected_2_town2">Town2</span>, <span id="connected_2_length">Length</span>) :- 
+<span id="connected_2_2">&rArr;</span>   road(<span id="connected_2_town2_0">Town2</span>, <span id="connected_2_town1_0">Town1</span>, <span id="connected_2_length_0">Length</span>). <span id="connected_2_2c">&rarr;</span><span id="connected_2_2x"></span>
 
 <span id="route_1_1">&rArr;</span> route(<span id="route_1_town1">*Town1*</span>, <span id="route_1_town2">*Town2*</span>, <span id="route_1_length">Length</span>) :- 
-<span id="route_1_2">&rArr;</span>    connected(<span id="route_1_town1_0">*Town1*</span>, TownX, Length1), <span id="route_1_2c">&rarr;</span> 
-<span id="route_1_3">&rArr;</span>    route(TownX, <span id="route_1_town2_0">*Town2*</span>, Length2), <span id="route_1_3c">&rarr;</span>
-<span id="route_1_4">&rArr;</span>    <span id="route_1_length_0">Length</span> = Length1 + Length2.
+<span id="route_1_2">&rArr;</span>    connected(<span id="route_1_town1_0">*Town1*</span>, <span id="route_1_townx">TownX</span>, <span id="route_1_length1">Length1</span>), <span id="route_1_2c">&rarr;</span> 
+<span id="route_1_3">&rArr;</span>    route(<span id="route_1_townx_0">TownX</span>, <span id="route_1_town2_0">*Town2*</span>, Length2), <span id="route_1_3c">&rarr;</span>
+<span id="route_1_4">&rArr;</span>    <span id="route_1_length_0">Length</span> = <span id="route_1_length1_0">Length1</span> + Length2.
     
 <span id="_1_1">&rArr;</span> :- route(oulu, joensuu, <span id="_1_len">Len</span>), <span id="_1_1c">&rarr;</span> 
 <span id="_1_2">&rArr;</span>   write(Len, ' ').
@@ -47,6 +48,7 @@ road(kajaani, oulu, 183). % 183 km road connection from Kajaani to Oulu
 </p>
 </div>
 <script>
+<!--
 var transitions = {
   "_init":{
     from:null, to:"start", assign:[],
@@ -54,6 +56,8 @@ var transitions = {
       {ids:["_1_1"], from:"", to:""},
       {
         ids:[
+          "road_1",
+          "road_2",
           "connected_1_1",
           "connected_1_2",
           "connected_2_1",
@@ -104,9 +108,95 @@ var transitions = {
     ],
     style:[
       {ids:["route_1_2"], from:"", to:"visibility:hidden;"},
-      {ids:["connected_1_1"], from:"visibility:hidden;", to:""},      {ids:["route_1_2c"], from:"visibility:hidden;", to:""},
+      {ids:["connected_1_1"], from:"visibility:hidden;", to:""}, 
+      {ids:["route_1_2c"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t3":{
+    from:"s3", to:"s4", 
+    assign:[
+    ],
+    style:[
+      {ids:["connected_1_1"], from:"", to:"visibility:hidden;"},
+      {ids:["connected_1_2"], from:"visibility:hidden;", to:""}, 
+    ]
+  },
+  "t4":{
+    from:"s4", to:"s5", 
+    assign:[
+      {ids:["connected_1_2x"], from:"", to:"<font color=\"#CC0000\"><b>FAIL!</b></font>"},
+    ],
+    style:[
+    ]
+  },
+  "t5":{
+    from:"s5", to:"s6",
+    backtrack:["t4", "t3", "t2"],    
+    assign:[
+      {ids:["connected_2_town1", "connected_2_town1_0"], from:"Town1", to:"oulu"},
+      {ids:["connected_2_town2", "connected_2_town2_0"], from:"Town2", to:"@TownX"},
+      {ids:["connected_2_length", "connected_2_length_0"], from:"Length", to:"@Length1"},
+    ],
+    style:[
+      {ids:["route_1_2"], from:"", to:"visibility:hidden;"},
+      {ids:["connected_2_1"], from:"visibility:hidden;", to:""}, 
+      {ids:["route_1_2c"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t6":{
+    from:"s6", to:"s7", 
+    assign:[
+    ],
+    style:[
+      {ids:["connected_2_1"], from:"", to:"visibility:hidden;"},
+      {ids:["connected_2_2"], from:"visibility:hidden;", to:""}, 
+    ]
+  },
+  "t7":{
+    from:"s7", to:"s8", 
+    assign:[
+      {ids:["connected_2_town2", "connected_2_town2_0"], from:"@TownX", to:"kajaani"},
+      {ids:["connected_2_length", "connected_2_length_0"], from:"@Length1", to:"183"},
+      {ids:["route_1_townx", "route_1_townx_0"], from:"TownX", to:"kajaani"},
+      {ids:["route_1_length1", "route_1_length1_0"], from:"Length1", to:"183"},
+      {ids:["road_2x"], from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["connected_2_2"], from:"", to:"visibility:hidden;"},
+      {ids:["road_2", "connected_2_2c"], from:"visibility:hidden;", to:""}, 
+    ]
+  },
+  "t8":{
+    from:"s8", to:"s9", 
+    assign:[
+      {ids:["road_2x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+      {ids:["connected_2_2x"], from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["connected_2_2"], from:"visibility:hidden;", to:""},
+      {ids:["road_2", "connected_2_2c"], from:"", to:"visibility:hidden;"}, 
+    ]
+  },
+  "t9":{
+    from:"s9", to:"s10", 
+    assign:[
+      {ids:["connected_2_2x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+    ],
+    style:[
+      {ids:["route_1_3"], from:"visibility:hidden;", to:""},
+      {ids:["connected_2_2", "route_1_2c"], from:"", to:"visibility:hidden;"}, 
     ]
   }
+/*
+  "t5":{
+    from:"s5", to:"s6",    
+    assign:[
+      {ids:["connected_1_2x"], from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
+    ],
+    style:[
+    ]
+  }
+*/
 };
 
 var states = {
@@ -114,11 +204,14 @@ var states = {
   "start":{fw:"_start_1", bk:null},
   "s1":{fw:"t1", bk:"_start_1"},
   "s2":{fw:"t2", bk:"t1"},
-  "s3":{fw:null, bk:"t2"},
-  "s4":{fw:null, bk:"t3"},
-  "s5":{fw:null, bk:"t1"},
-  "s6":{fw:null, bk:"t1"},
-  "s7":{fw:null, bk:"t1"}
+  "s3":{fw:"t3", bk:"t2"},
+  "s4":{fw:"t4", bk:"t3"},
+  "s5":{fw:"t5", bk:"t4"},
+  "s6":{fw:"t6", bk:"t5"},
+  "s7":{fw:"t7", bk:"t6"},
+  "s8":{fw:"t8", bk:"t7"},
+  "s9":{fw:"t9", bk:"t8"},
+  "s10":{fw:null, bk:"t9"},
 };
 
 var cur_state = "_init";
@@ -138,6 +231,10 @@ var variables = {
   "route_1_town1_0":null,
   "route_1_town2_0":null,
   "route_1_length_0":null,
+  "route_1_townx":null,
+  "route_1_townx_0":null,
+  "route_1_length1":null,
+  "route_1_length1_0":null,
   "route_1_2c":null,
   "route_1_3c":null,
   "connected_1_1":null,
@@ -145,22 +242,38 @@ var variables = {
   "connected_2_1":null,
   "connected_2_2":null,
   "connected_1_2c":null,
+  "connected_1_2x":null,
   "connected_2_2c":null,
+  "connected_2_2x":null,
   "connected_1_town1":null,
   "connected_1_town2":null,
   "connected_1_town1_0":null,
   "connected_1_town2_0":null,
   "connected_1_length":null,
   "connected_1_length_0":null,
+  "connected_2_town1":null,
+  "connected_2_town2":null,
+  "connected_2_town1_0":null,
+  "connected_2_town2_0":null,
+  "connected_2_length":null,
+  "connected_2_length_0":null,
+  "road_1":null,
+  "road_2":null,
+  "road_2x":null,
 //  "":null,
 }
 
-function forwards() {
-  var state = states[cur_state];
-  if (!state.fw) return;
-  var transition = transitions[state.fw];
+
+function transit_fw(tr_id) {
+  var transition = transitions[tr_id];
   var i, j, assign, style;
   
+  if ("backtrack" in transition) {
+    for(i = 0; i < transition.backtrack.length; i++) {
+      transit_bw(transition.backtrack[i]);
+    }
+  }
+
   for (i = 0; i < transition.assign.length; i++) { // for all affected variables
     assign = transition.assign[i];
     for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
@@ -174,15 +287,11 @@ function forwards() {
       variables[style.ids[j]].style.cssText = style.to;
     }
   }
-  
-  if(transition.to) cur_state = transition.to; // finally, change current state
 }
 
-function backwards() {
-  var state = states[cur_state];
-  if (!state.bk) return;
-  var transition = transitions[state.bk];
-  var i, j, assign;
+function transit_bw(tr_id) {
+  var transition = transitions[tr_id];
+  var i, j, assign, style;
   
   for (i = 0; i < transition.assign.length; i++) { // for all affected variables
     assign = transition.assign[i];
@@ -197,6 +306,72 @@ function backwards() {
       variables[style.ids[j]].style.cssText = style.from;
     }
   }
+
+  if ("backtrack" in transition) {
+    for(i = transition.backtrack.length - 1; i >= 0; i--) {
+      transit_fw(transition.backtrack[i]);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+function forwards() {
+  var state = states[cur_state];
+  if (!state.fw) return;
+  var transition = transitions[state.fw];
+  var i, j, assign, style;
+  
+  transit_fw(state.fw);
+/*
+  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
+    assign = transition.assign[i];
+    for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
+      variables[assign.ids[j]].innerHTML = assign.to;
+    }
+  }
+    
+  for (i = 0; i < transition.style.length; i++) { // for all affected variables
+    style = transition.style[i];
+    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
+      variables[style.ids[j]].style.cssText = style.to;
+    }
+  }
+*/
+  
+  if(transition.to) cur_state = transition.to; // finally, change current state
+}
+
+function backwards() {
+  var state = states[cur_state];
+  if (!state.bk) return;
+  var transition = transitions[state.bk];
+  var i, j, assign;
+
+  transit_bw(state.bk);
+  
+/*
+  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
+    assign = transition.assign[i];
+    for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
+      variables[assign.ids[j]].innerHTML = assign.from;
+    }
+  }
+    
+  for (i = 0; i < transition.style.length; i++) { // for all affected variables
+    style = transition.style[i];
+    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
+      variables[style.ids[j]].style.cssText = style.from;
+    }
+  }
+*/
   
   if (transition.from) cur_state = transition.from; // finally, change current state
 }
@@ -213,7 +388,7 @@ for (id in variables) {
 state = "_init";
 forwards();
 
-
+// -->
 </script>
 </body>
 </html>

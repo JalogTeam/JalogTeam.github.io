@@ -28,6 +28,12 @@ pre {margin-left:1em;}
 <div class="main">
 <p>
 <pre>
+<span id="s1" style="display:none"><span style="color:#006600">
+<span id="s1_route_1_1">&rArr;</span> route(<span id="s1_route_1_town1">Town1</span>, <span id="s1_route_1_town2">Town2</span>, <span id="s1_route_1_length">Length</span>) :- 
+<span id="s1_route_1_2">&rArr;</span>    connected(<span id="s1_route_1_town1_0">Town1</span>, <span id="s1_route_1_townx">TownX</span>, <span id="s1_route_1_length1">Length1</span>), <span id="s1_route_1_2c">&rarr;</span> 
+<span id="s1_route_1_3">&rArr;</span>    route(<span id="s1_route_1_townx_0">TownX</span>, <span id="s1_route_1_town2_0">Town2</span>, Length2), <span id="s1_route_1_3c">&rarr;</span>
+<span id="s1_route_1_4">&rArr;</span>    <span id="s1_route_1_length_0">Length</span> = <span id="s1_route_1_length1_0">Length1</span> + Length2.
+<hr></hr></span></span>
 <span id="road_1">&rArr;</span> road(joensuu, kajaani, 230). <span id="road_1x"></span>% 230 km road connection from Joensuu to Kajaani
 <span id="road_2">&rArr;</span> road(kajaani, oulu, 183). <span id="road_2x"></span>% 183 km road connection from Kajaani to Oulu
 
@@ -37,9 +43,11 @@ pre {margin-left:1em;}
 <span id="connected_2_1">&rArr;</span> connected(<span id="connected_2_town1">Town1</span>, <span id="connected_2_town2">Town2</span>, <span id="connected_2_length">Length</span>) :- 
 <span id="connected_2_2">&rArr;</span>   road(<span id="connected_2_town2_0">Town2</span>, <span id="connected_2_town1_0">Town1</span>, <span id="connected_2_length_0">Length</span>). <span id="connected_2_2c">&rarr;</span><span id="connected_2_2x"></span>
 
-<span id="route_1_1">&rArr;</span> route(<span id="route_1_town1">*Town1*</span>, <span id="route_1_town2">*Town2*</span>, <span id="route_1_length">Length</span>) :- 
-<span id="route_1_2">&rArr;</span>    connected(<span id="route_1_town1_0">*Town1*</span>, <span id="route_1_townx">TownX</span>, <span id="route_1_length1">Length1</span>), <span id="route_1_2c">&rarr;</span> 
-<span id="route_1_3">&rArr;</span>    route(<span id="route_1_townx_0">TownX</span>, <span id="route_1_town2_0">*Town2*</span>, Length2), <span id="route_1_3c">&rarr;</span>
+<span style="visibility:hidden">&rArr;</span> route(Town, Town, 0).
+
+<span id="route_1_1">&rArr;</span> route(<span id="route_1_town1">Town1</span>, <span id="route_1_town2">Town2</span>, <span id="route_1_length">Length</span>) :- 
+<span id="route_1_2">&rArr;</span>    connected(<span id="route_1_town1_0">Town1</span>, <span id="route_1_townx">TownX</span>, <span id="route_1_length1">Length1</span>), <span id="route_1_2c">&rarr;</span> 
+<span id="route_1_3">&rArr;</span>    route(<span id="route_1_townx_0">TownX</span>, <span id="route_1_town2_0">Town2</span>, Length2), <span id="route_1_3c">&rarr;</span>
 <span id="route_1_4">&rArr;</span>    <span id="route_1_length_0">Length</span> = <span id="route_1_length1_0">Length1</span> + Length2.
     
 <span id="_1_1">&rArr;</span> :- route(oulu, joensuu, <span id="_1_len">Len</span>), <span id="_1_1c">&rarr;</span> 
@@ -71,7 +79,13 @@ var transitions = {
           "route_1_3c",
           "route_1_4",
           "_1_1c",
-          "_1_2"
+          "_1_2",
+          "s1_route_1_1",
+          "s1_route_1_2",
+          "s1_route_1_2c",
+          "s1_route_1_3",
+          "s1_route_1_3c",
+          "s1_route_1_4",
         ], 
         from:"", to:"visibility:hidden;"
       },
@@ -186,8 +200,76 @@ var transitions = {
       {ids:["route_1_3"], from:"visibility:hidden;", to:""},
       {ids:["connected_2_2", "route_1_2c"], from:"", to:"visibility:hidden;"}, 
     ]
+  },
+  "t10":{
+    from:"s10", to:"s11", 
+    assign:[
+      {ids:["s1_route_1_town1", "s1_route_1_town1_0"], from:"Town1", to:"kajaani"},
+      {ids:["s1_route_1_town2", "s1_route_1_town2_0"], from:"Town2", to:"joensuu"},
+      {ids:["s1_route_1_length", "s1_route_1_length_0"], from:"Length", to:"@Length2"}
+    ],
+    style:[
+      {ids:["route_1_3"], from:"", to:"visibility:hidden;"},
+      {ids:["route_1_3c"], from:"visibility:hidden;", to:""},
+      {ids:["s1_route_1_1"], from:"visibility:hidden;", to:""},
+      {ids:["s1"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t11":{
+    from:"s11", to:"s12", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_route_1_1"], from:"", to:"visibility:hidden;"},
+      {ids:["s1_route_1_2"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t12":{
+    from:"s12", to:"s13", 
+    assign:[
+      {ids:["connected_1_town1", "connected_1_town1_0"], from:"Town1", to:"kajaani"},
+      {ids:["connected_1_town2", "connected_1_town2_0"], from:"Town2", to:"@TownX"},
+      {ids:["connected_1_length", "connected_1_length_0"], from:"Length", to:"@Length1"},
+    ],
+    style:[
+      {ids:["s1_route_1_2"], from:"", to:"visibility:hidden;"},
+      {ids:["connected_1_1"], from:"visibility:hidden;", to:""}, 
+      {ids:["s1_route_1_2c"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t13":{
+    from:"s13", to:"s14", 
+    assign:[
+    ],
+    style:[
+      {ids:["connected_1_1"], from:"", to:"visibility:hidden;"},
+      {ids:["connected_1_2"], from:"visibility:hidden;", to:""}, 
+    ]
+  },
+  "t14":{
+    from:"s14", to:"s15", 
+    assign:[
+      {ids:["connected_1_town2", "connected_1_town2_0"], from:"@TownX", to:"oulu"},
+      {ids:["connected_1_length", "connected_1_length_0"], from:"@Length1", to:"183"},
+      {ids:["s1_route_1_townx", "s1_route_1_townx_0"], from:"TownX", to:"oulu"},
+      {ids:["s1_route_1_length1", "s1_route_1_length1_0"], from:"Length1", to:"183"},
+      {ids:["road_2x"], from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["connected_1_2"], from:"", to:"visibility:hidden;"},
+      {ids:["road_2", "connected_1_2c"], from:"visibility:hidden;", to:""}, 
+    ]
   }
 /*
+
+  "t14":{
+    from:"s14", to:"s15", 
+    assign:[
+      {ids:["connected_1_2x"], from:"", to:"<font color=\"#CC0000\"><b>FAIL!</b></font>"},
+    ],
+    style:[
+    ]
+  }
   "t5":{
     from:"s5", to:"s6",    
     assign:[
@@ -211,7 +293,12 @@ var states = {
   "s7":{fw:"t7", bk:"t6"},
   "s8":{fw:"t8", bk:"t7"},
   "s9":{fw:"t9", bk:"t8"},
-  "s10":{fw:null, bk:"t9"},
+  "s10":{fw:"t10", bk:"t9"},
+  "s11":{fw:"t11", bk:"t10"},
+  "s12":{fw:"t12", bk:"t11"},
+  "s13":{fw:"t13", bk:"t12"},
+  "s14":{fw:"t14", bk:"t13"},
+  "s15":{fw:null, bk:"t14"},
 };
 
 var cur_state = "_init";
@@ -260,6 +347,23 @@ var variables = {
   "road_1":null,
   "road_2":null,
   "road_2x":null,
+  "s1":null,
+  "s1_route_1_1":null,
+  "s1_route_1_2":null,
+  "s1_route_1_3":null,
+  "s1_route_1_4":null,
+  "s1_route_1_town1":null,
+  "s1_route_1_town2":null,
+  "s1_route_1_length":null,
+  "s1_route_1_town1_0":null,
+  "s1_route_1_town2_0":null,
+  "s1_route_1_length_0":null,
+  "s1_route_1_townx":null,
+  "s1_route_1_townx_0":null,
+  "s1_route_1_length1":null,
+  "s1_route_1_length1_0":null,
+  "s1_route_1_2c":null,
+  "s1_route_1_3c":null,
 //  "":null,
 }
 
@@ -330,21 +434,6 @@ function forwards() {
   var i, j, assign, style;
   
   transit_fw(state.fw);
-/*
-  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
-    assign = transition.assign[i];
-    for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
-      variables[assign.ids[j]].innerHTML = assign.to;
-    }
-  }
-    
-  for (i = 0; i < transition.style.length; i++) { // for all affected variables
-    style = transition.style[i];
-    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
-      variables[style.ids[j]].style.cssText = style.to;
-    }
-  }
-*/
   
   if(transition.to) cur_state = transition.to; // finally, change current state
 }
@@ -357,21 +446,6 @@ function backwards() {
 
   transit_bw(state.bk);
   
-/*
-  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
-    assign = transition.assign[i];
-    for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
-      variables[assign.ids[j]].innerHTML = assign.from;
-    }
-  }
-    
-  for (i = 0; i < transition.style.length; i++) { // for all affected variables
-    style = transition.style[i];
-    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
-      variables[style.ids[j]].style.cssText = style.from;
-    }
-  }
-*/
   
   if (transition.from) cur_state = transition.from; // finally, change current state
 }

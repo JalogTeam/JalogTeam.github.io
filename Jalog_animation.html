@@ -98,9 +98,19 @@ success to fail and vv. A place already visited does not apply.</span>
 <span id="s5_member_2">&rArr;</span> member(<span id="s5_member_2_x">X</span>, [<span id="s5_member_2__">_</span>|<span id="s5_member_2_t">T</span>]) :- % 2
 <span id="s5_member_2_1">&rArr;</span>   member(<span id="s5_member_2_x_A">X</span>, <span id="s5_member_2_t_A">T</span>). <span id="s5_member_2_1c">&rarr;</span><span id="s5_member_2_1x"></span></pre></span>
 
-<!-- *** connected s4 *** --><span id="s4" style="display:none"><pre>
+<!-- *** connected s4 *** -- ><span id="s4" style="display:none"><pre>
 <span id="s4_connected_2">&rArr;</span> connected(oulu, <span id="s4_connected_town2">TownX&#x2082;</span>, <span id="s4_connected_length">Length1&#x2082;</span>) :- % 2
 <span id="s4_connected_2_1">&rArr;</span>   road(<span id="s4_connected_town2_A">TownX&#x2082;</span>, oulu, <span id="s4_connected_length_A">Length1&#x2082;</span>). <span id="s4_connected_1c">&rarr;</span><span id="s4_connected_2_1x"></span></pre></span>
+-->
+
+<!-- *** connected s4 *** --><span id="s4" style="display:none"><pre>
+<span id="s4_connected_2">&rArr;</span> connected(<span id="s4_connected_town1">Town1</span>, <span id="s4_connected_town2">Town2</span>, <span id="s4_connected_length">Length</span>) :- % 2
+<span id="s4_connected_2_1">&rArr;</span>   road(<span id="s4_connected_town2_A">Town2</span>, <span id="s4_connected_town1_A">Town1</span>, <span id="s4_connected_length_A">Length</span>). <span id="s4_connected_1c">&rarr;</span><span id="s4_connected_2_1x"></span></pre></span>
+
+
+
+
+
 <!-- *** connected s3 *** --><span id="s3" style="display:none"><pre>
 <span id="s3_connected_1">&rArr;</span> connected(<span id="s3_connected_town1">oulu</span>, <span id="s3_connected_town2">TownX&#x2082;</span>, <span id="s3_connected_length">Length1&#x2082;</span>) :- % 1
 <span id="s3_connected_1_1">&rArr;</span>   road(<span id="s3_connected_town1_A">oulu</span>, <span id="s3_connected_town2_A">TownX&#x2082;</span>, <span id="s3_connected_length_A">Length1&#x2082;</span>). <span id="s3_connected_1_1c">&rarr;</span><span id="s3_connected_1_1x"></span></pre>
@@ -276,10 +286,30 @@ var transitions = {
       {ids:["co_s7"], from:"display:none;", to:""},
     ]
   },
+/*
   "t7":{
     from:"s7", to:"s8", 
     backtrack:["t6", "t5", "t4"],    
     assign:[
+    ],
+    style:[
+      {ids:["s2_route_2_2", "s4_connected_2_1"], from:"", to:"visibility:hidden;"},
+      {ids:["s1_route_1c", "s4_connected_2"], from:"visibility:hidden;", to:""},
+      {ids:["co_s4"], from:"", to:"display:none;"},
+      {ids:["co_s8", "s4"], from:"display:none;", to:""},
+    ]
+  },
+*/
+  "t7":{
+    from:"s7", to:"s8", 
+    backtrack:["t6", "t5", "t4"],    
+    assign:[
+      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+        from:"Town1", to:"oulu"},
+      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+        from:"Town2", to:"TownX&#x2082;"},
+      {ids:["s4_connected_length", "s4_connected_length_A"], 
+        from:"Length", to:"Length1&#x2082;"},
     ],
     style:[
       {ids:["s2_route_2_2", "s4_connected_2_1"], from:"", to:"visibility:hidden;"},
@@ -333,6 +363,12 @@ var transitions = {
   "t11":{
     from:"s11", to:"s12", 
     assign:[
+      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+        from:"oulu", to:"Town1"},
+      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+        from:"TownX&#x2082;", to:"Town2"},
+      {ids:["s4_connected_length", "s4_connected_length_A"], 
+        from:"Length1&#x2082;", to:"Length"},
       {ids:["s4_connected_2_1x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
     ],
     style:[
@@ -487,10 +523,10 @@ var transitions = {
     from:"s22", to:"s23", 
     assign:[
       {ids:["s3_connected_town2", "s3_connected_town2_A", "s6_route_townx",
-        "s6_route_townx_A", "s6_route_townx_B"], from:"TownX&#x2082;", 
+        "s6_route_townx_A", "s6_route_townx_B"], from:"TownX&#x2086;", 
         to:"oulu"},
       {ids:["s3_connected_length", "s3_connected_length_A", "s6_route_length1",
-        "s6_route_length1_A"], from:"Length1&#x2082;", to:"183"},
+        "s6_route_length1_A"], from:"Length1&#x2086;", to:"183"},
       {ids:["road_2x"], from:"", 
         to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
@@ -621,17 +657,276 @@ var transitions = {
       {ids:["co_s31"], from:"display:none;", to:""},
     ]
   },
+  "t31":{
+    from:"s31", to:"s32", 
+    backtrack:["t31a", "t24", "t23", "t22"],
+    assign:[
+      {ids:["s6_route_2_2x"], 
+        from:"<font color=\"#008888\"><i>recall</i></font>", to:""},
+      {ids:["s3_connected_1_1x"], 
+        from:"", to:"<font color=\"#008888\"><i>recall</i></font>"},
+    ],
+    style:[
+      {ids:["s6_route_2_2", "s4_connected_2"], from:"", to:"visibility:hidden;"},
+      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
+    ]
+  },
+  "t31a":{ // correcting backtrack-shortcut glitches
+    from:"s31", to:"s31", 
+    assign:[
+    ],
+    style:[
+      {ids:["s6_route_2_3"], 
+        from:"visibility:hidden;", to:"visibility:hidden;"},
+    ]
+  },
+
+  "t32":{
+    from:"s32", to:"s33", 
+    assign:[
+      {ids:["s3_connected_1_1x"], 
+        from:"<font color=\"#008888\"><i>recall</i></font>", 
+        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
+    ],
+    style:[
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t33":{
+    from:"s33", to:"s34", 
+    backtrack:["t33a", "t20", "t21"],    
+    assign:[
+      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+        from:"Town1", to:"kajaani"},
+      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+        from:"Town2", to:"TownX&#x2086;"},
+      {ids:["s4_connected_length", "s4_connected_length_A"], 
+        from:"Length", to:"Length1&#x2086;"},
+    ],
+    style:[
+      {ids:["s6_route_2_2", "s4_connected_2_1"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s6_route_2_2c", "s4_connected_2"], 
+        from:"visibility:hidden;", to:""},
+/*
+      {ids:["s1_route_1c", "s4_connected_2"], from:"visibility:hidden;", to:""},
+      {ids:["co_s4"], from:"", to:"display:none;"},
+*/
+      {ids:[/*"co_s8", */"s4"], from:"display:none;", to:""},
+    ]
+  },
+  "t33a":{
+    from:"s33", to:"s33", 
+    assign:[
+//      {ids:[""], from:"", to:""},
+    ],
+    style:[
+      {ids:["s3_connected_1"], from:"visibility:hidden;", to:""},
+      {ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;"},
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t34":{
+    from:"s34", to:"s35", 
+    assign:[
+    ],
+    style:[
+      {ids:["s4_connected_2"], from:"", to:"visibility:hidden;"},
+      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t35":{
+    from:"s35", to:"s36", 
+    assign:[
+      {ids:["s4_connected_town2", "s4_connected_town2_A", "s6_route_townx",
+        "s6_route_townx_A", "s6_route_townx_B"], 
+        from:"TownX&#x2086;", to:"joensuu"},
+      {ids:["s4_connected_length", "s4_connected_length_A", 
+        "s6_route_length1", "s6_route_length1_A"], 
+        from:"Length1&#x2086;", to:"230"},
+      {ids:["road_1x"], from:"", 
+        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;"},
+      {ids:["road_1", "s4_connected_1c"], from:"visibility:hidden;", to:""},
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t36":{
+    from:"s36", to:"s37", 
+    assign:[
+      {ids:["road_1x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", 
+        to:""},
+      {ids:["s4_connected_2_1x"], from:"", 
+        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
+      {ids:["road_1", "s4_connected_1c"], from:"", to:"visibility:hidden;"},
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t37":{
+    from:"s37", to:"s38", 
+    assign:[
+      {ids:["s4_connected_2_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+    ],
+    style:[
+      {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
+      {ids:["s4_connected_2_1", "s6_route_2_2c"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s4"], from:"", to:"display:none;"},      
+//      {ids:["co_s24"], from:"", to:"display:none;"},
+//      {ids:["co_s25"], from:"display:none;", to:""},
+    ]
+  },
+  "t38":{
+    from:"s38", to:"s39", 
+    assign:[
+      {ids:["s5_member_2_x", "s5_member_2_x_A"], from:"X", to: "joensuu"},
+      {ids:["s5_member_2__"], from:"_", to: "kajaani"},
+      {ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[oulu]"},
+      {ids:["s5_member_2_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+    ],
+    style:[
+      {ids:["s6_route_2_3", "s5_member_2_1", "s5_member_2_1c"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s6_route_2_3c", "s5_member_2"], 
+        from:"visibility:hidden;", to:""},
+      {ids:["s5"], from:"display:none;", to:""},
+      {ids:["co_s25"], from:"", to:"display:none;"},
+      {ids:["co_s26"], from:"display:none;", to:""},
+     ]
+  },
 /*  
+
+  "t26":{
+    from:"s26", to:"s27", 
+    assign:[
+    ],
+    style:[
+      {ids:["s5_member_2"], from:"", to:"visibility:hidden;"},
+      {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
+      {ids:["co_s26"], from:"", to:"display:none;"},
+      {ids:["co_s27"], from:"display:none;", to:""},
+    ]
+  },
+  "t27":{
+    from:"s27", to:"s28", 
+    assign:[
+      {ids:["s7_member_h", "s7_member_h_A"], from:"H", to:"oulu"},
+      {ids:["s7_member__"], from:"_", to:"[]"},
+      {ids:["s7_member_1_1x"], 
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["s7_member_1", "s5_member_2_1c"], from:"visibility:hidden;", to:""},
+      {ids:["s5_member_2_1"], from:"", to:"visibility:hidden;"},
+      {ids:["co_s27"], from:"", to:"display:none;"},
+      {ids:["co_s28", "s7"], from:"display:none;", to:""},
+    ]
+  },
+  "t28":{
+    from:"s28", to:"s29", 
+    assign:[
+      {ids:["s7_member_h", "s7_member_h_A"], from:"oulu", to:"H"},
+      {ids:["s7_member__"], from:"[]", to:"_"},
+      {ids:["s5_member_2_1x"], 
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["s7_member_1", "s5_member_2_1c"], from:"", to:"visibility:hidden;"},
+      {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
+      {ids:["co_s28", "s7"], from:"", to:"display:none;"},
+      {ids:["co_s29"], from:"display:none;", to:""},
+    ]
+  },
+
+
+
+  "t8":{
+    from:"s8", to:"s9", 
+    assign:[
+    ],
+    style:[
+      {ids:["s4_connected_2"], from:"", to:"visibility:hidden;"},
+      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
+      {ids:["co_s8"], from:"", to:"display:none;"},
+      {ids:["co_s9"], from:"display:none;", to:""},
+    ]
+  },
+  "t9":{
+    from:"s9", to:"s10", 
+    assign:[
+      {ids:["s4_connected_town2", "s4_connected_town2_A", "s2_route_townx",
+        "s2_route_townx_A", "s2_route_townx_B"], from:"TownX&#x2082;", 
+        to:"kajaani"},
+      {ids:["s4_connected_length", "s4_connected_length_A", "s2_route_length1",
+        "s2_route_length1_A"], from:"Length1&#x2082;", to:"183"},
+      {ids:["road_2x"], from:"", 
+        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;"},
+      {ids:["s4_connected_1c", "road_2"], from:"visibility:hidden;", to:""},
+      {ids:["co_s9"], from:"", to:"display:none;"},
+      {ids:["co_s10"], from:"display:none;", to:""},
+    ]
+  },
+  "t10":{
+    from:"s10", to:"s11", 
+    assign:[
+      {ids:["road_2x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+      {ids:["s4_connected_2_1x"], from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
+      {ids:["road_2", "s4_connected_1c"], from:"", to:"visibility:hidden;"}, 
+      {ids:["co_s10"], from:"", to:"display:none;"},
+      {ids:["co_s11"], from:"display:none;", to:""},
+    ]
+  },
+  "t11":{
+    from:"s11", to:"s12", 
+    assign:[
+      {ids:["s4_connected_2_1x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+    ],
+    style:[
+      {ids:["s2_route_2_3"], from:"visibility:hidden;", to:""},
+      {ids:["s4_connected_2_1", "s1_route_1c"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s4"], from:"", to:"display:none;"},      
+      {ids:["co_s11"], from:"", to:"display:none;"},
+      {ids:["co_s12"], from:"display:none;", to:""},
+    ]
+  },
+
+
+
+
+
+
+
+
   "t":{
     from:"s", to:"s", 
     assign:[
-      {ids:[""], from:"", to:""},
+//      {ids:[""], from:"", to:""},
     ],
     style:[
       {ids:[""], from:"", to:"visibility:hidden;"},
       {ids:[""], from:"visibility:hidden;", to:""},
-      {ids:["co_s"], from:"", to:"display:none;"},
-      {ids:["co_s"], from:"display:none;", to:""},
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
     ]
   },
 */
@@ -670,8 +965,15 @@ var states = {
   "s28":{fw:"t28", bk:"t27"},
   "s29":{fw:"t29", bk:"t28"},
   "s30":{fw:"t30", bk:"t29"},
-  "s31":{fw:null, bk:"t30"},
-  "s32":{fw:null, bk:"t31"},
+  "s31":{fw:"t31", bk:"t30"},
+  "s32":{fw:"t32", bk:"t31"},
+  "s33":{fw:"t33", bk:"t32"},
+  "s34":{fw:"t34", bk:"t33"},
+  "s35":{fw:"t35", bk:"t34"},
+  "s36":{fw:"t36", bk:"t35"},
+  "s37":{fw:"t37", bk:"t36"},
+  "s38":{fw:"t38", bk:"t37"},
+  "s39":{fw:null, bk:"t38"},
 };
 
 var cur_state = "_init";
@@ -694,6 +996,12 @@ function transit_fw(tr_id) {
   for (i = 0; i < transition.assign.length; i++) { // for all affected variables
     assign = transition.assign[i];
     for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
+/*
+      if(variables[assign.ids[j]].innerHTML != assign.from) {
+        alert(ids[j] + " is " + variables[assign.ids[j]].innerHTML + 
+          ", sb " + assign.from);
+      }
+*/
       variables[assign.ids[j]].innerHTML = assign.to;
     }
   }
@@ -701,6 +1009,12 @@ function transit_fw(tr_id) {
   for (i = 0; i < transition.style.length; i++) { // for all affected variables
     style = transition.style[i];
     for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
+/*
+      if(variables[style.ids[j]].innerHTML != style.from) {
+        alert("Style of " + ids[j] + " is " + 
+          variables[style.ids[j]].innerHTML + ", sb " + style.from);
+      }
+*/
       variables[style.ids[j]].style.cssText = style.to;
     }
   }

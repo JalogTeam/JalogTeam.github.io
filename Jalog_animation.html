@@ -90,9 +90,21 @@ success to fail and vv. A place already visited does not apply.</span>
 </div>
 
 <div class="main">
+<span id="output" style="display:none;">
+<h4>OUTPUT</h4>
+<pre>
+<b>[oulu, kajaani, joensuu] total length 413 km</b>
+</pre>
+<hr/>
+</span>
+
 <h4>STACK</h4>
 <!-- *** member s7 *** --><span id="s7" style="display:none;"><pre>
 <span id="s7_member_1">&rArr;</span> member(<span id="s7_member_h">H</span>, [<span id="s7_member_h_A">H</span>|<span id="s7_member__">_</span>]). <span id="s7_member_1_1x"></span> % 1</pre></span>
+
+<!-- *** member s8 *** --><span id="s8" style="display:none"><pre>
+<span id="s8_member_2">&rArr;</span> member(<span id="s8_member_2_x">X</span>, [<span id="s8_member_2__">_</span>|<span id="s8_member_2_t">T</span>]) :- % 2
+<span id="s8_member_2_1">&rArr;</span>   member(<span id="s8_member_2_x_A">X</span>, <span id="s8_member_2_t_A">T</span>). <span id="s8_member_2_1c">&rarr;</span><span id="s8_member_2_1x"></span></pre></span>
 
 <!-- *** member s5 *** --><span id="s5" style="display:none"><pre>
 <span id="s5_member_2">&rArr;</span> member(<span id="s5_member_2_x">X</span>, [<span id="s5_member_2__">_</span>|<span id="s5_member_2_t">T</span>]) :- % 2
@@ -115,25 +127,28 @@ success to fail and vv. A place already visited does not apply.</span>
 <span id="s3_connected_1">&rArr;</span> connected(<span id="s3_connected_town1">oulu</span>, <span id="s3_connected_town2">TownX&#x2082;</span>, <span id="s3_connected_length">Length1&#x2082;</span>) :- % 1
 <span id="s3_connected_1_1">&rArr;</span>   road(<span id="s3_connected_town1_A">oulu</span>, <span id="s3_connected_town2_A">TownX&#x2082;</span>, <span id="s3_connected_length_A">Length1&#x2082;</span>). <span id="s3_connected_1_1c">&rarr;</span><span id="s3_connected_1_1x"></span></pre>
 </span>
+<!-- *** route s9 *** --><span id="s9" style="display:none"><pre>
+<span id="s9_route_1">&rArr;</span> route(<span id="s9_route_town">Town</span>, <span id="s9_route_town_A">Town</span>, _, [<span id="s9_route_town_B">Town</span>], 0). <span id="s9_route_1_1x"></span> % 1
+</pre></span>
 <!-- *** route s6 *** --><span id="s6" style="display:none"><pre>
-<span id="s6_route_2">&rArr;</span> route(kajaani, joensuu, [oulu|[]], [kajaani|FromTown1&#x2086;], <span id="s6_goal_length">Length2&#x2082;</span>) :-  % 2
+<span id="s6_route_2">&rArr;</span> route(kajaani, joensuu, [oulu|[]], [kajaani|<span id="s6_route_2_fromtown1">FromTown1&#x2086;</span>], <span id="s6_goal_length">Length2&#x2082;</span>) :-  % 2
 <span id="s6_route_2_1">&rArr;</span>   <span id="s6_route_totownx">ToTownX&#x2086;</span> = [kajaani|[oulu|[]]],
 <span id="s6_route_2_2">&rArr;</span>   connected(kajaani, <span id="s6_route_townx">TownX&#x2086;</span>, <span id="s6_route_length1">Length1&#x2086;</span>), <span id="s6_route_2_2c">&rarr;</span><span id="s6_route_2_2x"></span> 
 <span id="s6_route_2_3">&rArr;</span>   <span id="s6_route_2_3not">not</span>(member(<span id="s6_route_townx_A">TownX&#x2086;</span>, <span id="s6_route_totownx_A">ToTownX&#x2086;</span>)), <span id="s6_route_2_3c" style="visibility:hidden;">&rarr;</span><span id="s6_route_2_3x"></span>   
-<span id="s6_route_2_4">&rArr;</span>   route(<span id="s6_route_townx_B">TownX&#x2086;</span>, joensuu, <span id="s6_route_totownx_B">ToTownX&#x2086;</span>, FromTown1&#x2086, Length2&#x2086), 
-<span id="s6_route_2_5">&rArr;</span>   <span id="s6_goal_length_A">Length2&#x2082;</span> = <span id="s6_route_length1_A">Length1&#x2086;</span> + Length2&#x2086.
+<span id="s6_route_2_4">&rArr;</span>   route(<span id="s6_route_townx_B">TownX&#x2086;</span>, joensuu, <span id="s6_route_totownx_B">ToTownX&#x2086;</span>, <span id="s6_route_2_fromtown1_A">FromTown1&#x2086;</span>, <span id="s1_goal_length2">Length2&#x2086</span>), <span id="s6_route_2_4c">&rarr;</span>
+<span id="s6_route_2_5">&rArr;</span>   <span id="s6_goal_length_A">Length2&#x2082;</span> = <span id="s6_route_length1_A">Length1&#x2086;</span> + <span id="s1_goal_length2_A">Length2&#x2086;</span>. <span id="s6_route_2_5x"></span>
 </pre></span>
 <!-- *** route s2 *** --><span id="s2" style="display:none"><pre>
-<span id="s2_route_2">&rArr;</span> route(oulu, joensuu, [], [oulu|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s1_goal_length">Len&#x2081;</span>) :-  % 2
+<span id="s2_route_2">&rArr;</span> route(oulu, joensuu, [], [oulu|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s2_route_length">Len&#x2081;</span>) :-  % 2
 <span id="s2_route_2_1">&rArr;</span>   <span id="s1_goal_totownx">ToTownX&#x2082;</span> = [oulu|[]],
 <span id="s2_route_2_2">&rArr;</span>   connected(oulu, <span id="s2_route_townx">TownX&#x2082;</span>, <span id="s2_route_length1">Length1&#x2082;</span>), <span id="s1_route_1c">&rarr;</span> 
 <span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span id="s1_goal_totownx_A">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="display:none">&rarr;</span>   
-<span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, joensuu, <span id="s1_goal_totownx_B">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082</span>, Length2&#x2082), <span id="s2_route_2_4c">&rarr;</span>  
-<span id="s2_route_2_5">&rArr;</span>   <span id="s1_goal_length_A">Len&#x2081;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + Length2&#x2082.
+<span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, joensuu, <span id="s1_goal_totownx_B">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
+<span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A">Len&#x2081;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
 </pre></span>
 <!-- *** goal s1 *** --><span id="s1" style="display:none"><pre>
 <span id="s1_goal_1">&rArr;</span> :- route(oulu, joensuu, [], <span id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
-<span id="s1_goal_2">&rArr;</span>   writeln(<span id="s1_goal_route_A">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>).
+<span id="s1_goal_2">&rArr;</span>   writeln(<span id="s1_goal_route_A">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
 </pre></span>
 <hr/>
 <h4>DATABASE</h4>
@@ -167,7 +182,7 @@ success to fail and vv. A place already visited does not apply.</span>
    
    
 <span id="_goal_1">&rArr;</span> :- route(oulu, joensuu, [], Route, Len),
-<span id="_goal_2">&rArr;</span>   writeln(Route, ", total length ", Len).
+<span id="_goal_2">&rArr;</span>   writeln(Route, ", total length ", Len, " km").
 
 </pre>
 </div>
@@ -286,20 +301,6 @@ var transitions = {
       {ids:["co_s7"], from:"display:none;", to:""},
     ]
   },
-/*
-  "t7":{
-    from:"s7", to:"s8", 
-    backtrack:["t6", "t5", "t4"],    
-    assign:[
-    ],
-    style:[
-      {ids:["s2_route_2_2", "s4_connected_2_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s1_route_1c", "s4_connected_2"], from:"visibility:hidden;", to:""},
-      {ids:["co_s4"], from:"", to:"display:none;"},
-      {ids:["co_s8", "s4"], from:"display:none;", to:""},
-    ]
-  },
-*/
   "t7":{
     from:"s7", to:"s8", 
     backtrack:["t6", "t5", "t4"],    
@@ -457,7 +458,7 @@ var transitions = {
     ],
     style:[
       {ids:["s2_route_2_4", "s6_route_2_1", "s6_route_2_2", "s6_route_2_3",
-        "s6_route_2_4", "s6_route_2_5", "s6_route_2_2c"], 
+        "s6_route_2_4", "s6_route_2_5", "s6_route_2_2c", "s6_route_2_4c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2"], from:"visibility:hidden;", to:""},
       {ids:["co_s17"], from:"", to:"display:none;"},
@@ -807,19 +808,206 @@ var transitions = {
       {ids:["co_s26"], from:"display:none;", to:""},
      ]
   },
-/*  
-
-  "t26":{
-    from:"s26", to:"s27", 
+  "t39":{
+    from:"s39", to:"s40", 
     assign:[
     ],
     style:[
       {ids:["s5_member_2"], from:"", to:"visibility:hidden;"},
       {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
-      {ids:["co_s26"], from:"", to:"display:none;"},
-      {ids:["co_s27"], from:"display:none;", to:""},
+//      {ids:["co_s26"], from:"", to:"display:none;"},
+//      {ids:["co_s27"], from:"display:none;", to:""},
     ]
   },
+  "t40":{
+    from:"s40", to:"s41", 
+    assign:[
+      {ids:["s8_member_2_x", "s8_member_2_x_A"], from:"X", to: "joensuu"},
+      {ids:["s8_member_2__"], from:"_", to: "oulu"},
+      {ids:["s8_member_2_t", "s8_member_2_t_A"], from:"T", to: "[]"},
+//      {ids:["s8_member_2_1x"], 
+//        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+    ],
+    style:[
+      {ids:["s5_member_2_1", "s8_member_2_1c", "s8_member_2_1"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s5_member_2_1c", "s8_member_2"], 
+        from:"visibility:hidden;", to:""},
+      {ids:["s8"], from:"display:none;", to:""},
+//      {ids:["co_s25"], from:"", to:"display:none;"},
+//      {ids:["co_s26"], from:"display:none;", to:""},
+     ]
+  },
+  "t41":{
+    from:"s41", to:"s42", 
+    assign:[
+    ],
+    style:[
+      {ids:["s8_member_2"], from:"", to:"visibility:hidden;"},
+      {ids:["s8_member_2_1"], from:"visibility:hidden;", to:""},
+//      {ids:["co_s26"], from:"", to:"display:none;"},
+//      {ids:["co_s27"], from:"display:none;", to:""},
+    ]
+  },
+  "t42":{
+    from:"s42", to:"s43", 
+    assign:[
+      {ids:["s8_member_2_1x"], from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
+    ],
+    style:[
+//      {ids:["co_s14"], from:"", to:"display:none;"},
+//      {ids:["co_s15"], from:"display:none;", to:""},
+    ]
+  },
+  "t43":{
+    from:"s43", to:"s44", 
+    assign:[
+      {ids:["s8_member_2_x", "s8_member_2_x_A"], from:"joensuu", to:"X"},
+      {ids:["s8_member_2__"], from:"oulu", to:"_"},
+      {ids:["s8_member_2_t", "s8_member_2_t_A"], from:"[]", to:"T"},
+      {ids:["s5_member_2_1x"], from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
+    ],
+    style:[
+      {ids:["s5_member_2_1"], 
+        from:"visibility:hidden;", to:""},
+      {ids:["s5_member_2_1c", "s8_member_2", "s8_member_2_1", 
+        "s8_member_2_1c"], from:"", to:"visibility:hidden;"},
+      {ids:["s8"], from:"", to:"display:none;"},
+//      {ids:["co_s14"], from:"", to:"display:none;"},
+//      {ids:["co_s15"], from:"display:none;", to:""},
+    ]
+  },
+  "t44":{
+    from:"s44", to:"s45", 
+    assign:[
+      {ids:["s6_route_2_3x"], from:"", 
+        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>"},
+    ],
+    style:[
+      {ids:["s6_route_2_3not"], 
+        from:"", to:"background-color:#ffff00; font-weight: bold;"},
+      {ids:["s5_member_2_1", "s6_route_2_3c"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
+      {ids:["s5"/*, "co_s29"*/], from:"", to:"display:none;"},
+//      {ids:["co_s30"], from:"display:none;", to:""},
+    ]
+  },
+  "t45":{
+    from:"s45", to:"s46", 
+    assign:[
+      {ids:["s6_route_2_3x"], from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", 
+        to:""},
+    ],
+    style:[
+      {ids:["s6_route_2_3not"], 
+        from:"background-color:#ffff00; font-weight: bold;", to:""},
+      {ids:["s6_route_2_3"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s6_route_2_4"], from:"visibility:hidden;", to:""},
+      {ids:[/*, "co_s29"*/], from:"", to:"display:none;"},
+//      {ids:["co_s30"], from:"display:none;", to:""},
+    ]
+  },
+  "t46":{
+    from:"s46", to:"s47", 
+    assign:[
+      {ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"], 
+        from:"Town", to:"joensuu"},
+      {ids:["s6_route_2_fromtown1", "s6_route_2_fromtown1_A"],
+        from:"FromTown1&#x2086;", to:"[joensuu]"},
+      {ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"],
+        from:"[kajaani|FromTown1&#x2086;]", to:"[kajaani, joensuu]"},
+      {ids:["s1_goal_route", "s1_goal_route_A"],
+        from:"[oulu,kajaani|FromTown1&#x2086;]", 
+        to:"[oulu, kajaani, joensuu]"},
+      {ids:["s1_goal_length2", "s1_goal_length2_A"],
+        from:"Length2&#x2086;]", to:"0"},
+      {ids:["s9_route_1_1x"], 
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["s6_route_2_4"], from:"", to:"visibility:hidden;"},
+      {ids:["s6_route_2_4c", "s9_route_1"], from:"visibility:hidden;", to:""},
+//      {ids:["co_s"], from:"", to:"display:none;"},
+      {ids:["s9"/*, "co_s"*/], from:"display:none;", to:""},
+    ]
+  },
+  "t47":{
+    from:"s47", to:"s48", 
+    assign:[
+      {ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"], 
+        from:"joensuu", to:"Town"},
+      {ids:["s9_route_1_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
+    ],
+    style:[
+      {ids:["s6_route_2_4c", "s9_route_1"], from:"", to:"visibility:hidden;"},
+      {ids:["s6_route_2_5"], from:"visibility:hidden;", to:""},
+      {ids:["s9"/*, "co_s"*/], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t48":{
+    from:"s48", to:"s49", 
+    assign:[
+      {ids:["s6_goal_length", "s6_goal_length_A", "s2_route_2_length2",
+        "s2_route_2_length2_A"], from:"Length2&#x2082;", to:"230"},
+      {ids:["s6_route_2_5x"], 
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+   ],
+    style:[
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t49":{
+    from:"s49", to:"s50", 
+    assign:[
+    ],
+    style:[
+      {ids:["s2_route_2_4c"], from:"", to:"visibility:hidden;"},
+      {ids:["s2_route_2_5"], from:"visibility:hidden;", to:""},
+      {ids:["s6"/*, "co_s"*/], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t50":{
+    from:"s50", to:"s51", 
+    assign:[
+      {ids:["s2_route_length", "s2_route_length_A", "s1_goal_len",
+        "s1_goal_len_A"], from:"Len&#x2081;", to:"413"},
+      {ids:["s2_route_2_5x"], 
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+   ],
+    style:[
+//      {ids:["co_s"], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t51":{
+    from:"s51", to:"s52", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1c"], from:"", to:"visibility:hidden;"},
+      {ids:["s1_goal_2"], from:"visibility:hidden;", to:""},
+      {ids:["s2"/*, "co_s"*/], from:"", to:"display:none;"},
+//      {ids:["co_s"], from:"display:none;", to:""},
+    ]
+  },
+  "t52":{
+    from:"s52", to:"end", 
+    assign:[
+      {ids:["s1_goal_2x"], 
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+    ],
+    style:[
+      {ids:["output"], from:"display:none;", to:""},
+    ]
+  },
+/*  
+
   "t27":{
     from:"s27", to:"s28", 
     assign:[
@@ -973,7 +1161,21 @@ var states = {
   "s36":{fw:"t36", bk:"t35"},
   "s37":{fw:"t37", bk:"t36"},
   "s38":{fw:"t38", bk:"t37"},
-  "s39":{fw:null, bk:"t38"},
+  "s39":{fw:"t39", bk:"t38"},
+  "s40":{fw:"t40", bk:"t39"},
+  "s41":{fw:"t41", bk:"t40"},
+  "s42":{fw:"t42", bk:"t41"},
+  "s43":{fw:"t43", bk:"t42"},
+  "s44":{fw:"t44", bk:"t43"},
+  "s45":{fw:"t45", bk:"t44"},
+  "s46":{fw:"t46", bk:"t45"},
+  "s47":{fw:"t47", bk:"t46"},
+  "s48":{fw:"t48", bk:"t47"},
+  "s49":{fw:"t49", bk:"t48"},
+  "s50":{fw:"t50", bk:"t49"},
+  "s51":{fw:"t51", bk:"t50"},
+  "s52":{fw:"t52", bk:"t51"},
+  "end":{fw:null, bk:"t52"},
 };
 
 var cur_state = "_init";

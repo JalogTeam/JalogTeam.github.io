@@ -132,7 +132,7 @@ success to fail and vv. A place already visited does not apply.</span>
 </pre></span>
 <!-- *** route s6 *** --><span id="s6" style="display:none"><pre>
 <span id="s6_route_2">&rArr;</span> route(kajaani, joensuu, [oulu|[]], [kajaani|<span id="s6_route_2_fromtown1">FromTown1&#x2086;</span>], <span id="s6_goal_length">Length2&#x2082;</span>) :-  % 2
-<span id="s6_route_2_1">&rArr;</span>   <span id="s6_route_totownx">ToTownX&#x2086;</span> = [kajaani|[oulu|[]]],
+<span id="s6_route_2_1">&rArr;</span>   <span id="s6_route_totownx">ToTownX&#x2086;</span> = [kajaani|[oulu]],
 <span id="s6_route_2_2">&rArr;</span>   connected(kajaani, <span id="s6_route_townx">TownX&#x2086;</span>, <span id="s6_route_length1">Length1&#x2086;</span>), <span id="s6_route_2_2c">&rarr;</span><span id="s6_route_2_2x"></span> 
 <span id="s6_route_2_3">&rArr;</span>   <span id="s6_route_2_3not">not</span>(member(<span id="s6_route_townx_A">TownX&#x2086;</span>, <span id="s6_route_totownx_A">ToTownX&#x2086;</span>)), <span id="s6_route_2_3c" style="visibility:hidden;">&rarr;</span><span id="s6_route_2_3x"></span>   
 <span id="s6_route_2_4">&rArr;</span>   route(<span id="s6_route_townx_B">TownX&#x2086;</span>, joensuu, <span id="s6_route_totownx_B">ToTownX&#x2086;</span>, <span id="s6_route_2_fromtown1_A">FromTown1&#x2086;</span>, <span id="s1_goal_length2">Length2&#x2086</span>), <span id="s6_route_2_4c">&rarr;</span>
@@ -261,7 +261,7 @@ var transitions = {
   "t3":{
     from:"s3", to:"s4", 
     assign:[
-      {ids:["s1_goal_totownx", "s1_goal_totownx_A", "s1_goal_totownx_B"], from:"ToTownX&#x2082;", to:"[oulu|[]]"},    ],
+      {ids:["s1_goal_totownx", "s1_goal_totownx_A", "s1_goal_totownx_B"], from:"ToTownX&#x2082;", to:"[oulu]"},    ],
     style:[
       {ids:["s2_route_2_1"], from:"", to:"visibility:hidden;"},
       {ids:["s2_route_2_2"], from:"visibility:hidden;", to:""},
@@ -488,7 +488,7 @@ var transitions = {
     from:"s19", to:"s20", 
     assign:[
       {ids:["s6_route_totownx", "s6_route_totownx_A", "s6_route_totownx_B"], 
-        from:"ToTownX&#x2086;", to:"[kajaani|[oulu|[]]]"},
+        from:"ToTownX&#x2086;", to:"[kajaani,oulu]]"},
     ],
     style:[
       {ids:["s6_route_2_1"], from:"", to:"visibility:hidden;"},

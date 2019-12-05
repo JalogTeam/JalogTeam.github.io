@@ -142,7 +142,7 @@ success to fail and vv. A place already visited does not apply.</span>
 <span id="s2_route_2">&rArr;</span> route(oulu, joensuu, [], [oulu|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s2_route_length">Len&#x2081;</span>) :-  % 2
 <span id="s2_route_2_1">&rArr;</span>   <span id="s1_goal_totownx">ToTownX&#x2082;</span> = [oulu|[]],
 <span id="s2_route_2_2">&rArr;</span>   connected(oulu, <span id="s2_route_townx">TownX&#x2082;</span>, <span id="s2_route_length1">Length1&#x2082;</span>), <span id="s1_route_1c">&rarr;</span> 
-<span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span id="s1_goal_totownx_A">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="display:none">&rarr;</span>   
+<span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span id="s1_goal_totownx_A">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="display:none">&rarr;</span><span id="s2_route_2_3x"></span>   
 <span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, joensuu, <span id="s1_goal_totownx_B">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
 <span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A">Len&#x2081;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
 </pre></span>
@@ -274,8 +274,10 @@ var transitions = {
     assign:[
     ],
     style:[
-      {ids:["s2_route_2_2", "s3_connected_1_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s1_route_1c", "s3_connected_1"], from:"visibility:hidden;", to:""},
+      {ids:["s2_route_2_2", "s3_connected_1_1", "s3_connected_1_1c"], 
+        from:"", to:"visibility:hidden;"},
+      {ids:["s1_route_1c", "s3_connected_1"], 
+        from:"visibility:hidden;", to:""},
       {ids:["co_s4"], from:"", to:"display:none;"},
       {ids:["co_s5", "s3"], from:"display:none;", to:""},
     ]
@@ -367,9 +369,9 @@ var transitions = {
       {ids:["s4_connected_town1", "s4_connected_town1_A"], 
         from:"oulu", to:"Town1"},
       {ids:["s4_connected_town2", "s4_connected_town2_A"], 
-        from:"TownX&#x2082;", to:"Town2"},
+        from:"kajaani", to:"Town2"},
       {ids:["s4_connected_length", "s4_connected_length_A"], 
-        from:"Length1&#x2082;", to:"Length"},
+        from:"183", to:"Length"},
       {ids:["s4_connected_2_1x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
     ],
     style:[
@@ -422,7 +424,10 @@ var transitions = {
   "t15":{
     from:"s15", to:"s16", 
     assign:[
-      {ids:["s5_member_2_1x"], from:"<font color=\"#BB0000\"><b>FAIL!</b></font>", to:""},
+      {ids:["s5_member_2_1x"], 
+        from:"<font color=\"#BB0000\"><b>FAIL!</b></font>", to:""},
+      {ids:["s2_route_2_3x"], from:"", 
+        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>"},
     ],
     style:[
       {ids:["s2_route_2_3not"], 
@@ -437,6 +442,9 @@ var transitions = {
   "t16":{
     from:"s16", to:"s17", 
     assign:[
+      {ids:["s2_route_2_3x"], 
+        from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", 
+        to:""},
     ],
     style:[
       {ids:["s2_route_2_3not"], 
@@ -561,6 +569,8 @@ var transitions = {
       {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
       {ids:["s3_connected_1_1", "s6_route_2_2c"], 
         from:"", to:"visibility:hidden;"},
+      {ids:["s3_connected_1"], 
+        from:"visibility:hidden;", to:"visibility:hidden;"},
       {ids:["s3"], from:"", to:"display:none;"},      
       {ids:["co_s24"], from:"", to:"display:none;"},
       {ids:["co_s25"], from:"display:none;", to:""},
@@ -870,7 +880,7 @@ var transitions = {
     style:[
       {ids:["s5_member_2_1"], 
         from:"visibility:hidden;", to:""},
-      {ids:["s5_member_2_1c", "s8_member_2", "s8_member_2_1", 
+      {ids:["s5_member_2_1c", "s8_member_2_1", 
         "s8_member_2_1c"], from:"", to:"visibility:hidden;"},
       {ids:["s8"], from:"", to:"display:none;"},
 //      {ids:["co_s14"], from:"", to:"display:none;"},

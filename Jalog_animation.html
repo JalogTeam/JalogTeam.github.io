@@ -30,11 +30,11 @@ body {
   background-color: white;
   height: 60px;
   margin-bottom: 2px;
-  overflow: scroll;
+  overflow-Y: scroll;
 }
 .main {
-  height: calc(100% - 90px);
-  overflow: scroll;
+  height: calc(100% - 120px);
+  overflow-Y: scroll;
 }
 
 pre {margin-left:1em;}
@@ -42,7 +42,11 @@ pre {margin-left:1em;}
 </head>
 <body>
 <div class="top">
-<button id="step" onclick="forwards()">Step</button> <button id="back" onclick="backwards()">back</button> <code><span id="state"><i>state</i></span></code>
+<button id="step" onclick="forwards()">Step</button>
+<button id="back" onclick="backwards()">Back</button>
+<button id="explain" disabled="diaabled" onclick="explain()">Explain more</button>
+
+<code><span id="state"><i>state</i></span></code>
 </div>
 
 <div class="comment">
@@ -50,7 +54,19 @@ pre {margin-left:1em;}
 <span id="co_start">Ready. Push Step to start animating a Jalog (Prolog) 
 program.<br/>
 By: Mikko Levanto and Ari Okkonen 2019</span>
+<span id="co_s0_1" style="display:none">Execution is started from the 
+<em>goal</em>. The first characters of the goal are ":-".</span>
 <span id="co_s1" style="display:none">The goal is instatiated allocating memory for the variables.</span>
+<span id="co_s1a" style="display:none">Predicate <code>route</code> is called 
+with the following parameters:...</span>
+<span id="co_s1b" style="display:none">...symbols (the first character must be 
+lower case) defining the beginning and the end of the route,...</span>
+<span id="co_s1c" style="display:none">...an empty list meaning no junctions to 
+avoid, and...</span>
+<span id="co_s1d" style="display:none">...variables (the
+first character must be upper case) to return the results. (In this visualization 
+the subscripts are used to differentiate different variable instances with the
+same name.)</span>
 <span id="co_s2" style="display:none">The second clause of <code>route</code>
  matches, it is instantiated, and the parameters are unified.</span>
 <span id="co_s3" style="display:none">Next subgoal (&#8776;statement)</span>
@@ -125,7 +141,7 @@ success to fail and vv. OK. Not in the loop. Go on!</span>
 <span id="co_end" style="display:none">... display the results and finish.</span>
 </div>
 
-<div class="main">
+<div id="main" class="main">
 <span id="output" style="display:none;">
 <h4>OUTPUT</h4>
 <pre>
@@ -183,7 +199,7 @@ success to fail and vv. OK. Not in the loop. Go on!</span>
 <span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A">Len&#x2081;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
 </pre></span>
 <!-- *** goal s1 *** --><span id="s1" style="display:none"><pre>
-<span id="s1_goal_1">&rArr;</span> :- route(oulu, joensuu, [], <span id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
+<span id="s1_goal_1">&rArr;</span> :- <span id="s1_goal_1a">route</span>(<span id="s1_goal_1b">oulu</span>, <span id="s1_goal_1b1">joensuu</span>, <span id="s1_goal_1cc">[]</span>, <span id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
 <span id="s1_goal_2">&rArr;</span>   writeln(<span id="s1_goal_route_A">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
 </pre></span>
 <hr/>
@@ -217,7 +233,7 @@ success to fail and vv. OK. Not in the loop. Go on!</span>
 <span id="route_2_5">&rArr;</span>   Length = Length1 + Length2.
    
    
-<span id="_goal_1">&rArr;</span> :- route(oulu, joensuu, [], Route, Len),
+<span id="_goal_1">&rArr;</span> <span id="_goal_1_a">:-</span> route(oulu, joensuu, [], Route, Len),
 <span id="_goal_2">&rArr;</span>   writeln(Route, ", total length ", Len, " km").
 
 </pre>
@@ -251,6 +267,7 @@ var transitions = {
           "route_2_3",
           "route_2_4",
           "route_2_5",
+          "_goal_1",
           "_goal_2",
           "s1_goal_1",
           "s1_goal_1c",
@@ -261,15 +278,73 @@ var transitions = {
     ]
   },
   "_start_1":{
-    from:"start", to:"s1", 
+    from:"start", to:"s0_1", 
     assign:[
     ],
     style:[
-      {ids:["_goal_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s1_goal_1"], from:"visibility:hidden;", to:""},
-      {ids:["s1"], from:"display:none;", to:""},
+      {ids:["_goal_1"], from:"visibility:hidden;", to:""},
+      {ids:["_goal_1_a"], from:"", to:"background-color:#80ffff; font-weight: bold;"},
     ]
   },
+  "t0_1":{
+    from:"s0_1", to:"s1", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1"], from:"display:none;", to:""},
+      {ids:["_goal_1"], from:"", to:"visibility:hidden;"},
+      {ids:["s1_goal_1"], from:"visibility:hidden;", to:""},
+      {ids:["_goal_1_a"], from:"background-color:#80ffff; font-weight: bold;", to:""},
+    ]
+  },
+  
+  "tx0a":{
+    from:"s1", to:"s1a", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1a"], from:"", to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
+  "tx0b":{
+    from:"s1a", to:"s1b", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1a"], from:"background-color:#80ffff; font-weight: bold;", to:""},
+      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
+  "tx0c":{
+    from:"s1b", to:"s1c", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"background-color:#80ffff; font-weight: bold;", to:""},
+      {ids:["s1_goal_1cc"], from:";", to:"background-color:#80ffff; font-weight: bold"},
+    ]
+  },
+  "tx0d":{
+    from:"s1c", to:"s1d", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1cc"], from:"background-color:#80ffff; font-weight: bold;", to:""},
+      {ids:["s1_goal_route", "s1_goal_len"], from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
+  "tx0x":{
+    from:"s1", to:"s1", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_route", "s1_goal_len", "s1_goal_1cc", "s1_goal_1b", 
+        "s1_goal_1b1", "s1_goal_1b", "s1_goal_1b1", "s1_goal_1a"], 
+        from:"", to:""},
+    ]
+  },
+  
   "t1":{
     from:"s1", to:"s2", 
     assign:[
@@ -277,11 +352,11 @@ var transitions = {
         from:"Route&#x2081;", to:"[oulu|FromTown1&#x2082;]"},
     ],
     style:[
+      {ids:["s2"], from:"display:none;", to:""},
       {ids:["s1_goal_1", "s2_route_2_1", "s2_route_2_2", "s2_route_2_3", 
         "s2_route_2_4", "s2_route_2_5", "s1_route_1c", "s2_route_2_4c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s1_goal_1c", "s2_route_2"], from:"visibility:hidden;", to:""},
-      {ids:["s2"], from:"display:none;", to:""},
     ]
   },
   "t2":{
@@ -309,11 +384,11 @@ var transitions = {
     assign:[
     ],
     style:[
+      {ids:["s3"], from:"display:none;", to:""},
       {ids:["s2_route_2_2", "s3_connected_1_1", "s3_connected_1_1c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s1_route_1c", "s3_connected_1"], 
         from:"visibility:hidden;", to:""},
-      {ids:["s3"], from:"display:none;", to:""},
     ]
   },
   "t5":{
@@ -346,10 +421,10 @@ var transitions = {
         from:"Length", to:"Length1&#x2082;"},
     ],
     style:[
+      {ids:["s4"], from:"display:none;", to:""},
       {ids:["s2_route_2_2", "s4_connected_2_1"], from:"", 
         to:"visibility:hidden;"},
       {ids:["s1_route_1c", "s4_connected_2"], from:"visibility:hidden;", to:""},
-      {ids:["s4"], from:"display:none;", to:""},
     ]
   },
   "t8":{
@@ -403,10 +478,10 @@ var transitions = {
         from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
     ],
     style:[
+      {ids:["s4"], from:"", to:"display:none;"},      
       {ids:["s2_route_2_3"], from:"visibility:hidden;", to:""},
       {ids:["s4_connected_2_1", "s1_route_1c"], 
         from:"", to:"visibility:hidden;"},
-      {ids:["s4"], from:"", to:"display:none;"},      
     ]
   },
   "t12":{
@@ -417,11 +492,12 @@ var transitions = {
       {ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[]"},
     ],
     style:[
+      {ids:["s5"], from:"display:none;", to:""},
       {ids:["s2_route_2_3", "s5_member_2_1", "s5_member_2_1c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s2_route_2_3c"/*, "s4_connected_2"*/], 
         from:"visibility:hidden;", to:""},
-      {ids:["s5"], from:"display:none;", to:""},
+      {ids:["s5_member_2"], from:"visibility:hidden;", to:""},
      ]
   },
   "t13":{
@@ -451,12 +527,12 @@ var transitions = {
         to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>"},
     ],
     style:[
+      {ids:["s5"], from:"", to:"display:none;"},
       {ids:["s2_route_2_3not"], 
         from:"", to:"background-color:#ffff00; font-weight: bold;"},
       {ids:["s5_member_2_1", "s2_route_2_3c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s2_route_2_3"], from:"visibility:hidden;", to:""},
-      {ids:["s5"], from:"", to:"display:none;"},
     ]
   },
   "t16":{
@@ -484,11 +560,11 @@ var transitions = {
           to:"[oulu,kajaani|FromTown1&#x2086;]"},
     ],
     style:[
+      {ids:["s6", "s2_route_2_4c"], from:"display:none;", to:""},
       {ids:["s2_route_2_4", "s6_route_2_1", "s6_route_2_2", "s6_route_2_3",
         "s6_route_2_4", "s6_route_2_5", "s6_route_2_2c", "s6_route_2_4c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2"], from:"visibility:hidden;", to:""},
-      {ids:["s6", "s2_route_2_4c"], from:"display:none;", to:""},
     ]
   },
   "t18":{
@@ -522,11 +598,11 @@ var transitions = {
         from:"183", to:"Length1&#x2086;"},
     ],
     style:[
+      {ids:["s3"], from:"display:none;", to:""},
       {ids:["s6_route_2_2", "s3_connected_1_1", "s3_connected_1_1c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_2c", "s3_connected_1"], 
         from:"visibility:hidden;", to:""},
-      {ids:["s3"], from:"display:none;", to:""},
     ]
   },
   "t21":{
@@ -575,12 +651,12 @@ var transitions = {
         from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
     ],
     style:[
+      {ids:["s3"], from:"", to:"display:none;"},      
       {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
       {ids:["s3_connected_1_1", "s6_route_2_2c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s3_connected_1"], 
         from:"visibility:hidden;", to:"visibility:hidden;"},
-      {ids:["s3"], from:"", to:"display:none;"},      
     ]
   },
   "t25":{
@@ -591,11 +667,11 @@ var transitions = {
       {ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[oulu]"},
     ],
     style:[
+      {ids:["s5"], from:"display:none;", to:""},
       {ids:["s6_route_2_3", "s5_member_2_1", "s5_member_2_1c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_3c", "s5_member_2"], 
         from:"visibility:hidden;", to:""},
-      {ids:["s5"], from:"display:none;", to:""},
      ]
   },
   "t26":{
@@ -616,9 +692,9 @@ var transitions = {
         from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
     style:[
-      {ids:["s7_member_1", "s5_member_2_1c"], from:"visibility:hidden;", to:""},
-      {ids:["s5_member_2_1"], from:"", to:"visibility:hidden;"},
       {ids:["s7"], from:"display:none;", to:""},
+      {ids:["s5_member_2_1c", "s7_member_1"], from:"visibility:hidden;", to:""},
+      {ids:["s5_member_2_1"], from:"", to:"visibility:hidden;"},
     ]
   },
   "t28":{
@@ -630,9 +706,9 @@ var transitions = {
         from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
     style:[
+      {ids:["s7"], from:"", to:"display:none;"},
       {ids:["s7_member_1", "s5_member_2_1c"], from:"", to:"visibility:hidden;"},
       {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
-      {ids:["s7"], from:"", to:"display:none;"},
     ]
   },
   "t29":{
@@ -642,12 +718,12 @@ var transitions = {
         to:"<font color=\"#BB0000\"><i>success&rarr;fail&rarr;backtrack</i></font>"},
     ],
     style:[
+      {ids:["s5"], from:"", to:"display:none;"},
       {ids:["s6_route_2_3not"], 
         from:"", to:"background-color:#ffff00; font-weight: bold;"},
       {ids:["s5_member_2_1", "s6_route_2_3c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
-      {ids:["s5"], from:"", to:"display:none;"},
     ]
   },
   "t30":{
@@ -677,9 +753,9 @@ var transitions = {
         from:"", to:"<font color=\"#008888\"><i>recall</i></font>"},
     ],
     style:[
-      {ids:["s6_route_2_2", "s4_connected_2"], 
+      {ids:["s4_connected_2", "s6_route_2_2"], 
         from:"", to:"visibility:hidden;"},
-      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
+      {ids:["s3_connected_1_1"], from:"visibility:hidden;", to:""},
     ]
   },
   "t31a":{ // correcting backtrack-shortcut glitches
@@ -722,11 +798,11 @@ var transitions = {
         from:"Length", to:"Length1&#x2086;"},
     ],
     style:[
+      {ids:["s4"], from:"display:none;", to:""},
       {ids:["s6_route_2_2", "s4_connected_2_1"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_2c", "s4_connected_2"], 
         from:"visibility:hidden;", to:""},
-      {ids:["s4"], from:"display:none;", to:""},
     ]
   },
   "t33a":{
@@ -784,10 +860,10 @@ var transitions = {
         from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
     ],
     style:[
+      {ids:["s4"], from:"", to:"display:none;"},      
       {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
       {ids:["s4_connected_2_1", "s6_route_2_2c"], 
         from:"", to:"visibility:hidden;"},
-      {ids:["s4"], from:"", to:"display:none;"},      
     ]
   },
   "t38":{
@@ -800,11 +876,11 @@ var transitions = {
         from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
     ],
     style:[
+      {ids:["s5"], from:"display:none;", to:""},
       {ids:["s6_route_2_3", "s5_member_2_1", "s5_member_2_1c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_3c", "s5_member_2"], 
         from:"visibility:hidden;", to:""},
-      {ids:["s5"], from:"display:none;", to:""},
      ]
   },
   "t39":{
@@ -824,11 +900,11 @@ var transitions = {
       {ids:["s8_member_2_t", "s8_member_2_t_A"], from:"T", to: "[]"},
     ],
     style:[
+      {ids:["s8"], from:"display:none;", to:""},
       {ids:["s5_member_2_1", "s8_member_2_1c", "s8_member_2_1"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s5_member_2_1c", "s8_member_2"], 
         from:"visibility:hidden;", to:""},
-      {ids:["s8"], from:"display:none;", to:""},
      ]
   },
   "t41":{
@@ -859,11 +935,11 @@ var transitions = {
         to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
     ],
     style:[
+      {ids:["s8"], from:"", to:"display:none;"},
       {ids:["s5_member_2_1"], 
         from:"visibility:hidden;", to:""},
       {ids:["s5_member_2_1c", "s8_member_2_1", 
         "s8_member_2_1c"], from:"", to:"visibility:hidden;"},
-      {ids:["s8"], from:"", to:"display:none;"},
     ]
   },
   "t44":{
@@ -873,12 +949,12 @@ var transitions = {
         to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>"},
     ],
     style:[
+      {ids:["s5"], from:"", to:"display:none;"},
       {ids:["s6_route_2_3not"], 
         from:"", to:"background-color:#ffff00; font-weight: bold;"},
       {ids:["s5_member_2_1", "s6_route_2_3c"], 
         from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
-      {ids:["s5"], from:"", to:"display:none;"},
     ]
   },
   "t45":{
@@ -914,9 +990,9 @@ var transitions = {
         from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
     style:[
+      {ids:["s9"], from:"display:none;", to:""},
       {ids:["s6_route_2_4"], from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_4c", "s9_route_1"], from:"visibility:hidden;", to:""},
-      {ids:["s9"], from:"display:none;", to:""},
     ]
   },
   "t47":{
@@ -928,9 +1004,9 @@ var transitions = {
         from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
     ],
     style:[
+      {ids:["s9"], from:"", to:"display:none;"},
       {ids:["s6_route_2_4c", "s9_route_1"], from:"", to:"visibility:hidden;"},
       {ids:["s6_route_2_5"], from:"visibility:hidden;", to:""},
-      {ids:["s9"], from:"", to:"display:none;"},
     ]
   },
   "t48":{
@@ -949,9 +1025,9 @@ var transitions = {
     assign:[
     ],
     style:[
+      {ids:["s6"], from:"", to:"display:none;"},
       {ids:["s2_route_2_4c"], from:"", to:"visibility:hidden;"},
       {ids:["s2_route_2_5"], from:"visibility:hidden;", to:""},
-      {ids:["s6"], from:"", to:"display:none;"},
     ]
   },
   "t50":{
@@ -970,9 +1046,9 @@ var transitions = {
     assign:[
     ],
     style:[
+      {ids:["s2"], from:"", to:"display:none;"},
       {ids:["s1_goal_1c"], from:"", to:"visibility:hidden;"},
       {ids:["s1_goal_2"], from:"visibility:hidden;", to:""},
-      {ids:["s2"], from:"", to:"display:none;"},
     ]
   },
   "t52":{
@@ -1004,7 +1080,12 @@ var prev_state = "_init";
 var states = {
   "_init":{fw:"_init", bk:null, co:"co_s"},
   "start":{fw:"_start_1", bk:null, co:"co_start"},
-  "s1":{fw:"t1", bk:"_start_1", co:"co_s1"},
+  "s0_1":{fw:"t0_1", bk:"_start_1", co:"co_s0_1"},
+  "s1":{fw:"t1", bk:"t0_1", xpln:"tx0a", co:"co_s1"},
+  "s1a":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0b", co:"co_s1a"},
+  "s1b":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0c", co:"co_s1b"},
+  "s1c":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0d", co:"co_s1c"},
+  "s1d":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], co:"co_s1d"},
   "s2":{fw:"t2", bk:"t1", co:"co_s2"},
   "s3":{fw:"t3", bk:"t2", co:"co_s3"},
   "s4":{fw:"t4", bk:"t3", co:"co_s4"},
@@ -1059,6 +1140,7 @@ var states = {
   "end":{fw:null, bk:"t52", co:"co_end"},
 };
 
+var main_area = document.getElementById("main");
 var cur_state = "_init";
 
 var variables = { // Automatically collected from transitions
@@ -1092,13 +1174,22 @@ function transit_fw(tr_id) {
   for (i = 0; i < transition.style.length; i++) { // for all affected variables
     style = transition.style[i];
     for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
+      var current_var = variables[style.ids[j]];
+      var scrolling;
 /*
       if(variables[style.ids[j]].innerHTML != style.from) {
         alert("Style of " + ids[j] + " is " + 
           variables[style.ids[j]].innerHTML + ", sb " + style.from);
       }
 */
-      variables[style.ids[j]].style.cssText = style.to;
+      current_var.style.cssText = style.to;
+      if(style.from.endsWith("hidden;")) {
+        scrolling = scroll_needed(current_var, main_area);
+        if (scrolling) {
+          current_var.scrollIntoView(scrolling < 0);
+          window.scrollTo(0, 0);
+        }
+      }
     }
   }
 }
@@ -1128,29 +1219,48 @@ function transit_bw(tr_id) {
   }
 }
 
+function enter_state() {
+  var state = states[cur_state];
+
+  if (state.hasOwnProperty('xpln')) {
+    document.getElementById("explain").disabled = false;
+  } else {
+    document.getElementById("explain").disabled = true;
+  }
+}
+
 function forwards() {
   var state = states[cur_state];
   var prev_state = cur_state;
+  var sequence;
+  var i;
+  var transition;
+  
   if (!state.fw) return;
-  var transition = transitions[state.fw];
-  var i, j, assign, style;
-  
-  transit_fw(state.fw);
-  
-  if(transition.to) {
-    cur_state = transition.to; // finally, change current state
-    variables["state"].innerHTML = cur_state; // display state
+  if (Array.isArray(state.fw)) {
+    sequence = state.fw;
+  } else {
+    sequence = [state.fw];
+  }
+  for (i = 0; i < sequence.length; i++) {
+    transit_fw(sequence[i]);
+    transition = transitions[sequence[i]];
+    if(transition.to) {
+      cur_state = transition.to; // finally, change current state
+      variables["state"].innerHTML = cur_state; // display state
+    }
   }
   variables[states[prev_state].co].style.cssText = "display:none;";
   variables[states[cur_state].co].style.cssText = "";
+  enter_state(cur_state);
 }
 
 function backwards() {
   var state = states[cur_state];
   var prev_state = cur_state;
+/*
   if (!state.bk) return;
   var transition = transitions[state.bk];
-  var i, j, assign;
 
   transit_bw(state.bk);
   
@@ -1158,8 +1268,56 @@ function backwards() {
     cur_state = transition.from; // finally, change current state
     variables["state"].innerHTML = cur_state; // display state
   }
+*/  
+  var sequence;
+  var i;
+  var transition;
+  
+  if (!state.bk) return;
+  if (Array.isArray(state.bk)) {
+    sequence = state.bk;
+  } else {
+    sequence = [state.bk];
+  }
+  for (i = 0; i < sequence.length; i++) {
+    transit_bw(sequence[i]);
+    transition = transitions[sequence[i]];
+    if(transition.from) {
+      cur_state = transition.from; // finally, change current state
+      variables["state"].innerHTML = cur_state; // display state
+    }
+  }
+  
   variables[states[prev_state].co].style.cssText = "display:none;";
   variables[states[cur_state].co].style.cssText = "";
+  enter_state(cur_state);
+}
+
+function explain() {
+  var state = states[cur_state];
+  var prev_state = cur_state;
+  if (!state.xpln) return;
+  var transition = transitions[state.xpln];
+
+  transit_fw(state.xpln);
+  if(transition.to) {
+    cur_state = transition.to; // finally, change current state
+    variables["state"].innerHTML = cur_state; // display state
+  }
+  variables[states[prev_state].co].style.cssText = "display:none;";
+  variables[states[cur_state].co].style.cssText = "";
+  enter_state(cur_state);
+}
+
+function scroll_needed(element, container) {
+  var elementTop = element.getBoundingClientRect().top;
+  var elementBottom = element.getBoundingClientRect().bottom;
+  var containerTop = container.getBoundingClientRect().top;
+  var containerBottom = container.getBoundingClientRect().bottom;
+  
+  if (elementTop < containerTop) return -1;
+  if (elementBottom > containerBottom) return 1;
+  return 0;
 }
 
 // Initialize

@@ -56,7 +56,9 @@ program.<br/>
 By: Mikko Levanto and Ari Okkonen 2019</span>
 <span id="co_s0_1" style="display:none">Execution is started from the 
 <em>goal</em>. The first characters of the goal are ":-".</span>
-<span id="co_s1" style="display:none">The goal is instatiated allocating memory for the variables.</span>
+<span id="co_s1" style="display:none">The goal is instatiated allocating memory for the variables: <code>Route&#x2081;</code> for <code>Route</code> and <code>Len&#x2081;</code> for <code>Len</code>. (In this visualization 
+the subscripts are used to differentiate different variable instances with the
+same name.)</span>
 <span id="co_s1a" style="display:none">Predicate <code>route</code> is called 
 with the following parameters:...</span>
 <span id="co_s1b" style="display:none">...symbols (the first character must be 
@@ -64,9 +66,36 @@ lower case) defining the beginning and the end of the route,...</span>
 <span id="co_s1c" style="display:none">...an empty list meaning no junctions to 
 avoid, and...</span>
 <span id="co_s1d" style="display:none">...variables (the
-first character must be upper case) to return the results. (In this visualization 
-the subscripts are used to differentiate different variable instances with the
-same name.)</span>
+first character must be upper case) to return the results.</span>
+<span id="co_s2_1" style="display:none">
+First the <code>route</code> predicate is called. The database is searched for
+a matching fact or rule. The first rule or fact of the <code>route</code> is
+compared to the call.
+</span>
+<span id="co_s2_2" style="display:none">
+The first parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>Town</code> will be
+replaced with the value <code>oulu</code> everywhere in the clause.
+</span>
+
+<span id="co_s2_3" style="display:none">
+The second parameter of the called predicate is compared to the call. Because
+it is a definite value and different from the value in the call it does not match.
+So, the head of the clause does not match the call. The database will be searched
+for another clause of the <code>route</code> predicate.
+</span>
+
+<span id="co_s2x" style="display:none">The second clause of <code>route</code>
+ matches, it is instantiated, and the parameters are unified.</span>
+
+
+
+
+
+
+
+
+
 <span id="co_s2" style="display:none">The second clause of <code>route</code>
  matches, it is instantiated, and the parameters are unified.</span>
 <span id="co_s3" style="display:none">Next subgoal (&#8776;statement)</span>
@@ -198,6 +227,11 @@ success to fail and vv. OK. Not in the loop. Go on!</span>
 <span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, joensuu, <span id="s1_goal_totownx_B">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
 <span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A">Len&#x2081;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
 </pre></span>
+
+<!-- *** route s9 *** --><span id="s9" style="display:none"><pre>
+<span id="s9_route_1">&rArr;</span> route(<span id="s9_route_town">Town</span>, <span id="s9_route_town_A">Town</span>, _, [<span id="s9_route_town_B">Town</span>], 0). <span id="s9_route_1_1x"></span> % 1
+</pre></span>
+
 <!-- *** goal s1 *** --><span id="s1" style="display:none"><pre>
 <span id="s1_goal_1">&rArr;</span> :- <span id="s1_goal_1a">route</span>(<span id="s1_goal_1b">oulu</span>, <span id="s1_goal_1b1">joensuu</span>, <span id="s1_goal_1cc">[]</span>, <span id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
 <span id="s1_goal_2">&rArr;</span>   writeln(<span id="s1_goal_route_A">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
@@ -334,16 +368,57 @@ var transitions = {
         to:"background-color:#80ffff; font-weight: bold;"},
     ]
   },
+  
+  "tx0e":{
+    from:"s1d", to:"s1e", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1"], from:"", to:"display:none;"},
+    
+      {ids:["s9"], from:"display:none;", to:""},
+      {ids:["s9_route_1"], from:"visibility:hidden;", to:""},
+      
+    ]
+  },
+  
+  
   "tx0x":{
     from:"s1", to:"s1", 
     assign:[
     ],
     style:[
       {ids:["s1_goal_route", "s1_goal_len", "s1_goal_1cc", "s1_goal_1b", 
-        "s1_goal_1b1", "s1_goal_1b", "s1_goal_1b1", "s1_goal_1a"], 
+        "s1_goal_1b1", "s1_goal_1b", "s1_goal_1b1", "s1_goal_1a",
+        "s9_route_town"], 
         from:"", to:""},
     ]
   },
+
+  "tx0f":{
+    from:"s1e", to:"s1f", 
+    assign:[
+    ],
+    style:[
+      {ids:["s9_route_town", "s1_goal_1b"], from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+      
+    ]
+  },
+ 
+  "tx0g":{
+    from:"s1f", to:"s1g", 
+    assign:[
+      {ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"], 
+        from:"Town", to:"oulu"},
+    ],
+    style:[
+      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", 
+        to:"background-color:#ffcccc; font-weight: bold;"},
+      
+    ]
+  },
+ 
   
   "t1":{
     from:"s1", to:"s2", 
@@ -359,6 +434,17 @@ var transitions = {
       {ids:["s1_goal_1c", "s2_route_2"], from:"visibility:hidden;", to:""},
     ]
   },
+
+  "t2_1":{
+    from:"s1", to:"s2", 
+    assign:[
+    ],
+    style:[
+      {ids:["s2_route_2"], from:"", to:"visibility:hidden;"},
+      {ids:["s2_route_2_1"], from:"visibility:hidden;", to:""},
+    ]
+  },
+
   "t2":{
     from:"s2", to:"s3", 
     assign:[
@@ -1085,7 +1171,12 @@ var states = {
   "s1a":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0b", co:"co_s1a"},
   "s1b":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0c", co:"co_s1b"},
   "s1c":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0d", co:"co_s1c"},
-  "s1d":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], co:"co_s1d"},
+  "s1d":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:["tx0x", "tx0e"], co:"co_s1d"},
+  "s1e":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:["tx0x",  "tx0f"], co:"co_s2_1"},
+  "s1f":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:["tx0x",  "tx0g"], co:"co_s2_2"},
+
+  "s1g":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], co:"co_s2_3"},
+
   "s2":{fw:"t2", bk:"t1", co:"co_s2"},
   "s3":{fw:"t3", bk:"t2", co:"co_s3"},
   "s4":{fw:"t4", bk:"t3", co:"co_s4"},
@@ -1170,7 +1261,36 @@ function transit_fw(tr_id) {
       variables[assign.ids[j]].innerHTML = assign.to;
     }
   }
-    
+
+  scroll_to_show(transition);
+/*  
+  for (i = 0; i < transition.style.length; i++) { // for all affected variables
+    style = transition.style[i];
+    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
+      var current_var = variables[style.ids[j]];
+      var scrolling;
+/-*
+      if(variables[style.ids[j]].innerHTML != style.from) {
+        alert("Style of " + ids[j] + " is " + 
+          variables[style.ids[j]].innerHTML + ", sb " + style.from);
+      }
+*-/
+      current_var.style.cssText = style.to;
+      if(style.from.endsWith("hidden;")) {
+        scrolling = scroll_needed(current_var, main_area);
+        if (scrolling) {
+          current_var.scrollIntoView(scrolling < 0);
+          window.scrollTo(0, 0);
+        }
+      }
+    }
+  }
+*/
+}
+
+function scroll_to_show(transition) {
+  var style;
+  
   for (i = 0; i < transition.style.length; i++) { // for all affected variables
     style = transition.style[i];
     for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
@@ -1298,12 +1418,33 @@ function explain() {
   var prev_state = cur_state;
   if (!state.xpln) return;
   var transition = transitions[state.xpln];
+  var sequence;
+  var i;
 
-  transit_fw(state.xpln);
-  if(transition.to) {
-    cur_state = transition.to; // finally, change current state
-    variables["state"].innerHTML = cur_state; // display state
+  if (!state.xpln) return;
+  if (Array.isArray(state.xpln)) {
+    sequence = state.xpln;
+  } else {
+    sequence = [state.xpln];
   }
+  for (i = 0; i < sequence.length; i++) {
+    transit_fw(sequence[i]);
+    transition = transitions[sequence[i]];
+    if(transition.to) {
+      cur_state = transition.to; // finally, change current state
+      variables["state"].innerHTML = cur_state; // display state
+    }
+  }
+  scroll_to_show(transition);
+
+
+
+
+//  transit_fw(state.xpln);
+//  if(transition.to) {
+//    cur_state = transition.to; // finally, change current state
+//    variables["state"].innerHTML = cur_state; // display state
+//  }
   variables[states[prev_state].co].style.cssText = "display:none;";
   variables[states[cur_state].co].style.cssText = "";
   enter_state(cur_state);

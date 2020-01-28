@@ -1,0 +1,5 @@
+Jalog_animation.html:
+---------------------
+
+* Pitäisikö instantioitujen muuttujien olla eri fontilla tai värillä kuin
+  koodin muuttujat?

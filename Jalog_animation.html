@@ -32,6 +32,19 @@ body {
   margin-bottom: 2px;
   overflow-Y: scroll;
 }
+  .comment p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    
+  }
+  .s {
+  }
+  .x {
+  }
+
+
 .main {
   height: calc(100% - 120px);
   overflow-Y: scroll;
@@ -50,124 +63,126 @@ pre {margin-left:1em;}
 </div>
 
 <div class="comment">
-<span id="co_s" style="display:none"></span>
-<span id="co_start">Ready. Push Step to start animating a Jalog (Prolog) 
+<p id="co_s" style="display:none"></p>
+<p id="co_start">Ready. Push Step to start animating a Jalog (Prolog) 
 program.<br/>
-By: Mikko Levanto and Ari Okkonen 2019</span>
-<span id="co_s0_1" style="display:none">Execution is started from the 
-<em>goal</em>. The first characters of the goal are ":-".</span>
-<span id="co_s1" style="display:none">The goal is instatiated allocating memory for the variables: <code>Route&#x2081;</code> for <code>Route</code> and <code>Len&#x2081;</code> for <code>Len</code>. (In this visualization 
-the subscripts are used to differentiate different variable instances with the
-same name.)</span>
-<span id="co_s1a" style="display:none">Predicate <code>route</code> is called 
-with the following parameters:...</span>
-<span id="co_s1b" style="display:none">...symbols (the first character must be 
-lower case) defining the beginning and the end of the route,...</span>
-<span id="co_s1c" style="display:none">...an empty list meaning no junctions to 
-avoid, and...</span>
-<span id="co_s1d" style="display:none">...variables (the
-first character must be upper case) to return the results.</span>
-<span id="co_s2_1" style="display:none">
-First the <code>route</code> predicate is called. The database is searched for
-a matching fact or rule. The first rule or fact of the <code>route</code> is
-compared to the call.
-</span>
-<span id="co_s2_2" style="display:none">
+By: Mikko Levanto and Ari Okkonen 2019</p>
+<p id="co_s0_1" style="display:none">
+Execution is started from the 
+<em>goal</em>. The first characters of the goal are ":-".</p>
+<p id="co_s1" style="display:none">
+The goal is instantiated creating a variable for  each variable name in the clause. Variable names begin with an uppercase letter or underscore. Variables are local and not visible outside of the clause. In this example variable <code>Route&#x2081;</code> is created for the name <code>Route</code> and likewise <code>Len&#x2081;</code> for <code>Len</code>. (In this visualization the subscripts are used to differentiate different variable instances with the same name.) After instantiation execution of the instantiated clause is started. First the predicate <code>route</code> is called.</p>
+<p class="x" id="co_s1a" style="display:none">
+Predicate <code>route</code> is called 
+with the following parameters:...</p>
+<p class="x" id="co_s1b" style="display:none">
+...symbols (the first character must be 
+lower case) defining the beginning and the end of the route,...</p>
+<p class="x" id="co_s1c" style="display:none">
+...an empty list meaning no junctions to 
+avoid, and...</p>
+<p class="x" id="co_s1d" style="display:none">
+...variables to return the results.</p>
+<p class="x" id="co_s2_1" style="display:none">
+The database is searched for a matching clause. The head of the first clause of <code>route</code> is compared to the call.
+</p>
+<p class="x" id="co_s2_2" style="display:none">
 The first parameter of the called predicate is compared to the call. Because it is
 a variable, it matches and can be unified: the variable <code>Town</code> will be
 replaced with the value <code>oulu</code> everywhere in the clause.
-</span>
+</p>
 
-<span id="co_s2_3" style="display:none">
+<p class="x" id="co_s2_3" style="display:none">
 The second parameter of the called predicate is compared to the call. Because
 it is a definite value and different from the value in the call it does not match.
 So, the head of the clause does not match the call. The database will be searched
 for another clause of the <code>route</code> predicate.
-</span>
+</p>
 
-<span id="co_s2x" style="display:none">The second clause of <code>route</code>
- matches, it is instantiated, and the parameters are unified.</span>
-
-
-
+<p id="co_s2x" style="display:none">
+The first matching clause of <code>route</code> is the second one.
+It is instantiated, and the parameters are unified.</p>
 
 
 
 
 
 
-<span id="co_s2" style="display:none">The second clause of <code>route</code>
- matches, it is instantiated, and the parameters are unified.</span>
-<span id="co_s3" style="display:none">Next subgoal (&#8776;statement)</span>
-<span id="co_s4" style="display:none">Variable unified. An empty list at the end of a list is implicit and need not to be shown.</span>
-<span id="co_s5" style="display:none">The first clause of 
-<code>connected</code> is instantiated.</span>
-<span id="co_s6" style="display:none">Searching a <code>road</code> from <code>
-oulu</code>.</span>
-<span id="co_s7" style="display:none">Not found! <br/><b>NOTE:</b> Roads are
-defined in single direction only.</span>
-<span id="co_s8" style="display:none">The second clause of 
-<code>connected</code> is instantiated.</span>
-<span id="co_s9" style="display:none">Searching a <code>road</code> <b>to</b> 
-<code>oulu</code>.</span>
-<span id="co_s10" style="display:none">Found a <code>road</code> from 
-<code>kajaani</code> to <code>oulu</code>.</span>
-<span id="co_s11" style="display:none">Connection from <code>oulu</code> to
-<code>kajaani</code> found.</span>
-<span id="co_s12" style="display:none">Check that <code>kajaani</code> is not
- visited yet.</span>
-<span id="co_s13" style="display:none"><code>kajaani</code> is not in the
-beginning of the path already travelled.</span>
-<span id="co_s14" style="display:none">Is it visited later.</span>
-<span id="co_s15" style="display:none">No. Already at the end of the travelled
-path.</span>
-<span id="co_s16" style="display:none"><code>not</code> succeeds, if the
-argument fails.</span>
-<span id="co_s17" style="display:none">Ok. <code>kajaani</code> is not visited.
-Trying to find a route from <code>kajaani</code>.</span>
-<span id="co_s18" style="display:none">Do we find a route from 
+
+
+
+<p id="co_s2" style="display:none">The second clause of <code>route</code>
+ matches, it is instantiated, and the parameters are unified.</p>
+<p id="co_s3" style="display:none">Next subgoal (&#8776;statement)</p>
+<p id="co_s4" style="display:none">Variable unified. An empty list at the end of a list is implicit and need not to be shown.</p>
+<p id="co_s5" style="display:none">The first clause of 
+<code>connected</code> is instantiated.</p>
+<p id="co_s6" style="display:none">Searching a <code>road</code> from <code>
+oulu</code>.</p>
+<p id="co_s7" style="display:none">Not found! <br/><b>NOTE:</b> Roads are
+defined in single direction only.</p>
+<p id="co_s8" style="display:none">The second clause of 
+<code>connected</code> is instantiated.</p>
+<p id="co_s9" style="display:none">Searching a <code>road</code> <b>to</b> 
+<code>oulu</code>.</p>
+<p id="co_s10" style="display:none">Found a <code>road</code> from 
+<code>kajaani</code> to <code>oulu</code>.</p>
+<p id="co_s11" style="display:none">Connection from <code>oulu</code> to
+<code>kajaani</code> found.</p>
+<p id="co_s12" style="display:none">Check that <code>kajaani</code> is not
+ visited yet.</p>
+<p id="co_s13" style="display:none"><code>kajaani</code> is not in the
+beginning of the path already travelled.</p>
+<p id="co_s14" style="display:none">Is it visited later.</p>
+<p id="co_s15" style="display:none">No. Already at the end of the travelled
+path.</p>
+<p id="co_s16" style="display:none"><code>not</code> succeeds, if the
+argument fails.</p>
+<p id="co_s17" style="display:none">Ok. <code>kajaani</code> is not visited.
+Trying to find a route from <code>kajaani</code>.</p>
+<p id="co_s18" style="display:none">Do we find a route from 
 <code>kajaani</code> to <code>joensuu</code> without visiting 
-<code>oulu</code>?</span>
-<span id="co_s19" style="display:none"></span>
-<span id="co_s20" style="display:none">Where we can go from 
-<code>kajaani</code>?</span>
-<span id="co_s21" style="display:none">Searching a road from 
-<code>kajaani</code>.</span>
-<span id="co_s22" style="display:none">Searching a road from 
-<code>kajaani</code>.</span>
-<span id="co_s23" style="display:none">Found a road to <code>oulu</code>.</span>
-<span id="co_s24" style="display:none">Found a road to <code>oulu</code>.</span>
-<span id="co_s25" style="display:none">Be sure the route does not include <code>oulu</code> already to avoid looping!</span>
-<span id="co_s26" style="display:none">Is <code>oulu</code> in the list?</span>
-<span id="co_s27" style="display:none">Is <code>oulu</code> in the list?</span>
-<span id="co_s28" style="display:none">Yes, <code>oulu</code> is in the list.</span>
-<span id="co_s29" style="display:none">Yes, <code>oulu</code> is in the list.</span>
-<span id="co_s30" style="display:none">The <code>not</code> operator changes
-success to fail and vv. A place already visited does not apply.</span>
-<span id="co_s31" style="display:none">Searching another connection.</span>
-<span id="co_s32" style="display:none">Another road from <code>kajaani</code>?</span>
-<span id="co_s33" style="display:none">No.</span>
-<span id="co_s34" style="display:none">Searching another connection.</span>
-<span id="co_s35" style="display:none">Road to <code>kajaani</code>?</span>
-<span id="co_s36" style="display:none">Yes, from <code>joensuu</code>.</span>
-<span id="co_s37" style="display:none">Found a 230 km connection between <code>kajaani</code> and <code>joensuu</code>.</span>
-<span id="co_s38" style="display:none">Travelled via <code>joensuu</code> already?</span>
-<span id="co_s39" style="display:none">Is <code>joensuu</code> in the list?</span>
-<span id="co_s40" style="display:none">Is <code>joensuu</code> in the list?</span>
-<span id="co_s41" style="display:none">Is <code>joensuu</code> in the list?</span>
-<span id="co_s42" style="display:none">No, <code>joensuu</code> is not in the list.</span>
-<span id="co_s43" style="display:none"></span>
-<span id="co_s44" style="display:none"></span>
-<span id="co_s45" style="display:none">The <code>not</code> operator changes
-success to fail and vv. OK. Not in the loop. Go on!</span>
-<span id="co_s46" style="display:none">Do we have a route from <code>joensuu</code> to <code>joensuu</code>? Can our program sort it out?</span>
-<span id="co_s47" style="display:none">Yes! There is 0 kilometers from <code>joensuu</code> to <code>joensuu</code>!</span>
-<span id="co_s48" style="display:none">Total length from <code>kajaani</code> to our destination <code>joensuu</code>...</span>
-<span id="co_s49" style="display:none">... is 230 km.</span>
-<span id="co_s50" style="display:none">Total length from <code>oulu</code> to our destination <code>joensuu</code>...</span>
-<span id="co_s51" style="display:none">... is 413 km. You can find that the results are already in place to be displayed.</span>
-<span id="co_s52" style="display:none">And now...</span>
-<span id="co_end" style="display:none">... display the results and finish.</span>
+<code>oulu</code>?</p>
+<p id="co_s19" style="display:none"></p>
+<p id="co_s20" style="display:none">Where we can go from 
+<code>kajaani</code>?</p>
+<p id="co_s21" style="display:none">Searching a road from 
+<code>kajaani</code>.</p>
+<p id="co_s22" style="display:none">Searching a road from 
+<code>kajaani</code>.</p>
+<p id="co_s23" style="display:none">Found a road to <code>oulu</code>.</p>
+<p id="co_s24" style="display:none">Found a road to <code>oulu</code>.</p>
+<p id="co_s25" style="display:none">Be sure the route does not include <code>oulu</code> already to avoid looping!</p>
+<p id="co_s26" style="display:none">Is <code>oulu</code> in the list?</p>
+<p id="co_s27" style="display:none">Is <code>oulu</code> in the list?</p>
+<p id="co_s28" style="display:none">Yes, <code>oulu</code> is in the list.</p>
+<p id="co_s29" style="display:none">Yes, <code>oulu</code> is in the list.</p>
+<p id="co_s30" style="display:none">The <code>not</code> operator changes
+success to fail and vv. A place already visited does not apply.</p>
+<p id="co_s31" style="display:none">Searching another connection.</p>
+<p id="co_s32" style="display:none">Another road from <code>kajaani</code>?</p>
+<p id="co_s33" style="display:none">No.</p>
+<p id="co_s34" style="display:none">Searching another connection.</p>
+<p id="co_s35" style="display:none">Road to <code>kajaani</code>?</p>
+<p id="co_s36" style="display:none">Yes, from <code>joensuu</code>.</p>
+<p id="co_s37" style="display:none">Found a 230 km connection between <code>kajaani</code> and <code>joensuu</code>.</p>
+<p id="co_s38" style="display:none">Travelled via <code>joensuu</code> already?</p>
+<p id="co_s39" style="display:none">Is <code>joensuu</code> in the list?</p>
+<p id="co_s40" style="display:none">Is <code>joensuu</code> in the list?</p>
+<p id="co_s41" style="display:none">Is <code>joensuu</code> in the list?</p>
+<p id="co_s42" style="display:none">No, <code>joensuu</code> is not in the list.</p>
+<p id="co_s43" style="display:none"></p>
+<p id="co_s44" style="display:none"></p>
+<p id="co_s45" style="display:none">The <code>not</code> operator changes
+success to fail and vv. OK. Not in the loop. Go on!</p>
+<p id="co_s46" style="display:none">Do we have a route from <code>joensuu</code> to <code>joensuu</code>? Can our program sort it out?</p>
+<p id="co_s47" style="display:none">Yes! There is 0 kilometers from <code>joensuu</code> to <code>joensuu</code>!</p>
+<p id="co_s48" style="display:none">Total length from <code>kajaani</code> to our destination <code>joensuu</code>...</p>
+<p id="co_s49" style="display:none">... is 230 km.</p>
+<p id="co_s50" style="display:none">Total length from <code>oulu</code> to our destination <code>joensuu</code>...</p>
+<p id="co_s51" style="display:none">... is 413 km. You can find that the results are already in place to be displayed.</p>
+<p id="co_s52" style="display:none">And now...</p>
+<p id="co_end" style="display:none">... display the results and finish.</p>
 </div>
 
 <div id="main" class="main">
@@ -394,6 +409,16 @@ var transitions = {
         from:"", to:""},
     ]
   },
+
+  "tx0y":{
+    from:"s1", to:"s1", 
+    assign:[
+    ],
+    style:[
+      {ids:["s9"], from:"display:none", to:"display:none;"},
+    ]
+  },
+
 
   "tx0f":{
     from:"s1e", to:"s1f", 
@@ -1172,10 +1197,10 @@ var states = {
   "s1b":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0c", co:"co_s1b"},
   "s1c":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:"tx0d", co:"co_s1c"},
   "s1d":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:["tx0x", "tx0e"], co:"co_s1d"},
-  "s1e":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:["tx0x",  "tx0f"], co:"co_s2_1"},
-  "s1f":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], xpln:["tx0x",  "tx0g"], co:"co_s2_2"},
+  "s1e":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "t0_1"], xpln:["tx0x",  "tx0f"], co:"co_s2_1"},
+  "s1f":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "t0_1"], xpln:["tx0x",  "tx0g"], co:"co_s2_2"},
 
-  "s1g":{fw:["tx0x", "t1"], bk:["tx0x", "t0_1"], co:"co_s2_3"},
+  "s1g":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "t0_1"], co:"co_s2_3"},
 
   "s2":{fw:"t2", bk:"t1", co:"co_s2"},
   "s3":{fw:"t3", bk:"t2", co:"co_s3"},

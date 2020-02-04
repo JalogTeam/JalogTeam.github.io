@@ -3,3 +3,8 @@ Jalog_animation.html:
 
 * Pitäisikö instantioitujen muuttujien olla eri fontilla tai värillä kuin
   koodin muuttujat?
+
+* Pitäisikö stäkkiä ja databasea voida skrollata erikseen?
+  - Pitäisikö noiden osioitten otsikoitten näkyä koko ajan?
+
+* Kutsunuoli punaiseksi silloin, kun kutsu tapahtuu.

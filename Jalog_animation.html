@@ -99,6 +99,27 @@ So, the head of the clause does not match the call. The database will be searche
 for next clause of the <code>route</code> predicate.
 </p>
 
+<p class="x" id="co_s2_4" style="display:none">
+The head of the second clause of <code>route</code> is compared to the call.
+</p>
+
+<p class="x" id="co_s2_5" style="display:none">
+The first parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>Town1</code> will be
+replaced with the value <code>oulu</code> everywhere in the clause.
+</p>
+
+<p class="x" id="co_s2_6" style="display:none">
+The second parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>Town2</code> will be
+replaced with the value <code>joensuu</code> everywhere in the clause.
+</p>
+
+
+
+
+
+
 <p id="co_s2x" style="display:none">
 The first matching clause of <code>route</code> is the second one.
 It is instantiated, and the parameters are unified.</p>
@@ -212,8 +233,8 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 -->
 
 <!-- *** connected s4 *** --><span id="s4" style="display:none"><pre>
-<span id="s4_connected_2">&rArr;</span> connected(<span id="s4_connected_town1">Town1</span>, <span id="s4_connected_town2">Town2</span>, <span id="s4_connected_length">Length</span>) :- % 2
-<span id="s4_connected_2_1">&rArr;</span>   road(<span id="s4_connected_town2_A">Town2</span>, <span id="s4_connected_town1_A">Town1</span>, <span id="s4_connected_length_A">Length</span>). <span id="s4_connected_1c">&rarr;</span><span id="s4_connected_2_1x"></span></pre></span>
+<span id="s4_connected_2">&rArr;</span> connected(<span class="v_town1_4">Town1</span>, <span class="v_town2_4">Town2</span>, <span class="v_length_4">Length</span>) :- % 2
+<span id="s4_connected_2_1">&rArr;</span>   road(<span class="v_town2_4">Town2</span>, <span class="v_town1_4">Town1</span>, <span class="v_length_4">Length</span>). <span id="s4_connected_1c">&rarr;</span><span id="s4_connected_2_1x"></span></pre></span>
 
 
 
@@ -224,7 +245,7 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 <span id="s3_connected_1_1">&rArr;</span>   road(<span id="s3_connected_town1_A">oulu</span>, <span id="s3_connected_town2_A">TownX&#x2082;</span>, <span id="s3_connected_length_A">Length1&#x2082;</span>). <span id="s3_connected_1_1c">&rarr;</span><span id="s3_connected_1_1x"></span></pre>
 </span>
 <!-- *** route s9 *** --><span id="s9" style="display:none"><pre>
-<span id="s9_route_1">&rArr;</span> route(<span id="s9_route_town" class="town_9">Town&#x2089;</span>, <span id="s9_route_town_A" class="town_9">Town&#x2089;</span>, _, [<span id="s9_route_town_B" class="town_9">Town&#x2089;</span>], 0). <span id="s9_route_1_1x"></span> % 1
+<span id="s9_route_1">&rArr;</span> route(<span id="s9_route_town" class="v_town_9">Town&#x2089;</span>, <span id="s9_route_town_A" class="v_town_9">Town&#x2089;</span>, _, [<span id="s9_route_town_B" class="v_town_9">Town&#x2089;</span>], 0). <span id="s9_route_1_1x"></span> % 1
 </pre></span>
 <!-- *** route s6 *** --><span id="s6" style="display:none"><pre>
 <span id="s6_route_2">&rArr;</span> route(kajaani, joensuu, [oulu|[]], [kajaani|<span id="s6_route_2_fromtown1">FromTown1&#x2086;</span>], <span id="s6_goal_length">Length2&#x2082;</span>) :-  % 2
@@ -240,19 +261,19 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 
 
 <!-- *** route s2 *** --><span id="s2" style="display:none"><pre>
-<span id="s2_route_2">&rArr;</span> route(oulu, joensuu, [], [oulu|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s2_route_length">Len&#x2081;</span>) :-  % 2
-<span id="s2_route_2_1">&rArr;</span>   <span id="s1_goal_totownx">ToTownX&#x2082;</span> = [oulu|[]],
-<span id="s2_route_2_2">&rArr;</span>   connected(oulu, <span id="s2_route_townx">TownX&#x2082;</span>, <span id="s2_route_length1">Length1&#x2082;</span>), <span id="s1_route_1c">&rarr;</span> 
-<span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span id="s1_goal_totownx_A">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="display:none">&rarr;</span><span id="s2_route_2_3x"></span>   
-<span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, joensuu, <span id="s1_goal_totownx_B">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
-<span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A">Len&#x2081;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
+<span id="s2_route_2">&rArr;</span> route(<span id="s2_route_town1" class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_town2" class="v2_town2">Town2&#x2082;</span>, <span id="s2_route_totown1" class="v2_totown1">ToTown1&#x2082;</span>, [<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s2_route_length">Len&#x2082;</span>) :-  % 2
+<span id="s2_route_2_1">&rArr;</span>   <span class="v_totownx_2">ToTownX&#x2082;</span> = [<span  class="v2_town1">Town1&#x2082;</span>|[]],
+<span id="s2_route_2_2">&rArr;</span>   connected(<span  class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_townx">TownX&#x2082;</span>, <span id="s2_route_length1">Length1&#x2082;</span>), <span id="s1_route_1c">&rarr;</span> 
+<span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="display:none">&rarr;</span><span id="s2_route_2_3x"></span>   
+<span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, <span class="v2_town2">Town2&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
+<span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A">Len&#x2082;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
 </pre></span>
 
 
-<!-- *** route s2h *** --><span id="s2h" style="display:none"><pre>
+<!-- *** route s2h *** -- ><span id="s2h" style="display:none"><pre>
 <span id="s2h_route_2">&rArr;</span> route(<span id="s2h_route_2_town1">Town1&#x2082;</span>, <span id="s2h_route_2_town1">Town2&#x2082;</span>, <span id="s2h_route_2_totown1">ToTown1&#x2082;</span>, [<span id="s2h_route_2_town1_A">Town1&#x2082;</span>|<span id="s2h_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s2_route_length">Len&#x2081;</span>) :-  % 2
 </pre></span>
-
+-->
 
 
 <!-- *** route s9 *** --><span id="s9" style="display:none"><pre>
@@ -260,8 +281,8 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 </pre></span>
 
 <!-- *** goal s1 *** --><span id="s1" style="display:none"><pre>
-<span id="s1_goal_1">&rArr;</span> :- <span id="s1_goal_1a">route</span>(<span id="s1_goal_1b">oulu</span>, <span id="s1_goal_1b1">joensuu</span>, <span id="s1_goal_1cc">[]</span>, <span id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
-<span id="s1_goal_2">&rArr;</span>   writeln(<span id="s1_goal_route_A">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
+<span id="s1_goal_1">&rArr;</span> :- <span id="s1_goal_1a">route</span>(<span id="s1_goal_1b">oulu</span>, <span id="s1_goal_1b1">joensuu</span>, <span id="s1_goal_1cc">[]</span>, <span class="v_route_1" id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
+<span id="s1_goal_2">&rArr;</span>   writeln(<span class="v_route_1">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
 </pre></span>
 <hr/>
 <h4>DATABASE</h4>
@@ -446,9 +467,7 @@ var transitions = {
   "tx0g":{
     from:"s1f", to:"s1g", 
     assign:[
-      {ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"],
-        classes:["town_9"],      
-        from:"Town", to:"oulu"},
+      {classes:["v_town_9"], from:"Town", to:"oulu"},
     ],
     style:[
       {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", 
@@ -456,24 +475,71 @@ var transitions = {
       
     ]
   },
-
-
-
-
-
-
  
+ 
+  "txr0g":{
+    from:"s1f", to:"s1g", 
+    assign:[
+      {classes:["v_town_9"], from:"Town&#x2089;", to:"oulu"},
+    ],
+    style:[
+      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
   "tx0h":{
     from:"s1g", to:"s1h", 
     assign:[
     ],
     style:[
-      {ids:["s9"], from:"", to:"visibility:hidden;"},
-      {ids:["s2h"], from:"visibility:hidden;", to:""},
+      {ids:["s9"], from:"", to:"display:none"},
+      {ids:["s2"], from:"display:none", to:""},
+      {ids:["s2_route_2_1", "s2_route_2_2", "s2_route_2_3", 
+        "s2_route_2_4", "s2_route_2_5", "s1_route_1c", "s2_route_2_4c"], 
+        from:"", to:"visibility:hidden;"},
     ]
   },
   
+  "tx0i":{
+    from:"s1h", to:"s1i", 
+    assign:[
+    ],
+    style:[
+      {ids:["s2_route_town1", "s1_goal_1b"], from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
  
+  "tx0j":{
+    from:"s1i", to:"s1j", 
+    assign:[
+      {classes:["v2_town1"], from:"Town1&#x2082;", to:"oulu"},
+    ],
+    style:[
+      {ids:["s2_route_town1", "s1_goal_1b"], 
+        from:"background-color:#80ffff; font-weight: bold;", 
+        to:""},
+        
+      {ids:["s2_route_town2", "s1_goal_1b1"], from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
+ 
+ 
+  "tx0k":{
+    from:"s1j", to:"s1k", 
+    assign:[
+      {classes:["v2_town2"], from:"Town2&#x2082;", to:"joensuu"},
+    ],
+    style:[
+       
+      {ids:["s2_route_town2", "s1_goal_1b1"], 
+        from:"background-color:#80ffff; font-weight: bold;", 
+        to:""},
+      {ids:["s2_route_totown1", "s1_goal_1cc"], from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
  
  
  
@@ -486,7 +552,7 @@ var transitions = {
   "t1":{
     from:"s1", to:"s2", 
     assign:[
-      {ids:["s1_goal_route", "s1_goal_route_A"], 
+      {classes:["v_route_1"], 
         from:"Route&#x2081;", to:"[oulu|FromTown1&#x2082;]"},
     ],
     style:[
@@ -520,7 +586,7 @@ var transitions = {
   "t3":{
     from:"s3", to:"s4", 
     assign:[
-      {ids:["s1_goal_totownx", "s1_goal_totownx_A", "s1_goal_totownx_B"], 
+      {classes:["v_totownx_2"], 
         from:"ToTownX&#x2082;", to:"[oulu]"},    
     ],
     style:[
@@ -562,11 +628,11 @@ var transitions = {
     from:"s7", to:"s8", 
     backtrack:["t6", "t5", "t4"],    
     assign:[
-      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+      {classes:["v_town1_4"], 
         from:"Town1", to:"oulu"},
-      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+      {classes:["v_town2_4"], 
         from:"Town2", to:"TownX&#x2082;"},
-      {ids:["s4_connected_length", "s4_connected_length_A"], 
+      {classes:["v_length_4"], 
         from:"Length", to:"Length1&#x2082;"},
     ],
     style:[
@@ -1242,9 +1308,21 @@ var states = {
     xpln:["tx0x",  "tx0g"], co:"co_s2_2"},
   "s1g":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
     xpln:["tx0x",  "tx0h"], co:"co_s2_3"},
-
   "s1h":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:[], co:"co_s2_3"},
+    xpln:["tx0x",  "tx0i"], co:"co_s2_4"},
+  "s1i":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:["tx0x",  "tx0j"], co:"co_s2_5"},
+
+  "s1j":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:["tx0x",  "tx0k"], co:"co_s2_6"},
+
+  "s1k":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:[], co:"co_s2_4"},
+  "s1l":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:[], co:"co_s2_4"},
+  "s1m":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:[], co:"co_s2_4"},
+
 
   "s2":{fw:"t2", bk:"t1", co:"co_s2"},
   "s3":{fw:"t3", bk:"t2", co:"co_s3"},
@@ -1376,6 +1454,7 @@ function transit_fw(tr_id) {
 function scroll_to_show(transition) {
   var style;
   
+  if (!transition || !transition.style) return;
   for (i = 0; i < transition.style.length; i++) { // for all affected variables
     style = transition.style[i];
     for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
@@ -1401,12 +1480,22 @@ function scroll_to_show(transition) {
 
 function transit_bw(tr_id) {
   var transition = transitions[tr_id];
-  var i, j, assign, style;
+  var i, j, k, assign, style;
   
   for (i = 0; i < transition.assign.length; i++) { // for all affected variables
     assign = transition.assign[i];
-    for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
-      variables[assign.ids[j]].innerHTML = assign.from;
+    if(assign.classes) {
+      for (j = 0; j < assign.classes.length; j++) {  // for all classes
+        elems = variable_classes[assign.classes[j]];
+        for (k = 0; k < elems.length; k++) {
+      
+          elems[k].innerHTML = assign.from;
+        }
+      }
+    } else {
+      for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
+        variables[assign.ids[j]].innerHTML = assign.from;
+      }
     }
   }
     
@@ -1427,7 +1516,9 @@ function transit_bw(tr_id) {
 function enter_state() {
   var state = states[cur_state];
 
-  if (state.hasOwnProperty('xpln')) {
+//  if (state.hasOwnProperty('xpln') && (state.xpln != [])) {
+  if (state.hasOwnProperty('xpln') && 
+      (!Array.isArray(state.xpln) || state.xpln.length > 0 )) {
     document.getElementById("explain").disabled = false;
   } else {
     document.getElementById("explain").disabled = true;
@@ -1502,6 +1593,7 @@ function explain() {
   var state = states[cur_state];
   var prev_state = cur_state;
   if (!state.xpln) return;
+  // what if state.xpln == []?
   var transition = transitions[state.xpln];
   var sequence;
   var i;

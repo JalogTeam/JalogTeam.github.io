@@ -71,7 +71,7 @@ By: Mikko Levanto and Ari Okkonen 2019</p>
 Execution is started from the 
 <em>goal</em>. The first characters of the goal are ":-".</p>
 <p id="co_s1" style="display:none">
-The goal is instantiated creating a variable for  each variable name in the clause. Variable names begin with an uppercase letter or underscore. Variables are local and not visible outside of the clause. In this example variable <code>Route&#x2081;</code> is created for the name <code>Route</code> and likewise <code>Len&#x2081;</code> for <code>Len</code>. (In this visualization the subscripts are used to differentiate different variable instances with the same name.) After instantiation execution of the instantiated clause is started. First the predicate <code>route</code> is called.</p>
+The goal is instantiated creating a variable for  each variable name in the clause. Variable names begin with an uppercase letter or underscore. Variables are local and not visible outside of the clause. In this example variable <code>Route&#x2081;</code> is created for the name <code>Route</code> and likewise <code>Len&#x2081;</code> for <code>Len</code>. (In this visualization the subscripts are used to differentiate different variable instances with the same name.) After instantiation the execution of the instantiated clause is started. First the predicate <code>route</code> is called.</p>
 <p class="x" id="co_s1a" style="display:none">
 Predicate <code>route</code> is called 
 with the following parameters:...</p>
@@ -115,6 +115,24 @@ a variable, it matches and can be unified: the variable <code>Town2</code> will 
 replaced with the value <code>joensuu</code> everywhere in the clause.
 </p>
 
+<p class="x" id="co_s2_7" style="display:none">
+The third parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>ToTown1</code> will be
+replaced with the value <code>[]</code> (i.e., an empty list) everywhere in the clause.
+</p>
+
+<p class="x" id="co_s2_8" style="display:none">
+The fourth parameter of the called predicate is compared to the call. 
+Because the call has a variable at this position it matches and can be
+unified: the variable <code>Route</code> in the calling clause will be
+replaced with the expression <code>[oulu|FromTown1&#x2082;]</code> everywhere
+in the calling clause.
+</p>
+
+<p class="x" id="co_s2_9" style="display:none">
+The fifth parameter of the called predicate is compared to the call.
+Because both are variables, they match and can be unified: one of the variables will be replaced with the other everywhere in the clause.
+</p>
 
 
 
@@ -261,12 +279,12 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 
 
 <!-- *** route s2 *** --><span id="s2" style="display:none"><pre>
-<span id="s2_route_2">&rArr;</span> route(<span id="s2_route_town1" class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_town2" class="v2_town2">Town2&#x2082;</span>, <span id="s2_route_totown1" class="v2_totown1">ToTown1&#x2082;</span>, [<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s2_route_length">Len&#x2082;</span>) :-  % 2
-<span id="s2_route_2_1">&rArr;</span>   <span class="v_totownx_2">ToTownX&#x2082;</span> = [<span  class="v2_town1">Town1&#x2082;</span>|[]],
+<span id="s2_route_2">&rArr;</span> route(<span id="s2_route_town1" class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_town2" class="v2_town2">Town2&#x2082;</span>, <span id="s2_route_totown1" class="v2_totown1">ToTown1&#x2082;</span>, <span  id="s2_route_param4">[<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>]</span>, <span id="s2_route_length" class="v2_len">Len&#x2082;</span>) :-  % 2
+<span id="s2_route_2_1">&rArr;</span>   <span class="v_totownx_2">ToTownX&#x2082;</span> = [<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_totown1A" class="v2_totown1">ToTown1&#x2082;</span>],
 <span id="s2_route_2_2">&rArr;</span>   connected(<span  class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_townx">TownX&#x2082;</span>, <span id="s2_route_length1">Length1&#x2082;</span>), <span id="s1_route_1c">&rarr;</span> 
 <span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="display:none">&rarr;</span><span id="s2_route_2_3x"></span>   
 <span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, <span class="v2_town2">Town2&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
-<span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A">Len&#x2082;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
+<span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A" class="v2_len">Len&#x2082;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
 </pre></span>
 
 
@@ -497,6 +515,8 @@ var transitions = {
       {ids:["s2_route_2_1", "s2_route_2_2", "s2_route_2_3", 
         "s2_route_2_4", "s2_route_2_5", "s1_route_1c", "s2_route_2_4c"], 
         from:"", to:"visibility:hidden;"},
+      {ids:["s2_route_2"], 
+        from:"visibility:hidden;", to:""},
     ]
   },
   
@@ -541,8 +561,57 @@ var transitions = {
     ]
   },
  
+  "tx0l":{
+    from:"s1k", to:"s1l", 
+    assign:[
+      {classes:["v2_totown1"], from:"ToTown1&#x2082;", to:"[]"},
+    ],
+    style:[
+      {ids:["s2_route_totown1", "s1_goal_1cc"], 
+        from:"background-color:#80ffff; font-weight: bold;", 
+        to:""},
+       
+      {ids:["s2_route_param4", "s1_goal_route"], 
+        from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
+ 
+  "tx0m":{
+    from:"s1l", to:"s1m", 
+    assign:[
+      {classes:["v_route_1"], from:"Route&#x2081;", to:"[oulu|FromTown1&#x2082;]"},
+    ],
+    style:[
+      {ids:["s2_route_param4", "s1_goal_route"], 
+        from:"background-color:#80ffff; font-weight: bold;", 
+        to:""},
+      {ids:["s2_route_length", "s1_goal_len_A"], 
+        from:"", 
+        to:"background-color:#80ffff; font-weight: bold;"},
+    ]
+  },
+ 
+  "tx0n":{
+    from:"s1m", to:"s2", 
+    assign:[
+      {classes:["v2_len"], from:"Len&#x2082;", to:"Len&#x2081;"},
+    ],
+    style:[
+      {ids:["s2_route_length", "s1_goal_len_A"], 
+        from:"background-color:#80ffff; font-weight: bold;", 
+        to:""},
+    ]
+  },
  
  
+  "tx0tox":{
+    from:"s1m", to:"s1x", 
+    assign:[
+    ],
+    style:[
+    ]
+  },
  
  
  
@@ -1297,32 +1366,36 @@ var states = {
   "start":{fw:"_start_1", bk:null, co:"co_start"},
   "s0_1":{fw:"t0_1", bk:"_start_1", co:"co_s0_1"},
   "s1":{fw:"t1", bk:"t0_1", xpln:"tx0a", co:"co_s1"},
-  "s1a":{fw:["tx0x", "t1"], bk:["tx0x", "t1"], xpln:"tx0b", co:"co_s1a"},
-  "s1b":{fw:["tx0x", "t1"], bk:["tx0x", "t1"], xpln:"tx0c", co:"co_s1b"},
-  "s1c":{fw:["tx0x", "t1"], bk:["tx0x", "t1"], xpln:"tx0d", co:"co_s1c"},
-  "s1d":{fw:["tx0x", "t1"], bk:["tx0x", "t1"], xpln:["tx0x", "tx0e"], 
+  "s1a":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0b", co:"co_s1a"},
+  "s1b":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0c", co:"co_s1b"},
+  "s1c":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0d", co:"co_s1c"},
+  "s1d":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:["tx0x", "tx0e"], 
     co:"co_s1d"},
-  "s1e":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"], 
+  "s1e":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"], 
     xpln:["tx0x",  "tx0f"], co:"co_s2_1"},
-  "s1f":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"], 
+  "s1f":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"], 
     xpln:["tx0x",  "tx0g"], co:"co_s2_2"},
-  "s1g":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+  "s1g":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
     xpln:["tx0x",  "tx0h"], co:"co_s2_3"},
-  "s1h":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+  "s1h":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
     xpln:["tx0x",  "tx0i"], co:"co_s2_4"},
-  "s1i":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+  "s1i":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
     xpln:["tx0x",  "tx0j"], co:"co_s2_5"},
-
-  "s1j":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+  "s1j":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
     xpln:["tx0x",  "tx0k"], co:"co_s2_6"},
+  "s1k":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:["tx0x",  "tx0l"], co:"co_s2_7"},
 
-  "s1k":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:[], co:"co_s2_4"},
-  "s1l":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:[], co:"co_s2_4"},
-  "s1m":{fw:["tx0x", "tx0y", "t1"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:[], co:"co_s2_4"},
+  "s1l":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:["tx0x",  "tx0m"], co:"co_s2_8"},
 
+  "s1m":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
+    xpln:["tx0x",  "tx0n"], co:"co_s2_9"},
+/**/
+  "s1x":{go:["tx0a", "tx0b", "tx0c", "tx0d", "tx0x", "tx0e",  "tx0f",
+    "tx0g",  "tx0h",  "tx0i",  "tx0j",  "tx0k",  "tx0l",  "tx0m",  
+    "tx0n"]},
+/**/
 
   "s2":{fw:"t2", bk:"t1", co:"co_s2"},
   "s3":{fw:"t3", bk:"t2", co:"co_s3"},
@@ -1533,20 +1606,32 @@ function forwards() {
   var transition;
   
   if (!state.fw) return;
+  variables[states[prev_state].co].style.cssText = "display:none;";
   if (Array.isArray(state.fw)) {
     sequence = state.fw;
   } else {
     sequence = [state.fw];
   }
-  for (i = 0; i < sequence.length; i++) {
-    transit_fw(sequence[i]);
-    transition = transitions[sequence[i]];
-    if(transition.to) {
-      cur_state = transition.to; // finally, change current state
-      variables["state"].innerHTML = cur_state; // display state
+  while (sequence) {
+    for (i = 0; i < sequence.length; i++) {
+      transit_fw(sequence[i]);
+      transition = transitions[sequence[i]];
+      if(transition.to) {
+        cur_state = transition.to; // finally, change current state
+        variables["state"].innerHTML = cur_state; // display state
+      }
+    }
+    
+    state = states[cur_state];
+    if (!state.go) {
+      sequence = null;
+    } else if (Array.isArray(state.go)) {
+      sequence = state.go;
+    } else {
+      sequence = [state.go];
     }
   }
-  variables[states[prev_state].co].style.cssText = "display:none;";
+
   variables[states[cur_state].co].style.cssText = "";
   enter_state(cur_state);
 }

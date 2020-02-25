@@ -8,3 +8,5 @@ Jalog_animation.html:
   - Pitäisikö noiden osioitten otsikoitten näkyä koko ajan?
 
 * Kutsunuoli punaiseksi silloin, kun kutsu tapahtuu.
+
+* Alaindeksit voisi muuttaa loogisemmiksi transitioissa tarpeen mukaan.

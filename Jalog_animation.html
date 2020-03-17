@@ -282,7 +282,7 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 <span id="s2_route_2">&rArr;</span> route(<span id="s2_route_town1" class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_town2" class="v2_town2">Town2&#x2082;</span>, <span id="s2_route_totown1" class="v2_totown1">ToTown1&#x2082;</span>, <span  id="s2_route_param4">[<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>]</span>, <span id="s2_route_length" class="v2_len">Len&#x2082;</span>) :-  % 2
 <span id="s2_route_2_1">&rArr;</span>   <span class="v_totownx_2">ToTownX&#x2082;</span> = [<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_totown1A" class="v2_totown1">ToTown1&#x2082;</span>],
 <span id="s2_route_2_2">&rArr;</span>   connected(<span  class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_townx">TownX&#x2082;</span>, <span id="s2_route_length1">Length1&#x2082;</span>), <span id="s1_route_1c">&rarr;</span> 
-<span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="display:none">&rarr;</span><span id="s2_route_2_3x"></span>   
+<span id="s2_route_2_3">&rArr;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="visibility:hidden">&rarr;</span><span id="s2_route_2_3x"></span>   
 <span id="s2_route_2_4">&rArr;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, <span class="v2_town2">Town2&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
 <span id="s2_route_2_5">&rArr;</span>   <span id="s2_route_length_A" class="v2_len">Len&#x2082;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
 </pre></span>
@@ -440,7 +440,7 @@ var transitions = {
     assign:[
     ],
     style:[
-      {ids:["s1_goal_1"], from:"", to:"display:none;"},
+      {ids:["s1_goal_1"], from:"", to:"visibility:hidden;"},
     
       {ids:["s9"], from:"display:none;", to:""},
       {ids:["s9_route_1"], from:"visibility:hidden;", to:""},
@@ -723,11 +723,14 @@ var transitions = {
   "t9":{
     from:"s9", to:"s10", 
     assign:[
-      {ids:["s4_connected_town2", "s4_connected_town2_A", "s2_route_townx",
+      {ids:[ "s2_route_townx",
         "s2_route_townx_A", "s2_route_townx_B"], from:"TownX&#x2082;", 
         to:"kajaani"},
-      {ids:["s4_connected_length", "s4_connected_length_A", "s2_route_length1",
+      {classes:["v_town2_4"], from:"TownX&#x2082;", 
+        to:"kajaani"},
+      {ids:[ "s2_route_length1",
         "s2_route_length1_A"], from:"Length1&#x2082;", to:"183"},
+      {classes:["v_length_4"], from:"Length1&#x2082;", to:"183"},
       {ids:["road_2x"], from:"", 
         to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
@@ -752,11 +755,17 @@ var transitions = {
   "t11":{
     from:"s11", to:"s12", 
     assign:[
-      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+//      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+//        from:"oulu", to:"Town1"},
+      {classes:["v_town1_4"], 
         from:"oulu", to:"Town1"},
-      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+//      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+//        from:"kajaani", to:"Town2"},
+      {classes:["v_town2_4"], 
         from:"kajaani", to:"Town2"},
-      {ids:["s4_connected_length", "s4_connected_length_A"], 
+//      {ids:["s4_connected_length", "s4_connected_length_A"], 
+//        from:"183", to:"Length"},
+      {classes:["v_length_4"], 
         from:"183", to:"Length"},
       {ids:["s4_connected_2_1x"], 
         from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
@@ -839,7 +848,8 @@ var transitions = {
     assign:[
       {ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"], 
         from:"FromTown1&#x2082;", to:"[kajaani|FromTown1&#x2086;]"},
-      {ids:["s1_goal_route", "s1_goal_route_A"], 
+//      {ids:["s1_goal_route", "s1_goal_route_A"], 
+      {classes:["v_route_1"], 
         from:"[oulu|FromTown1&#x2082;]", 
           to:"[oulu,kajaani|FromTown1&#x2086;]"},
     ],
@@ -1074,11 +1084,14 @@ var transitions = {
     from:"s33", to:"s34", 
     backtrack:["t33a", "t20", "t21"],    
     assign:[
-      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+//      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
+      {classes:["v_town1_4"], 
         from:"Town1", to:"kajaani"},
-      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+//      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
+      {classes:["v_town2_4"], 
         from:"Town2", to:"TownX&#x2086;"},
-      {ids:["s4_connected_length", "s4_connected_length_A"], 
+//      {ids:["s4_connected_length", "s4_connected_length_A"], 
+      {classes:["v_length_4"], 
         from:"Length", to:"Length1&#x2086;"},
     ],
     style:[
@@ -1110,11 +1123,14 @@ var transitions = {
   "t35":{
     from:"s35", to:"s36", 
     assign:[
-      {ids:["s4_connected_town2", "s4_connected_town2_A", "s6_route_townx",
+      {ids:["s6_route_townx",
         "s6_route_townx_A", "s6_route_townx_B"], 
         from:"TownX&#x2086;", to:"joensuu"},
-      {ids:["s4_connected_length", "s4_connected_length_A", 
+      {classes:["v_town2_4"], from:"TownX&#x2086;", to:"joensuu"},
+      {ids:[ 
         "s6_route_length1", "s6_route_length1_A"], 
+        from:"Length1&#x2086;", to:"230"},
+      {classes:["v_length_4"], 
         from:"Length1&#x2086;", to:"230"},
       {ids:["road_1x"], from:"", 
         to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
@@ -1265,7 +1281,8 @@ var transitions = {
         from:"FromTown1&#x2086;", to:"[joensuu]"},
       {ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"],
         from:"[kajaani|FromTown1&#x2086;]", to:"[kajaani, joensuu]"},
-      {ids:["s1_goal_route", "s1_goal_route_A"],
+//      {ids:["s1_goal_route", "s1_goal_route_A"],
+      {classes:["v_route_1"], 
         from:"[oulu,kajaani|FromTown1&#x2086;]", 
         to:"[oulu, kajaani, joensuu]"},
       {ids:["s1_goal_length2", "s1_goal_length2_A"],

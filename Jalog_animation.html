@@ -234,6 +234,13 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 </span>
 
 <h4>STACK</h4>
+
+<!-- *** road s11 *** --><span id="s11" style="display:none;"><pre>
+<span id="s11_road_1">&#x23E9;</span> road(joensuu, kajaani, 230). <span id="road_1x"></span> % 230 km road connection from Joensuu to Kajaani</pre></span>
+
+<!-- *** road s10 *** --><span id="s10" style="display:none;"><pre>
+<span id="s10_road_2">&#x23E9;</span> road(kajaani, oulu, 183). <span id="road_2x"></span> % 183 km road connection from Kajaani to Oulu</pre></span>
+
 <!-- *** member s7 *** --><span id="s7" style="display:none;"><pre>
 <span id="s7_member_1">&#x23E9;</span> member(<span id="s7_member_h">H</span>, [<span id="s7_member_h_A">H</span>|<span id="s7_member__">_</span>]). <span id="s7_member_1_1x"></span> % 1</pre></span>
 
@@ -306,8 +313,8 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 <h4>DATABASE</h4>
 
 <pre>
-<span id="road_1">  road(joensuu, kajaani, 230). <span id="road_1x"></span> % 230 km road connection from Joensuu to Kajaani</span>
-<span id="road_2">  road(kajaani, oulu, 183). <span id="road_2x"></span> % 183 km road connection from Kajaani to Oulu</span>
+<span id="road_1">  road(joensuu, kajaani, 230). % 230 km road connection from Joensuu to Kajaani</span>
+<span id="road_2">  road(kajaani, oulu, 183). % 183 km road connection from Kajaani to Oulu</span>
 
 
 <span id="member_1">  member(H, [H|_]). % 1</span>
@@ -348,6 +355,7 @@ var transitions = {
     ],
     style:[
       {ids:["_goal_1"], from:"", to:""},
+      {ids:["s1_goal_2"], from: "", to:"visibility:hidden;"},
     ]
   },
   "_start_1":{
@@ -721,7 +729,8 @@ var transitions = {
     style:[
       {ids:["road_2"], from:"", to:"background-color:#FFFF66;"},
       {ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s4_connected_1c", "road_2"], from:"visibility:hidden;", to:""},
+      {ids:["s4_connected_1c", "s10_road_2"], from:"visibility:hidden;", to:""},
+      {ids:["s10"], from:"display:none;", to:""},
     ]
   },
   "t10":{
@@ -735,7 +744,8 @@ var transitions = {
     style:[
       {ids:["road_2"], from:"background-color:#FFFF66;", to:""},
       {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
-      {ids:["road_2", "s4_connected_1c"], from:"", to:"visibility:hidden;"}, 
+      {ids:["s10_road_2", "s4_connected_1c"], from:"", to:"visibility:hidden;"}, 
+      {ids:["s10"], from:"", to:"display:none;"},
     ]
   },
   "t11":{
@@ -913,9 +923,10 @@ var transitions = {
         to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
     style:[
+      {ids:["s10"], from:"display:none;", to:""},
       {ids:["road_2"], from:"", to:"background-color:#FFFF66;"},
       {ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s3_connected_1_1c", "road_2"], from:"visibility:hidden;", to:""},
+      {ids:["s3_connected_1_1c", "s10_road_2"], from:"visibility:hidden;", to:""},
     ]
   },
   "t23":{
@@ -929,7 +940,8 @@ var transitions = {
     style:[
       {ids:["road_2"], from:"background-color:#FFFF66;", to:""},
       {ids:["s3_connected_1_1"], from:"visibility:hidden;", to:""},
-      {ids:["road_2", "s3_connected_1_1c"], from:"", to:"visibility:hidden;"}, 
+      {ids:["s10_road_2", "s3_connected_1_1c"], from:"", to:"visibility:hidden;"}, 
+      {ids:["s10"], from:"", to:"display:none;"}, 
     ]
   },
   "t24":{
@@ -1138,9 +1150,10 @@ var transitions = {
         to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
     style:[
+      {ids:["s11"], from:"display:none;", to:""},
       {ids:["road_1"], from:"", to:"background-color:#FFFF66;"},
       {ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;"},
-      {ids:["road_1", "s4_connected_1c"], from:"visibility:hidden;", to:""},
+      {ids:["s11_road_1", "s4_connected_1c"], from:"visibility:hidden;", to:""},
     ]
   },
   "t36":{
@@ -1152,9 +1165,10 @@ var transitions = {
         to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
     ],
     style:[
+      {ids:["s11"], from:"", to:"display:none;"},
       {ids:["road_1"], from:"background-color:#FFFF66;", to:""},
       {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
-      {ids:["road_1", "s4_connected_1c"], from:"", to:"visibility:hidden;"},
+      {ids:["s11_road_1", "s4_connected_1c"], from:"", to:"visibility:hidden;"},
     ]
   },
   "t37":{

@@ -373,7 +373,7 @@ var transitions = {
       {ids:["state"], from:"init", to:"start"}
     ],
     style:[
-      {ids:["_goal_1"], from:"", to:""},
+//      {ids:["_goal_1"], from:"", to:""},
       {ids:["s1_goal_2"], from: "", to:"visibility:hidden;"},
     ]
   },
@@ -382,7 +382,7 @@ var transitions = {
     assign:[
     ],
     style:[
-      {ids:["_goal_1"], from:"visibility:hidden;", to:""},
+//      {ids:["_goal_1"], from:"visibility:hidden;", to:""},
       {ids:["_goal_1_a"], from:"", to:"background-color:#80ffff; font-weight: bold;"},
     ]
   },
@@ -614,6 +614,49 @@ var transitions = {
     assign:[
     ],
     style:[
+    ]
+  },
+
+
+
+
+  "e1":{
+    from:"", to:"s1x", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1a"], from:"", to:""},
+      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s1_goal_1cc"], from:"", to:""},
+      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s1_goal_route", "s1_goal_len"], from:"", to:""},
+      {ids:["s9_route_town", "s1_goal_1b"], from:"", to:""},
+      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s2_route_town1", "s1_goal_1b"], from:"", to:""},
+      {ids:["s2_route_town2", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s2_route_totown1", "s1_goal_1cc"], from:"", to:""},
+      {ids:["s2_route_param4", "s1_goal_route"], from:"", to:""},
+      {ids:["s2_route_length", "s1_goal_len_A"], from:"", to:""},
+    ]
+  },
+
+  "e2":{
+    from:"", to:"", 
+    assign:[
+    ],
+    style:[
+      {ids:["s1_goal_1a"], from:"", to:""},
+      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s1_goal_1cc"], from:"", to:""},
+      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s1_goal_route", "s1_goal_len"], from:"", to:""},
+      {ids:["s9_route_town", "s1_goal_1b"], from:"", to:""},
+      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s2_route_town1", "s1_goal_1b"], from:"", to:""},
+      {ids:["s2_route_town2", "s1_goal_1b1"], from:"", to:""},
+      {ids:["s2_route_totown1", "s1_goal_1cc"], from:"", to:""},
+      {ids:["s2_route_param4", "s1_goal_route"], from:"", to:""},
+      {ids:["s2_route_length", "s1_goal_len_A"], from:"", to:""},
     ]
   },
  
@@ -1439,7 +1482,7 @@ var states = {
   "_init":{fw:"_init", bk:null, co:"co_s"},
   "start":{fw:"_start_1", bk:null, co:"co_start"},
   "s0_1":{fw:"t0_1", bk:"_start_1", co:"co_s0_1"},
-  "s1":{fw:"t1", bk:"t0_1", xpln:"tx0a", co:"co_s1"},
+  "s1":{fw:"t1", bk:"t0_1", enter:"e1", xpln:"tx0a", co:"co_s1"},
   "s1a":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0b", co:"co_s1a"},
   "s1b":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0c", co:"co_s1b"},
   "s1c":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0d", co:"co_s1c"},
@@ -1471,7 +1514,7 @@ var states = {
     "tx0n"]},
 /**/
 
-  "s2":{fw:"t2", bk:"t1", co:"co_s2"},
+  "s2":{fw:"t2", bk:"t1", enter:"e2", co:"co_s2"},
   "s3":{fw:"t3", bk:"t2", co:"co_s3"},
   "s4":{fw:"t4", bk:"t3", co:"co_s4"},
   "s5":{fw:"t5", bk:"t4", co:"co_s5"},
@@ -1665,13 +1708,40 @@ function transit_bw(tr_id) {
 
 function enter_state() {
   var state = states[cur_state];
+  var sequence;
+  var i;
 
-//  if (state.hasOwnProperty('xpln') && (state.xpln != [])) {
-  if (state.hasOwnProperty('xpln') && 
+  if (state.xpln && 
       (!Array.isArray(state.xpln) || state.xpln.length > 0 )) {
     document.getElementById("explain").disabled = false;
   } else {
     document.getElementById("explain").disabled = true;
+  }
+
+  if (state.fw && 
+      (!Array.isArray(state.fw) || state.fw.length > 0 )) {
+    document.getElementById("step").disabled = false;
+  } else {
+    document.getElementById("step").disabled = true;
+  }
+
+  if (state.bk && 
+      (!Array.isArray(state.bk) || state.bk.length > 0 )) {
+    document.getElementById("back").disabled = false;
+  } else {
+    document.getElementById("back").disabled = true;
+  }
+
+  if (state.enter) {
+    if (Array.isArray(state.enter)) {
+      sequence = state.enter;
+    } else {
+      sequence = [state.enter];
+    }
+    for (i = 0; i < sequence.length; i++) {
+      transit_fw(sequence[i]);
+    }
+      
   }
 }
 

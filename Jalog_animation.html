@@ -69,7 +69,7 @@ program.<br/>
 By: Mikko Levanto and Ari Okkonen 2019</p>
 <p id="co_s0_1" style="display:none">
 Execution is started from the 
-<em>goal</em>. The first characters of the goal are ":-".</p>
+<em>goal</em>. The first characters of the goal are <span style="background-color:#80ffff;">:-</span>.</p>
 <p id="co_s1" style="display:none">
 The goal is instantiated creating a variable for  each variable name in the clause. Variable names begin with an uppercase letter or underscore. Variables are local and not visible outside of the clause. In this example variable <code>Route&#x2081;</code> is created for the name <code>Route</code> and likewise <code>Len&#x2081;</code> for <code>Len</code>. (In this visualization the subscripts are used to differentiate different variable instances with the same name.) After instantiation the execution of the instantiated clause is started. First the predicate <code>route</code> is called.</p>
 <p class="x" id="co_s1a" style="display:none">
@@ -82,7 +82,7 @@ lower case) defining the beginning and the end of the route,...</p>
 ...an empty list meaning no junctions to 
 avoid, and...</p>
 <p class="x" id="co_s1d" style="display:none">
-...variables to return the results.</p>
+...variables to return the results. (The first character of a variable name must be upper case.)</p>
 <p class="x" id="co_s2_1" style="display:none">
 The database is searched for a matching clause. The head of the first clause of <code>route</code> is compared to the call.
 </p>
@@ -151,9 +151,13 @@ It is instantiated, and the parameters are unified.</p>
 
 
 <p id="co_s2" style="display:none">The second clause of <code>route</code>
- matches, it is instantiated, and the parameters are unified.</p>
-<p id="co_s3" style="display:none">Next subgoal (&#8776;statement)</p>
-<p id="co_s4" style="display:none">Variable unified. An empty list at the end of a list is implicit and need not to be shown.</p>
+ matches, it is instantiated, and the parameters are unified.
+The unified expressions (including single variables and values) are 
+compared. If the expressions are equivalent or they can be made equivalent substituting their variables with the corresponding expression from the other side and eveluating the arithmetic expressions, then the unification succeeds. If the unification fails, the clause fails. However, in this case the unification succeeds.
+ </p>
+<p id="co_s3" style="display:none">Next subgoal (&#8776;statement): The expressions on both sides of the equal sign are unified. In the unification the variable <code>ToTownX&#x2082;</code> is replaced by the value in the right side.</p>
+<p id="co_s4" style="display:none">Variable unified. An empty list at the end of a list is implicit and need not to be shown.<br/>
+Next the predicate <code>connected</code> is called.</p>
 <p id="co_s5" style="display:none">The first clause of 
 <code>connected</code> is instantiated.</p>
 <p id="co_s6" style="display:none">Searching a <code>road</code> from <code>
@@ -168,22 +172,27 @@ defined in single direction only.</p>
 <code>kajaani</code> to <code>oulu</code>.</p>
 <p id="co_s11" style="display:none">Connection from <code>oulu</code> to
 <code>kajaani</code> found.</p>
-<p id="co_s12" style="display:none">Check that <code>kajaani</code> is not
- visited yet.</p>
+<p id="co_s12" style="display:none">Here the argument of the operator <code>not</code> is executed first. The <code>not</code> succeeds if its argument fails but fails if the argument succeeds.<br/>
+Here it is used to check that <code>kajaani</code> is <b>not</b> visited yet.</p>
 <p id="co_s13" style="display:none"><code>kajaani</code> is not in the
-beginning of the path already travelled.</p>
-<p id="co_s14" style="display:none">Is it visited later.</p>
+beginning of the path already travelled. Therefore, the first clause of
+<code>member</code> does not match.</p>
+<p id="co_s14" style="display:none">Is it visited later?</p>
 <p id="co_s15" style="display:none">No. Already at the end of the travelled
 path.</p>
 <p id="co_s16" style="display:none"><code>not</code> succeeds, if the
 argument fails.</p>
-<p id="co_s17" style="display:none">Ok. <code>kajaani</code> is not visited.
-Trying to find a route from <code>kajaani</code>.</p>
+<p id="co_s17" style="display:none">Ok. <code>kajaani</code> is not visited.<br/>
+Next trying to find a route from <code>kajaani</code>.
+The predicate <code>route</code> will be called recursivey. The first clause does
+not match, so the second clause will be instantiated with new variables.</p>
 <p id="co_s18" style="display:none">Do we find a route from 
 <code>kajaani</code> to <code>joensuu</code> without visiting 
 <code>oulu</code>?</p>
-<p id="co_s19" style="display:none"></p>
-<p id="co_s20" style="display:none">Where we can go from 
+<p id="co_s19" style="display:none">Another unification</p>
+<p id="co_s20" style="display:none">Here the same list is written in two ways:
+on the left as comma separated members, on the right the first member as head
+and, after vertical bar, rest as tail.<br/>Where we can go from 
 <code>kajaani</code>?</p>
 <p id="co_s21" style="display:none">Searching a road from 
 <code>kajaani</code>.</p>
@@ -196,30 +205,40 @@ Trying to find a route from <code>kajaani</code>.</p>
 <p id="co_s27" style="display:none">Is <code>oulu</code> in the list?</p>
 <p id="co_s28" style="display:none">Yes, <code>oulu</code> is in the list.</p>
 <p id="co_s29" style="display:none">Yes, <code>oulu</code> is in the list.</p>
-<p id="co_s30" style="display:none">The <code>not</code> operator changes
-success to fail and vv. A place already visited does not apply.</p>
-<p id="co_s31" style="display:none">Searching another connection.</p>
-<p id="co_s32" style="display:none">Another road from <code>kajaani</code>?</p>
-<p id="co_s33" style="display:none">No.</p>
+<p id="co_s30" style="display:none"><code>member</code> succeeded, so <code>not</code> fails: A place already visited does not apply.</p>
+<p id="co_s31" style="display:none">After a fail execution goes backwards.
+Next the <code>connection</code> is recalled in order to find another connection.</p>
+<p id="co_s32" style="display:none">When retrying the instance of <code>connect</code> that was executed last is returned to the top of the stack. The execution is started from the end of the clause.<br/>
+Next the predicate road is retried: 
+Another road from <code>kajaani</code>?</p>
+<p id="co_s33" style="display:none">No other roads from <code>kajaani</code>.
+All variables that have given value 
+in the failed predicate lose their values.</p>
 <p id="co_s34" style="display:none">Searching another connection.</p>
 <p id="co_s35" style="display:none">Road to <code>kajaani</code>?</p>
 <p id="co_s36" style="display:none">Yes, from <code>joensuu</code>.</p>
 <p id="co_s37" style="display:none">Found a 230 km connection between <code>kajaani</code> and <code>joensuu</code>.</p>
 <p id="co_s38" style="display:none">Travelled via <code>joensuu</code> already?</p>
-<p id="co_s39" style="display:none">Is <code>joensuu</code> in the list?</p>
-<p id="co_s40" style="display:none">Is <code>joensuu</code> in the list?</p>
-<p id="co_s41" style="display:none">Is <code>joensuu</code> in the list?</p>
-<p id="co_s42" style="display:none">No, <code>joensuu</code> is not in the list.</p>
-<p id="co_s43" style="display:none"></p>
-<p id="co_s44" style="display:none"></p>
+<p id="co_s39" style="display:none"><code>joensuu</code> is not at the
+beginnig of the list.</p>
+<p id="co_s40" style="display:none">Is <code>joensuu</code> in the rest of the list?</p>
+<p id="co_s41" style="display:none"><code>joensuu</code> is not the next of 
+the list. </p>
+<p id="co_s42" style="display:none">Is <code>joensuu</code> in the rest of the list?</p>
+<p id="co_s43" style="display:none">No clause of <code>member</code> matches to the call: No, <code>joensuu</code> is not in the list.</p>
+<p id="co_s44" style="display:none">Call to <code>member</code> failed, so,
+this clause fails too.</p>
 <p id="co_s45" style="display:none">The <code>not</code> operator changes
 success to fail and vv. OK. Not in the loop. Go on!</p>
 <p id="co_s46" style="display:none">Do we have a route from <code>joensuu</code> to <code>joensuu</code>? Can our program sort it out?</p>
 <p id="co_s47" style="display:none">Yes! There is 0 kilometers from <code>joensuu</code> to <code>joensuu</code>!</p>
 <p id="co_s48" style="display:none">Total length from <code>kajaani</code> to our destination <code>joensuu</code>...</p>
-<p id="co_s49" style="display:none">... is 230 km.</p>
+<p id="co_s49" style="display:none">... is 230 km. In Jalog unification
+includes evaluation of arthmetic expressions if possible.</p>
 <p id="co_s50" style="display:none">Total length from <code>oulu</code> to our destination <code>joensuu</code>...</p>
-<p id="co_s51" style="display:none">... is 413 km. You can find that the results are already in place to be displayed.</p>
+<p id="co_s51" style="display:none">... is 413 km. You can find that the
+<span style="background-color:#80ffff; font-weight: bold;">results</span>
+are already in place to be displayed.</p>
 <p id="co_s52" style="display:none">And now...</p>
 <p id="co_end" style="display:none">... display the results and finish.</p>
 </div>
@@ -307,7 +326,7 @@ success to fail and vv. OK. Not in the loop. Go on!</p>
 
 <!-- *** goal s1 *** --><span id="s1" style="display:none"><pre>
 <span id="s1_goal_1">&#x23E9;</span> :- <span id="s1_goal_1a">route</span>(<span id="s1_goal_1b">oulu</span>, <span id="s1_goal_1b1">joensuu</span>, <span id="s1_goal_1cc">[]</span>, <span class="v_route_1" id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
-<span id="s1_goal_2">&#x23E9;</span>   writeln(<span class="v_route_1">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
+<span id="s1_goal_2">&#x23E9;</span>   writeln(<span class="v_route_1" id="s1_goal_route_A">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
 </pre></span>
 <hr/>
 <h4>DATABASE</h4>
@@ -882,7 +901,7 @@ var transitions = {
     from:"s19", to:"s20", 
     assign:[
       {ids:["s6_route_totownx", "s6_route_totownx_A", "s6_route_totownx_B"], 
-        from:"ToTownX&#x2086;", to:"[kajaani,oulu]"},
+        from:"ToTownX&#x2086;", to:"[kajaani, oulu]"},
     ],
     style:[
       {ids:["s6_route_2_1"], from:"", to:"visibility:hidden;"},
@@ -1056,8 +1075,7 @@ var transitions = {
   },
   "t31":{
     from:"s31", to:"s32", 
-    backtrack:[/*"t31a", */"t30", "t29", "t28", "t27", "t26", "t25", "t24", 
-      "t23", "t22"/*, "t31b"*/],
+    backtrack:["t30", "t29", "t28", "t27", "t26", "t25", "t24"],
     assign:[
       {ids:["s6_route_2_2x"], 
         from:"<font color=\"#008888\"><i>recall</i></font>", to:""},
@@ -1070,6 +1088,7 @@ var transitions = {
       {ids:["s3_connected_1_1"], from:"visibility:hidden;", to:""},
     ]
   },
+/*
   "t31a":{ // correcting backtrack-shortcut glitches
     from:"s31", to:"s31", 
     assign:[
@@ -1087,9 +1106,11 @@ var transitions = {
       {ids:["co_s22"], from:"", to:"display:none;"},
     ]
   },
-
+*/
   "t32":{
     from:"s32", to:"s33", 
+    backtrack:[ 
+      "t23", "t22"],
     assign:[
       {ids:["s3_connected_1_1x"], 
         from:"<font color=\"#008888\"><i>recall</i></font>", 
@@ -1372,6 +1393,8 @@ var transitions = {
         from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
    ],
     style:[
+      {ids:["s1_goal_route_A", "s1_goal_len_A"], from:"", 
+          to:"background-color:#80ffff; font-weight: bold;"}
     ]
   },
   "t51":{
@@ -1382,6 +1405,8 @@ var transitions = {
       {ids:["s2"], from:"", to:"display:none;"},
       {ids:["s1_goal_1c"], from:"", to:"visibility:hidden;"},
       {ids:["s1_goal_2"], from:"visibility:hidden;", to:""},
+      {ids:["s1_goal_route_A", "s1_goal_len_A"], 
+          from:"background-color:#80ffff; font-weight: bold;", to:""},
     ]
   },
   "t52":{

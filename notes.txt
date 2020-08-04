@@ -1,12 +1,20 @@
 Jalog_animation.html:
 ---------------------
 
+Ei akuutteja. Mietitään uudestaan versiossa 2.
+
 * Pitäisikö instantioitujen muuttujien olla eri fontilla tai värillä kuin
   koodin muuttujat?
+  -> Instantioiduissa alaindeksit, koodissa ei ole. Alaindeksit vastaavat
+     tarpeeseen.
 
 * Pitäisikö stäkkiä ja databasea voida skrollata erikseen?
   - Pitäisikö noiden osioitten otsikoitten näkyä koko ajan?
+  
+  -> Esimerkiksi leveällä näytöllä database ja stäk rinnakkaisilla palstoilla.
 
 * Kutsunuoli punaiseksi silloin, kun kutsu tapahtuu.
+  -> Ei taida tarvita.
 
 * Alaindeksit voisi muuttaa loogisemmiksi transitioissa tarpeen mukaan.
+  -> Hankala eikä tarpeeksi arvokas.

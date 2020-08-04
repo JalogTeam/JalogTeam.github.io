@@ -21,13 +21,15 @@
           </code><i>Option</i><code>, </code><i>Argument</i><code>)</code></b></font></dt>
       <dd>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;<i>Not implemented like other built-in
-        predicates. Instead arguments are stored as facts to the database.</i> </p>
-        <p>These are the command line arguments given to the program. </p>
-        <p>A command line example <b>Note</b> the equal sign separating an
-        option and its argument:</p>
+        predicates. Instead, each command line argument is stored to the
+        database as a separate fact.</i> </p>
+        <p>Returns information about one command line argument, if one can
+        be found.</p>
+        <p>A command line example:</p>
         <code>> java -jar jalog.jar myprogram.pro -foo=bar -up report.txt</code>
-        <p>stores the following facts to the database prior to starting 
-        <code>myprogram.pro</code>:</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<i><b>Note</b> the equal sign separating an option and its argument.</i></p>
+        <p>Parameters of this command line are stored to the database prior to starting 
+        <code>myprogram.pro</code> as following facts:</p>
         <pre>
 comline_arg(1, "foo", "bar").
 comline_arg(2, "up", "").
@@ -36,7 +38,7 @@ comline_arg(3, "", "report.txt").</pre>
 
       <dt><font size="+1"><b><code>consult(</code><i>Filename</i><code>)</code></b></font></dt>
       <dd>
-        <p>Reads the facts from the file <i>Filename</i> to the database.</p>
+        <p>Reads the facts and rules to the database and executes the goals from the file <i>Filename</i>.</p>
         <p>Example:</p>
         <p><code>consult("route_data.pro")</code></p>
       </dd>
@@ -54,14 +56,20 @@ comline_arg(3, "", "report.txt").</pre>
         <p><code>:- dynamic("route/3").</code></p>
       </dd>
 
-      <dt><font size="+1"><b><code>exit</code></b></font></dt>
+      <dt id="exit"><font size="+1"><b><code>exit</code></b></font></dt>
       <dd>
         <p>Terminates the program with exit code <code>0</code>.</p>
+        <p>However, if exit is called (typically very indirectly) in
+        execution of the first argument of <code>trap</code> then control
+        is transferred to the <a href="#trap"><code>trap</code></a> predicate.</p>
       </dd>
 
       <dt><font size="+1"><b><code>exit(</code><i>Int_value</i><code>)</code></b></font></dt>
       <dd>
         <p>Terminates the program with exit code <i>Int_value</i>.</p>
+        <p>However, if exit is called (typically very indirectly) in
+        execution of the first argument of <code>trap</code> then control
+        is transferred to the <a href="#trap"><code>trap</code></a> predicate.</p>
       </dd>
 
       <dt><font size="+1"><b><code>fail</code></b></font></dt>
@@ -124,10 +132,10 @@ comline_arg(3, "", "report.txt").</pre>
         succeeds.</p>
       </dd>
 
-      <dt><font size="+1"><b><code>trap(</code><i>Predicate_call</i><code>, </code>
+      <dt id="trap"><font size="+1"><b><code>trap(</code><i>Predicate_call</i><code>, </code>
         <i>Var_exit</i><code>, </code><i>Exception_handler</i><code>)</code></b></font></dt>
       <dd>
-        <p>Executes <i>Predicate_call</i>. If an exception happens
+        <p>Executes <i>Predicate_call</i>. If an exception happens or <a href="#exit"><code>exit</code></a> is called
         within the call, the exit code is bound to <i>Var_exit</i>, 
         <i>Exception_handler</i> is called, and finally the whole <code>trap</code>
         predicate fails.</p>

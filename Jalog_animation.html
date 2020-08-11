@@ -1,7 +1,6 @@
 <html>
 <!-- 
     Jalog (a dialect of Prolog) execution visuoalization demo
-
         Demonstration searches a path in a trivial network. However, it
         visualizes many aspects of the Jalog language (and Prolog) and its
         execution.
@@ -55,9 +54,10 @@ pre {margin-left:1em;}
 </head>
 <body>
 <div class="top">
-<button id="step" onclick="forwards()">Step</button>
-<button id="back" onclick="backwards()">Back</button>
-<button id="explain" disabled="diaabled" onclick="explain()">Explain more</button>
+<button id="step" onclick="move('step')">Step</button>
+<button id="back" onclick="move('back')">Back</button>
+<button id="explain" disabled="disabled" onclick="move('explain')"
+  >Explain more</button>
 
 <code><span id="state"><i>state</i></span></code>
 </div>
@@ -415,1252 +415,615 @@ are already in place to be displayed.</p>
 </div>
 <script>
 <!--
-var transitions = {
-  "_init":{
-    from:null, to:"start", 
-    assign:[
-      {ids:["state"], from:"init", to:"start"}
-    ],
-    style:[
-//      {ids:["_goal_1"], from:"", to:""},
-      {ids:["s1_goal_2"], from: "", to:"visibility:hidden;"},
-    ]
-  },
-  "_start_1":{
-    from:"start", to:"s0_1", 
-    assign:[
-    ],
-    style:[
-//      {ids:["_goal_1"], from:"visibility:hidden;", to:""},
-      {ids:["_goal_1_a"], from:"", to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
-  "t0_1":{
-    from:"s0_1", to:"s1", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1"], from:"display:none;", to:""},
-      {ids:["_goal_1"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s1_goal_1"], from:"visibility:hidden;", to:""},
-      {ids:["_goal_1_a"], from:"background-color:#80ffff; font-weight: bold;", to:""},
-      {ids:["s1_goal_1c"], from:"", to:"visibility:hidden;"},
-      
-    ]
-  },
-  
-  "tx0a":{
-    from:"s1", to:"s1a", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1_goal_1a"], from:"", to:"background-color:#80ffff; font-weight: bold;"},
-      {ids:["_goal_1"], from:"background-color:#FFFF66;", to:""},
-    ]
-  },
-  "tx0b":{
-    from:"s1a", to:"s1b", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1_goal_1a"], from:"background-color:#80ffff; font-weight: bold;", to:""},
-      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
-  "tx0c":{
-    from:"s1b", to:"s1c", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"background-color:#80ffff; font-weight: bold;", to:""},
-      {ids:["s1_goal_1cc"], from:";", to:"background-color:#80ffff; font-weight: bold"},
-    ]
-  },
-  "tx0d":{
-    from:"s1c", to:"s1d", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1_goal_1cc"], from:"background-color:#80ffff; font-weight: bold;", to:""},
-      {ids:["s1_goal_route", "s1_goal_len"], from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
-  
-  "tx0e":{
-    from:"s1d", to:"s1e", 
-    assign:[
-    ],
-    style:[
-      {ids:["route_1"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s1_goal_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s1_goal_1c"], from:"visibility:hidden;", to:""},
-      {ids:["s9"], from:"display:none;", to:""},
-      {ids:["s9_route_1"], from:"visibility:hidden;", to:""},
-      
-    ]
-  },
-  
-  
-  "tx0x":{
-    from:"s1", to:"s1", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1_goal_route", "s1_goal_len", "s1_goal_1cc", "s1_goal_1b", 
-        "s1_goal_1b1", "s1_goal_1b", "s1_goal_1b1", "s1_goal_1a",
-        "s9_route_town"], 
-        from:"", to:""},
-      {ids:["route_1"], from:"", to:""},
-    ]
-  },
 
-  "tx0y":{
-    from:"s1", to:"s1", 
-    assign:[
-    ],
-    style:[
-      {ids:["s9"], from:"display:none", to:"display:none;"},
-    ]
-  },
+//------------------------------------------------------------------------------
 
+var transitions = [
+  { t: "style", ids:[ "s1_goal_2" ],
+       from:"", to:"visibility: hidden;" },
+  { t: "state", name:"start", co:"co_start", dis:["back", "explain"] },
 
-  "tx0f":{
-    from:"s1e", to:"s1f", 
-    assign:[
-    ],
-    style:[
-      {ids:["route_1"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s9_route_town", "s1_goal_1b"], from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-      
-    ]
-  },
- 
-  "tx0g":{
-    from:"s1f", to:"s1g", 
-    assign:[
-      {classes:["v_town_9"], from:"Town", to:"oulu"},
-    ],
-    style:[
-      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", 
-        to:"background-color:#ffcccc; font-weight: bold;"},
-    ]
-  },
- 
-  "txr0g":{
-    from:"s1f", to:"s1g", 
-    assign:[
-      {classes:["v_town_9"], from:"Town&#x2089;", to:"oulu"},
-    ],
-    style:[
-      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
-  "tx0h":{
-    from:"s1g", to:"s1h", 
-    assign:[
-    ],
-    style:[
-      {ids:["s9"], from:"", to:"display:none"},
-      {ids:["s2"], from:"display:none", to:""},
-      {ids:["s2_route_2_1", "s2_route_2_2", "s2_route_2_3", 
-        "s2_route_2_4", "s2_route_2_5", "s1_route_1c", "s2_route_2_4c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2"], 
-        from:"visibility:hidden;", to:""},
-      {ids:["route_2"], from:"", 
-        to:"background-color:#FFFF66;"},
-    ]
-  },
-  
-  "tx0i":{
-    from:"s1h", to:"s1i", 
-    assign:[
-    ],
-    style:[
-      {ids:["s2_route_town1", "s1_goal_1b"], from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-      {ids:["route_2"], from:"background-color:#FFFF66;", 
-        to:""},
-    ]
-  },
- 
-  "tx0j":{
-    from:"s1i", to:"s1j", 
-    assign:[
-      {classes:["v2_town1"], from:"Town1&#x2082;", to:"oulu"},
-    ],
-    style:[
-      {ids:["s2_route_town1", "s1_goal_1b"], 
+  { t: "style", ids:["_goal_1_a"], from:"", 
+       to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "state", name:"s0_1", co:"co_s0_1", dis:["explain"] },
+
+  { t: "style", ids:["s1"], from:"display: none;", to:"" },
+  { t: "style", ids:["_goal_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["_goal_1_a"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s1_goal_1c"], from:"", to:"visibility:hidden;"},
+  { t: "state", name:"s1", co:"co_s1" },
+
+  { t: "style", ids:["s1_goal_1a"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "style", ids:["_goal_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "xpln", name:"s1a", co:"co_s1a" },
+
+  { t: "style", ids:["s1_goal_1a"],
+       from:"background-color:#80ffff; font-weight: bold;", to: ""},
+  { t: "style", ids:["s1_goal_1b", "s1_goal_1b1"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1b", co:"co_s1b" },
+
+  { t: "style", ids:["s1_goal_1b", "s1_goal_1b1"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s1_goal_1cc"],
+       from:";", to:"background-color:#80ffff; font-weight: bold" },
+  { t: "xpln", name:"s1c", co:"co_s1c" },
+
+  { t: "style", ids:["s1_goal_1cc"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s1_goal_route", "s1_goal_len"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1d", co:"co_s1d" },
+
+  { t: "style", ids:["s1_goal_route", "s1_goal_len"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["route_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s1_goal_1"], from:"", to:"visibility: hidden;" },
+  { t: "style", ids:["s1_goal_1c"], from:"visibility:hidden;", to:""},
+  { t: "style", ids:["s9"], from:"display:none;", to:"" },
+  { t: "style", ids:["s9_route_1"], from:"", to:"" },
+  { t: "xpln", name:"s1e", co:"co_s2_1" },
+
+  { t: "style", ids:["route_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s9_route_town", "s1_goal_1b"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1f", co:"co_s2_2" },
+
+  { t: "style", ids:["s9_route_town", "s1_goal_1b"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "assign", cl: "v_town_9", from:"Town&#x2089;", to:"oulu" },
+  { t: "style", ids:["s9_route_town_A", "s1_goal_1b1"],
+        from:"", to:"background-color:#ffcccc; font-weight: bold;" },
+  { t: "xpln", name:"s1g", co:"co_s2_3" },
+
+  { t: "style", ids:["route_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "assign", cl: "v_town_9", from:"oulu", to:"Town&#x2089;" },
+  { t: "style", ids:["s9_route_town_A", "s1_goal_1b1"],
+        from:"background-color:#ffcccc; font-weight: bold;", to:"" },
+  { t: "style", ids:["s9"], from:"", to:"display:none" },
+  { t: "style", ids:["s2"], from:"display:none", to:"" },
+  { t: "style", ids:["s2_route_2_1", "s2_route_2_2", "s2_route_2_3",
+                     "s2_route_2_4", "s2_route_2_5", "s1_route_1c",
+                     "s2_route_2_4c"], 
+       from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2"], 
+        from:"", to:"" },
+  { t: "xpln", name:"s1h", co:"co_s2_4" },
+
+  { t: "style", ids:["route_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s2_route_town1", "s1_goal_1b"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1i", co:"co_s2_5" },
+
+  { t: "assign", cl:"v2_town1", from:"Town1&#x2082;", to:"oulu" },
+  { t: "style", ids:["s2_route_town1", "s1_goal_1b"], 
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s2_route_town2", "s1_goal_1b1"],
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1j", co:"co_s2_6" },
+
+  { t: "assign", cl:"v2_town2", from:"Town2&#x2082;", to:"joensuu" },
+  { t: "style", ids:["s2_route_town2", "s1_goal_1b1"], 
         from:"background-color:#80ffff; font-weight: bold;", 
-        to:""},
-        
-      {ids:["s2_route_town2", "s1_goal_1b1"], from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
- 
- 
-  "tx0k":{
-    from:"s1j", to:"s1k", 
-    assign:[
-      {classes:["v2_town2"], from:"Town2&#x2082;", to:"joensuu"},
-    ],
-    style:[
-       
-      {ids:["s2_route_town2", "s1_goal_1b1"], 
+        to:"" },
+  { t: "style", ids:["s2_route_totown1", "s1_goal_1cc"],
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1k", co:"co_s2_7" },
+
+  { t: "assign", cl:"v2_totown1", from:"ToTown1&#x2082;", to:"[]" },
+  { t: "style", ids:["s2_route_totown1", "s1_goal_1cc"], 
         from:"background-color:#80ffff; font-weight: bold;", 
-        to:""},
-      {ids:["s2_route_totown1", "s1_goal_1cc"], from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
- 
-  "tx0l":{
-    from:"s1k", to:"s1l", 
-    assign:[
-      {classes:["v2_totown1"], from:"ToTown1&#x2082;", to:"[]"},
-    ],
-    style:[
-      {ids:["s2_route_totown1", "s1_goal_1cc"], 
-        from:"background-color:#80ffff; font-weight: bold;", 
-        to:""},
-       
-      {ids:["s2_route_param4", "s1_goal_route"], 
+        to:"" },
+  { t: "style", ids:["s2_route_param4", "s1_goal_route"], 
         from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
- 
-  "tx0m":{
-    from:"s1l", to:"s1m", 
-    assign:[
-      {classes:["v_route_1"], from:"Route&#x2081;", to:"[oulu|FromTown1&#x2082;]"},
-    ],
-    style:[
-      {ids:["s2_route_param4", "s1_goal_route"], 
-        from:"background-color:#80ffff; font-weight: bold;", 
-        to:""},
-      {ids:["s2_route_length", "s1_goal_len"], 
-        from:"", 
-        to:"background-color:#80ffff; font-weight: bold;"},
-    ]
-  },
- 
-  "tx0n":{
-    from:"s1m", to:"s2", 
-    assign:[
-      {classes:["v2_len"], from:"Len&#x2082;", to:"Len&#x2081;"},
-    ],
-    style:[
-      {ids:["s2_route_length", "s1_goal_len"], 
-        from:"background-color:#80ffff; font-weight: bold;", 
-        to:""},
-      {ids:["route_2"], from:"", to:"background-color:#FFFF66;"},
-    ]
-  },
- 
-  "tx0tox":{
-    from:"s1m", to:"s1x", 
-    assign:[
-    ],
-    style:[
-    ]
-  },
+        to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1l", co:"co_s2_8" },
 
+  { t: "assign", cl:"v_route_1",
+       from:"Route&#x2081;", to:"[oulu|FromTown1&#x2082;]" },
+  { t: "style",ids:["s2_route_param4", "s1_goal_route"], 
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s2_route_length", "s1_goal_len"], 
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1m", co:"co_s2_9", dis:["explain"] },
 
+  { t: "assign", cl:"v2_len", from:"Len&#x2082;", to:"Len&#x2081;" },
+  { t: "style", ids:["s2_route_length", "s1_goal_len"],
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["route_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "state", name:"s2", co:"co_s2", dis:["explain"]  },
 
+  { t: "style", ids:["route_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s2_route_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s3", co:"co_s3", dis:["explain"]  },
 
-  "e1":{
-    from:"", to:"s1x", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1_goal_1a"], from:"", to:""},
-      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s1_goal_1cc"], from:"", to:""},
-      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s1_goal_route", "s1_goal_len"], from:"", to:""},
-      {ids:["s9_route_town", "s1_goal_1b"], from:"", to:""},
-      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s2_route_town1", "s1_goal_1b"], from:"", to:""},
-      {ids:["s2_route_town2", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s2_route_totown1", "s1_goal_1cc"], from:"", to:""},
-      {ids:["s2_route_param4", "s1_goal_route"], from:"", to:""},
-      {ids:["s2_route_length", "s1_goal_len_A"], from:"", to:""},
-    ]
-  },
+  { t: "assign", cl:"v_totownx_2", from:"ToTownX&#x2082;", to:"[oulu]" },
+  { t: "style", ids:["s2_route_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_2"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s2_route_totown1A"],
+          from:"", to: "background-color:#80ffff;" },
+  { t: "state", name:"s4", co:"co_s4", dis:["explain"]  },
 
-  "e2":{
-    from:"", to:"", 
-    assign:[
-    ],
-    style:[
-      {ids:["s1_goal_1a"], from:"", to:""},
-      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s1_goal_1cc"], from:"", to:""},
-      {ids:["s1_goal_1b", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s1_goal_route", "s1_goal_len"], from:"", to:""},
-      {ids:["s9_route_town", "s1_goal_1b"], from:"", to:""},
-      {ids:["s9_route_town_A", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s2_route_town1", "s1_goal_1b"], from:"", to:""},
-      {ids:["s2_route_town2", "s1_goal_1b1"], from:"", to:""},
-      {ids:["s2_route_totown1", "s1_goal_1cc"], from:"", to:""},
-      {ids:["s2_route_param4", "s1_goal_route"], from:"", to:""},
-      {ids:["s2_route_length", "s1_goal_len_A"], from:"", to:""},
-    ]
-  },
- 
- 
- 
- 
- 
-  
-  "t1":{
-    from:"s1", to:"s2", 
-    assign:[
-      {classes:["v2_town1"], 
-        from:"Town1&#x2082;", to:"oulu"},
-      {classes:["v2_town2"], 
-        from:"Town2&#x2082;", to:"joensuu"},
-      {classes:["v2_totown1"], 
-        from:"ToTown1&#x2082;", to:"[]"},
-      {classes:["v2_len"], 
-        from:"Len&#x2082;", to:"Len&#x2081;"},
-      {classes:["v_route_1"], 
-        from:"Route&#x2081;", to:"[oulu|FromTown1&#x2082;]"},
-    ],
-    style:[
-      {ids:["_goal_1"], from:"background-color:#FFFF66;", to:""},
-      {ids:["route_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s2"], from:"display:none;", to:""},
-      {ids:["s1_goal_1", "s2_route_2_1", "s2_route_2_2", "s2_route_2_3", 
-        "s2_route_2_4", "s2_route_2_5", "s1_route_1c", "s2_route_2_4c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s1_goal_1c", "s2_route_2"], from:"visibility:hidden;", to:""},
-    ]
-  },
+  { t: "style", ids:["s2_route_totown1A"],
+          from:"background-color:#80ffff;", to: "" },
+  { t: "style", ids:["connected_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s3"], from:"display:none;", to:"" },
+  { t: "style", ids:["s2_route_2_2", "s3_connected_1_1", "s3_connected_1_1c"], 
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s1_route_1c"], 
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s5", co:"co_s5", dis:["explain"]  },
 
-  "t2_1":{
-    from:"s1", to:"s2", 
-    assign:[
-    ],
-    style:[
-      {ids:["s2_route_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
+  { t: "style", ids:["connected_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s3_connected_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s6", co:"co_s6", dis:["explain"]  },
 
-  "t2":{
-    from:"s2", to:"s3", 
-    assign:[
-    ],
-    style:[
-      {ids:["route_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s2_route_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t3":{
-    from:"s3", to:"s4", 
-    assign:[
-      {classes:["v_totownx_2"], 
-        from:"ToTownX&#x2082;", to:"[oulu]"},    
-    ],
-    style:[
-      {ids:["s2_route_2_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_2"], from:"visibility:hidden;", to:""},
-      {ids:["s2_route_totown1A"], 
-          from:"", to: "background-color:#80ffff;"}
-    ]
-  },
-  "t4":{
-    from:"s4", to:"s5", 
-    assign:[
-    ],
-    style:[
-      {ids:["connected_1"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s3"], from:"display:none;", to:""},
-      {ids:["s2_route_2_2", "s3_connected_1_1", "s3_connected_1_1c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s1_route_1c", "s3_connected_1"], 
-        from:"visibility:hidden;", to:""},
-      {ids:["s2_route_totown1A"], 
-          from:"background-color:#80ffff;", to: ""}
-    ]
-  },
-  "t5":{
-    from:"s5", to:"s6", 
-    assign:[
-    ],
-    style:[
-      {ids:["connected_1"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s3_connected_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s3_connected_1_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t6":{
-    from:"s6", to:"s7", 
-    assign:[
-      {ids:["s3_connected_1_1x"], from:"", 
-        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
-    ],
-    style:[
-    ]
-  },
-  "t7":{
-    from:"s7", to:"s8", 
-    backtrack:["t6", "t5", "t4"],    
-    assign:[
-      {classes:["v_town1_4"], 
-        from:"Town1", to:"oulu"},
-      {classes:["v_town2_4"], 
-        from:"Town2", to:"TownX&#x2082;"},
-      {classes:["v_length_4"], 
-        from:"Length", to:"Length1&#x2082;"},
-    ],
-    style:[
-      {ids:["connected_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s4"], from:"display:none;", to:""},
-      {ids:["s4_connected_1c", "s10_road_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_2", "s4_connected_2_1"], from:"", 
-        to:"visibility:hidden;"},
-      {ids:["s1_route_1c", "s4_connected_2"], from:"visibility:hidden;", to:""},
-      {ids:["s2_route_totown1A"], from:"", to: ""}
-    ]
-  },
-  "t8":{
-    from:"s8", to:"s9", 
-    assign:[
-    ],
-    style:[
-      {ids:["connected_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s4_connected_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t9":{
-    from:"s9", to:"s10", 
-    assign:[
-      {ids:[ "s2_route_townx",
-        "s2_route_townx_A", "s2_route_townx_B"], from:"TownX&#x2082;", 
-        to:"kajaani"},
-      {classes:["v_town2_4"], from:"TownX&#x2082;", 
-        to:"kajaani"},
-      {ids:[ "s2_route_length1",
-        "s2_route_length1_A"], from:"Length1&#x2082;", to:"183"},
-      {classes:["v_length_4"], from:"Length1&#x2082;", to:"183"},
-      {ids:["road_2x"], from:"", 
-        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["road_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s4_connected_1c", "s10_road_2"], from:"visibility:hidden;", to:""},
-      {ids:["s10"], from:"display:none;", to:""},
-    ]
-  },
-  "t10":{
-    from:"s10", to:"s11", 
-    assign:[
-      {ids:["road_2x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>",
-        to:""},
-      {ids:["s4_connected_2_1x"], from:"", 
-        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["road_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
-      {ids:["s10_road_2", "s4_connected_1c"], from:"", to:"visibility:hidden;"}, 
-      {ids:["s10"], from:"", to:"display:none;"},
-    ]
-  },
-  "t11":{
-    from:"s11", to:"s12", 
-    assign:[
-//      {ids:["s4_connected_town1", "s4_connected_town1_A"], 
-//        from:"oulu", to:"Town1"},
-      {classes:["v_town1_4"], 
-        from:"oulu", to:"Town1"},
-//      {ids:["s4_connected_town2", "s4_connected_town2_A"], 
-//        from:"kajaani", to:"Town2"},
-      {classes:["v_town2_4"], 
-        from:"kajaani", to:"Town2"},
-//      {ids:["s4_connected_length", "s4_connected_length_A"], 
-//        from:"183", to:"Length"},
-      {classes:["v_length_4"], 
-        from:"183", to:"Length"},
-      {ids:["s4_connected_2_1x"], 
-        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
-    ],
-    style:[
-      {ids:["s4"], from:"", to:"display:none;"},      
-      {ids:["s2_route_2_3"], from:"visibility:hidden;", to:""},
-      {ids:["s4_connected_2_1", "s1_route_1c"], 
-        from:"", to:"visibility:hidden;"},
-    ]
-  },
-  "t12":{
-    from:"s12", to:"s13", 
-    assign:[
-      {ids:["s5_member_2_x", "s5_member_2_x_A"], from:"X", to: "kajaani"},
-      {ids:["s5_member_2__"], from:"_", to: "oulu"},
-      {ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[]"},
-    ],
-    style:[
-      {ids:["member_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s5"], from:"display:none;", to:""},
-      {ids:["s2_route_2_3", "s5_member_2_1", "s5_member_2_1c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_3c"/*, "s4_connected_2"*/], 
-        from:"visibility:hidden;", to:""},
-      {ids:["s5_member_2"], from:"visibility:hidden;", to:""},
-     ]
-  },
-  "t13":{
-    from:"s13", to:"s14", 
-    assign:[
-    ],
-    style:[
-      {ids:["member_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s5_member_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t14":{
-    from:"s14", to:"s15", 
-    assign:[
-      {ids:["s5_member_2_1x"], from:"", 
-        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
-    ],
-    style:[
-    ]
-  },
-  "t15":{
-    from:"s15", to:"s16", 
-    assign:[
-      {ids:["s5_member_2_1x"], 
-        from:"<font color=\"#BB0000\"><b>FAIL!</b></font>", to:""},
-      {ids:["s2_route_2_3x"], from:"", 
-        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>"},
-    ],
-    style:[
-      {ids:["s5"], from:"", to:"display:none;"},
-      {ids:["s2_route_2_3not"], 
-        from:"", to:"background-color:#ffff00; font-weight: bold;"},
-      {ids:["s5_member_2_1", "s2_route_2_3c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_3"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t16":{
-    from:"s16", to:"s17", 
-    assign:[
-      {ids:["s2_route_2_3x"], 
-        from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", 
-        to:""},
-    ],
-    style:[
-      {ids:["s2_route_2_3not"], 
-        from:"background-color:#ffff00; font-weight: bold;", to:""},
-      {ids:["s2_route_2_3"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_4"], from:"visibility:hidden;", to:""},
-     ]
-  },
-  "t17":{
-    from:"s17", to:"s18", 
-    assign:[
-      {ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"], 
-        from:"FromTown1&#x2082;", to:"[kajaani|FromTown1&#x2086;]"},
-//      {ids:["s1_goal_route", "s1_goal_route_A"], 
-      {classes:["v_route_1"], 
-        from:"[oulu|FromTown1&#x2082;]", 
-          to:"[oulu,kajaani|FromTown1&#x2086;]"},
-    ],
-    style:[
-      {ids:["route_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s6", "s2_route_2_4c"], from:"display:none;", to:""},
-      {ids:["s2_route_2_4", "s6_route_2_1", "s6_route_2_2", "s6_route_2_3",
-        "s6_route_2_4", "s6_route_2_5", "s6_route_2_2c", "s6_route_2_4c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t18":{
-    from:"s18", to:"s19", 
-    assign:[
-    ],
-    style:[
-      {ids:["route_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s6_route_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t19":{
-    from:"s19", to:"s20", 
-    assign:[
-      {ids:["s6_route_totownx", "s6_route_totownx_A", "s6_route_totownx_B"], 
-        from:"ToTownX&#x2086;", to:"[kajaani, oulu]"},
-    ],
-    style:[
-      {ids:["s6_route_2_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_2"], from:"visibility:hidden;", to:""},
-      {ids:["s6_route_totownx", "s6_route_totownxA"], from:"", 
-          to:"background-color:#80FFFF;"},
-    ]
-  },
-  "t20":{
-    from:"s20", to:"s21", 
-    assign:[
-      {ids:["s3_connected_town1", "s3_connected_town1_A"], 
-        from:"oulu", to:"kajaani"},
-      {ids:["s3_connected_town2", "s3_connected_town2_A"], 
-        from:"kajaani", to:"TownX&#x2086;"},
-      {ids:["s3_connected_length", "s3_connected_length_A"], 
-        from:"183", to:"Length1&#x2086;"},
-    ],
-    style:[
-      {ids:["connected_1"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s3"], from:"display:none;", to:""},
-      {ids:["s6_route_2_2", "s3_connected_1_1", "s3_connected_1_1c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_2c", "s3_connected_1"], 
-        from:"visibility:hidden;", to:""},
-      {ids:["s6_route_totownx", "s6_route_totownxA"], 
-        from:"background-color:#80FFFF;", to:""},
-   ]
-  },
-  "t21":{
-    from:"s21", to:"s22", 
-    assign:[
-    ],
-    style:[
-      {ids:["connected_1"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s3_connected_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s3_connected_1_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
+  { t: "assign", ids:["s3_connected_1_1x"],
+        from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "state", name:"s7", co:"co_s7", dis:["explain"]  },
 
-  "t22":{
-    from:"s22", to:"s23", 
-    assign:[
-      {ids:["s3_connected_town2", "s3_connected_town2_A", 
-        "s6_route_townx",
-        "s6_route_townx_A", "s6_route_townx_B"], from:"TownX&#x2086;", 
-        to:"oulu"},
-      {ids:["s3_connected_length", "s3_connected_length_A",
-        "s6_route_length1", "s6_route_length1_A"], 
-        from:"Length1&#x2086;", to:"183"},
-      {ids:["road_2x"], from:"", 
-        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["s10"], from:"display:none;", to:""},
-      {ids:["road_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s3_connected_1_1c", "s10_road_2"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t23":{
-    from:"s23", to:"s24", 
-    assign:[
-      {ids:["road_2x"], 
-        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
-      {ids:["s3_connected_1_1x"], 
+  { t: "assign", cl:"v_town1_4", from:"Town1", to:"oulu" },
+  { t: "assign", cl:"v_town2_4", from:"Town2", to:"TownX&#x2082;" },
+  { t: "assign", cl:"v_length_4", from:"Length", to:"Length1&#x2082;" },
+  { t: "style", ids:["s3"], from:"", to:"display:none;" },
+  { t: "style", ids:["connected_2"], from:"", to:"background-color:#FFFF66;"},
+  { t: "style", ids:["s4"], from:"display:none;", to:"" },
+  { t: "style", ids:["s4_connected_2_1", "s4_connected_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s8", co:"co_s8", dis:["explain"]  },
+
+  { t: "style", ids:["connected_2"], from:"background-color:#FFFF66;", to:""},
+  { t: "style", ids:["s4_connected_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s9", co:"co_s9", dis:["explain"]  },
+
+  { t: "assign", ids:["s2_route_townx", "s2_route_townx_A", "s2_route_townx_B"],
+        from:"TownX&#x2082;", to:"kajaani" },
+  { t: "assign", cl:"v_town2_4", from:"TownX&#x2082;", to:"kajaani" },
+  { t: "assign", ids:["s2_route_length1", "s2_route_length1_A"],
+        from:"Length1&#x2082;", to:"183" },
+  { t: "assign", cl:"v_length_4", from:"Length1&#x2082;", to:"183" },
+  { t: "assign", ids:["road_2x"], from:"",
+        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["road_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s4_connected_1c"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s10"], from:"display:none;", to:""},
+  { t: "state", name:"s10", co:"co_s10", dis:["explain"] },
+
+  { t: "assign", ids:["road_2x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "assign", ids:["s4_connected_2_1x"], from:"", 
+        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["road_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s10_road_2", "s4_connected_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s10"], from:"", to:"display:none;" },
+  { t: "state", name:"s11", co:"co_s11", dis:["explain"] },
+
+  { t: "assign", cl:"v_town1_4", from:"oulu", to:"Town1" },
+  { t: "assign", cl:"v_town2_4", from:"kajaani", to:"Town2" },
+  { t: "assign", cl:"v_length_4", from:"183", to:"Length" },
+  { t: "assign", ids:["s4_connected_2_1x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["s4"], from:"", to:"display:none;" },
+  { t: "style", ids:["s2_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s4_connected_2_1", "s1_route_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s12", co:"co_s12", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_x", "s5_member_2_x_A"],
+        from:"X", to: "kajaani" },
+  { t: "assign", ids:["s5_member_2__"], from:"_", to: "oulu" },
+  { t: "assign", ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[]" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s5"], from:"display:none;", to:"" },
+  { t: "style", ids:["s2_route_2_3", "s5_member_2_1", "s5_member_2_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_3c"/*, "s4_connected_2"*/],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s13", co:"co_s13", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s5_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s14", co:"co_s14", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "state", name:"s15", co:"co_s15", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"<font color=\"#BB0000\"><b>FAIL!</b></font>", to:"" },
+  { t: "assign", ids:["s2_route_2_3x"], from:"",
+        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>" },
+  { t: "style", ids:["s5"], from:"", to:"display:none;" },
+  { t: "style", ids:["s2_route_2_3not"],
+        from:"", to:"background-color:#ffff00; font-weight: bold;" },
+  { t: "style", ids:["s5_member_2_1", "s2_route_2_3c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s16", co:"co_s16", dis:["explain"] },
+
+  { t: "assign", ids:["s2_route_2_3x"], 
+        from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", to:"" },
+  { t: "style", ids:["s2_route_2_3not"],
+        from:"background-color:#ffff00; font-weight: bold;", to:"" },
+  { t: "style", ids:["s2_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_4"], from:"visibility:hidden;", to:""},
+  { t: "state", name:"s17", co:"co_s17", dis:["explain"] },
+
+  { t: "assign", ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"],
+        from:"FromTown1&#x2082;", to:"[kajaani|FromTown1&#x2086;]" },
+  { t: "assign", cl:"v_route_1",
+        from:"[oulu|FromTown1&#x2082;]",
+        to:"[oulu,kajaani|FromTown1&#x2086;]" },
+  { t: "style", ids:["route_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s6"], from:"display:none;", to:"" },
+  { t: "style", ids:[ "s2_route_2_4", "s6_route_2_1", "s6_route_2_2",
+                      "s6_route_2_3", "s6_route_2_4", "s6_route_2_5",
+                      "s6_route_2_2c", "s6_route_2_4c" ], 
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_4c"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s18", co:"co_s18", dis:["explain"] },
+
+  { t: "style", ids:["route_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s6_route_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s19", co:"co_s19", dis:["explain"] },
+
+  { t: "assign", ids:[ "s6_route_totownx", "s6_route_totownx_A",
+                       "s6_route_totownx_B" ], 
+        from:"ToTownX&#x2086;", to:"[kajaani, oulu]" },
+  { t: "style", ids:["s6_route_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s6_route_totownx", "s6_route_totownxA"],
+        from:"", to:"background-color:#80FFFF;" },
+  { t: "state", name:"s20", co:"co_s20", dis:["explain"] },
+
+  { t: "assign", ids:["s3_connected_1_1x"],
+        from:"<font color=\"#BB0000\"><b>FAIL!</b></font>", to:"" },
+  { t: "assign", ids:["s3_connected_town1", "s3_connected_town1_A"],
+        from:"oulu", to:"kajaani" },
+  { t: "assign", ids:["s3_connected_town2", "s3_connected_town2_A"],
+        from:"TownX&#x2082;", to:"TownX&#x2086;" },
+  { t: "assign", ids:["s3_connected_length", "s3_connected_length_A"],
+        from:"Length1&#x2082;", to:"Length1&#x2086;" },
+  { t: "style", ids:["connected_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s3"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_2", "s3_connected_1_1"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2c", "s3_connected_1"],
+        from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s6_route_totownx", "s6_route_totownxA"],
+        from:"background-color:#80FFFF;", to:"" },
+  { t: "state", name:"s21", co:"co_s21", dis:["explain"] },
+
+  { t: "style", ids:["connected_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s3_connected_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s22", co:"co_s22", dis:["explain"] },
+
+  { t: "assign", ids:[ "s3_connected_town2", "s3_connected_town2_A",
+                       "s6_route_townx", "s6_route_townx_A",
+                       "s6_route_townx_B" ],
+        from:"TownX&#x2086;", to:"oulu" },
+  { t: "assign", ids:[ "s3_connected_length", "s3_connected_length_A",
+                       "s6_route_length1", "s6_route_length1_A" ], 
+        from:"Length1&#x2086;", to:"183" },
+  { t: "assign", ids:["road_2x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s10"], from:"display:none;", to:"" },
+  { t: "style", ids:["road_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1_1c", "s10_road_2"],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s23", co:"co_s23", dis:["explain"] },
+
+  { t: "assign", ids:["road_2x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "assign", ids:["s3_connected_1_1x"],
         from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["road_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s3_connected_1_1"], from:"visibility:hidden;", to:""},
-      {ids:["s10_road_2", "s3_connected_1_1c"], from:"", to:"visibility:hidden;"}, 
-      {ids:["s10"], from:"", to:"display:none;"}, 
-    ]
-  },
-  "t24":{
-    from:"s24", to:"s25", 
-    assign:[
-      {ids:["s3_connected_1_1x"], 
-        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
-    ],
-    style:[
-      {ids:["s3"], from:"", to:"display:none;"},      
-      {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
-      {ids:["s3_connected_1_1", "s6_route_2_2c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s3_connected_1"], 
-        from:"visibility:hidden;", to:"visibility:hidden;"},
-    ]
-  },
-  "t25":{
-    from:"s25", to:"s26", 
-    assign:[
-      {ids:["s5_member_2_x", "s5_member_2_x_A"], from:"X", to: "oulu"},
-      {ids:["s5_member_2__"], from:"_", to: "kajaani"},
-      {ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[oulu]"},
-    ],
-    style:[
-      {ids:["member_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s5"], from:"display:none;", to:""},
-      {ids:["s6_route_2_3", "s5_member_2_1", "s5_member_2_1c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_3c", "s5_member_2"], 
-        from:"visibility:hidden;", to:""},
-     ]
-  },
-  "t26":{
-    from:"s26", to:"s27", 
-    assign:[
-    ],
-    style:[
-      {ids:["member_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s5_member_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t27":{
-    from:"s27", to:"s28", 
-    assign:[
-      {ids:["s7_member_h", "s7_member_h_A"], from:"H", to:"oulu"},
-      {ids:["s7_member__"], from:"_", to:"[]"},
-      {ids:["s7_member_1_1x"], 
-        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["member_1"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s7"], from:"display:none;", to:""},
-      {ids:["s5_member_2_1c", "s7_member_1"], from:"visibility:hidden;", to:""},
-      {ids:["s5_member_2_1"], from:"", to:"visibility:hidden;"},
-    ]
-  },
-  "t28":{
-    from:"s28", to:"s29", 
-    assign:[
-      {ids:["s7_member_h", "s7_member_h_A"], from:"oulu", to:"H"},
-      {ids:["s7_member__"], from:"[]", to:"_"},
-      {ids:["s5_member_2_1x"], 
-        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["member_1"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s7"], from:"", to:"display:none;"},
-      {ids:["s7_member_1", "s5_member_2_1c"], from:"", to:"visibility:hidden;"},
-      {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t29":{
-    from:"s29", to:"s30", 
-    assign:[
-      {ids:["s6_route_2_3x"], from:"", 
-        to:"<font color=\"#BB0000\"><i>success&rarr;fail&rarr;backtrack</i></font>"},
-    ],
-    style:[
-      {ids:["s5"], from:"", to:"display:none;"},
-      {ids:["s6_route_2_3not"], 
-        from:"", to:"background-color:#ffff00; font-weight: bold;"},
-      {ids:["s5_member_2_1", "s6_route_2_3c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t30":{
-    from:"s30", to:"s31", 
-    assign:[
-      {ids:["s6_route_2_3x"], 
-        from:"<font color=\"#BB0000\"><i>success&rarr;fail&rarr;backtrack</i></font>", 
-        to:""},
-      {ids:["s6_route_2_2x"], from:"", 
-        to:"<font color=\"#008888\"><i>redo</i></font>"},
-    ],
-    style:[
-      {ids:["s6_route_2_3not"], 
-        from:"background-color:#ffff00; font-weight: bold;", to:""},
-      {ids:["s6_route_2_3"], from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_2"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t31":{
-    from:"s31", to:"s32", 
-    backtrack:["t30", "t29", "t28", "t27", "t26", "t25", "t24"],
-    assign:[
-      {ids:["s6_route_2_2x"], 
-        from:"<font color=\"#008888\"><i>redo</i></font>", to:""},
-      {ids:["s3_connected_1_1x"], 
-        from:"", to:"<font color=\"#008888\"><i>redo</i></font>"},
-    ],
-    style:[
-      {ids:["s4_connected_2", "s6_route_2_2"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s3_connected_1_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-/*
-  "t31a":{ // correcting backtrack-shortcut glitches
-    from:"s31", to:"s31", 
-    assign:[
-    ],
-    style:[
-      {ids:["s6_route_2_3"], 
-        from:"visibility:hidden;", to:"visibility:hidden;"},
-    ]
-  },
-  "t31b":{ // correcting backtrack-shortcut glitches
-    from:"s31", to:"s31", 
-    assign:[
-    ],
-    style:[
-      {ids:["co_s22"], from:"", to:"display:none;"},
-    ]
-  },
-*/
-  "t32B":{
-    from:"", to:"", 
-    assign:[
-      {ids:["s3_connected_1_1x"], 
-        from:"", 
-        to:"<font color=\"#008888\"><i>redo</i></font>"},
-    ],
-    style:[
-//      {ids:["road_2"], from:"background-color:#FFFF66;", to:""},
-    ]
-  },
+  { t: "style", ids:["road_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s3_connected_1_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s10_road_2", "s3_connected_1_1c"],
+        from:"", to:"visibility:hidden; "},
+  { t: "style", ids:["s10"], from:"", to:"display:none; "},
+  { t: "state", name:"s24", co:"co_s24", dis:["explain"] },
 
-  "t32":{
-    from:"s32", to:"s33", 
-    backtrack:[ 
-      /*"t23", "t22"*/"t32B",],
-    assign:[
-      {ids:["s3_connected_1_1x"], 
+  { t: "assign", ids:["s3_connected_1_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["s3"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s3_connected_1_1", "s6_route_2_2c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1"],
+        from:"visibility:hidden;", to:"visibility:hidden;" },
+  { t: "state", name:"s25", co:"co_s25", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_x", "s5_member_2_x_A"],
+        from:"kajaani", to: "oulu" },
+  { t: "assign", ids:["s5_member_2__"], from:"oulu", to: "kajaani" },
+  { t: "assign", ids:["s5_member_2_t", "s5_member_2_t_A"],
+        from:"[]", to: "[oulu]" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s5"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3c", "s5_member_2"], 
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s26", co:"co_s26", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s5_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s27", co:"co_s27", dis:["explain"] },
+
+  { t: "assign", ids:["s7_member_h", "s7_member_h_A"], from:"H", to:"oulu" },
+  { t: "assign", ids:["s7_member__"], from:"_", to:"[]" },
+  { t: "assign", ids:["s7_member_1_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["member_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s7"], from:"display:none;", to:"" },
+  { t: "style", ids:["s5_member_2_1c"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s5_member_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s28", co:"co_s28", dis:["explain"] },
+
+  { t: "assign", ids:["s7_member_h", "s7_member_h_A"], from:"oulu", to:"H" },
+  { t: "assign", ids:["s7_member__"], from:"[]", to:"_" },
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["member_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s7"], from:"", to:"display:none;" },
+  { t: "style", ids:["s7_member_1", "s5_member_2_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s29", co:"co_s29", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"], from:"", to:
+     "<font color=\"#BB0000\"><i>success&rarr;fail&rarr;backtrack</i></font>" },
+  { t: "style", ids:["s5"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"", to:"background-color:#ffff00; font-weight: bold;" },
+  { t: "style", ids:["s5_member_2_1", "s6_route_2_3c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s30", co:"co_s30", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"], from:
+     "<font color=\"#BB0000\"><i>success&rarr;fail&rarr;backtrack</i></font>", 
+        to:"" },
+  { t: "assign", ids:["s6_route_2_2x"], from:"",
+        to:"<font color=\"#008888\"><i>redo</i></font>" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"background-color:#ffff00; font-weight: bold;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s31", co:"co_s31", dis:["explain"] },
+
+  { t: "style", ids:["s3"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "assign", ids:["s6_route_2_2x"],
+        from:"<font color=\"#008888\"><i>redo</i></font>", to:"" },
+  { t: "assign", ids:["s3_connected_1_1x"],
+        from:"", to:"<font color=\"#008888\"><i>redo</i></font>" },
+  { t: "style", ids:["s6_route_2_2",  "s6_route_2_3"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2c", "s3_connected_1_1"],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s32", co:"co_s32", dis:["explain"] },
+
+  { t: "assign", ids:["s3_connected_1_1x"], 
         from:"<font color=\"#008888\"><i>redo</i></font>", 
-        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
-      {ids:["s3_connected_town2", "s3_connected_town2_A", 
-        "s6_route_townx",
-        "s6_route_townx_A", "s6_route_townx_B"], from:"oulu", 
-        to:"TownX&#x2086;"},
-      {ids:["s3_connected_length", "s3_connected_length_A",
-        "s6_route_length1", "s6_route_length1_A"], 
-        from:"183", to:"Length1&#x2086;"},
-    ],
-    style:[
-    ]
-  },
-  "t33":{
-    from:"s33", to:"s34", 
-    backtrack:[/*"t33a", "t20"*/],    
-    assign:[
-      {ids:["s3_connected_town1", "s3_connected_town1_A"], 
-        from:"kajaani", to:"oulu"},
-      {ids:["s3_connected_town2", "s3_connected_town2_A"], 
-        from:"TownX&#x2086;", to:"kajaani"},
-      {ids:["s3_connected_length", "s3_connected_length_A"], 
-        from:"Length1&#x2086;", to:"183"},
+        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "assign", ids:[ "s3_connected_town2", "s3_connected_town2_A", 
+                       "s6_route_townx", "s6_route_townx_A",
+                       "s6_route_townx_B"],
+        from:"oulu", to:"TownX&#x2086;" },
+  { t: "assign", ids:[ "s3_connected_length", "s3_connected_length_A",
+                       "s6_route_length1", "s6_route_length1_A"], 
+        from:"183", to:"Length1&#x2086;" },
+  { t: "state", name:"s33", co:"co_s33", dis:["explain"] },
 
+  { t: "assign", ids:["s3_connected_town1", "s3_connected_town1_A"],
+        from:"kajaani", to:"oulu" },
+  { t: "assign", ids:["s3_connected_town2", "s3_connected_town2_A"],
+        from:"TownX&#x2086;", to:"kajaani" },
+  { t: "assign", ids:["s3_connected_length", "s3_connected_length_A"],
+        from:"Length1&#x2086;", to:"183" },
+  { t: "assign", cl:"v_town1_4", from:"Town1", to:"kajaani" },
+  { t: "assign", cl:"v_town2_4", from:"Town2", to:"TownX&#x2086;" },
+  { t: "assign", cl:"v_length_4", from:"Length", to:"Length1&#x2086;" },
+  { t: "style", ids:["s3"], from:"", to:"display:none;" },
+  { t: "style", ids:["connected_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s4"], from:"display:none;", to:"" },
+  { t: "style", ids:["s3_connected_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s34", co:"co_s34", dis:["explain"] },
 
-      {classes:["v_town1_4"], 
-        from:"Town1", to:"kajaani"},
-      {classes:["v_town2_4"], 
-        from:"Town2", to:"TownX&#x2086;"},
-      {classes:["v_length_4"], 
-        from:"Length", to:"Length1&#x2086;"},
-    ],
-    style:[
-      {ids:["s3"], from:"", to:"display:none;"},
-      {ids:["connected_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s4"], from:"display:none;", to:""},
-      {ids:[/*"s6_route_2_2", */"s4_connected_2_1"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_2c", "s4_connected_2"], 
-        from:"visibility:hidden;", to:""},
-      {ids:["s3_connected_1"], from:"visibility:hidden;", to:""},
-      {ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;"},
-    ]
-  },
-  "t33a":{
-    from:"s33", to:"s33", 
-    assign:[
-    ],
-    style:[
-//      {ids:["s3_connected_1"], from:"visibility:hidden;", to:""},
-//      {ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;"},
-   ]
-  },
-  "t34":{
-    from:"s34", to:"s35", 
-    assign:[
-    ],
-    style:[
-      {ids:["connected_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s4_connected_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t35":{
-    from:"s35", to:"s36", 
-    assign:[
-      {ids:["s6_route_townx",
-        "s6_route_townx_A", "s6_route_townx_B"], 
-        from:"TownX&#x2086;", to:"joensuu"},
-      {classes:["v_town2_4"], from:"TownX&#x2086;", to:"joensuu"},
-      {ids:[ 
-        "s6_route_length1", "s6_route_length1_A"], 
-        from:"Length1&#x2086;", to:"230"},
-      {classes:["v_length_4"], 
-        from:"Length1&#x2086;", to:"230"},
-      {ids:["road_1x"], from:"", 
-        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["s11"], from:"display:none;", to:""},
-      {ids:["road_1"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s11_road_1", "s4_connected_1c"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t36":{
-    from:"s36", to:"s37", 
-    assign:[
-      {ids:["road_1x"], from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", 
-        to:""},
-      {ids:["s4_connected_2_1x"], from:"", 
-        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["s11"], from:"", to:"display:none;"},
-      {ids:["road_1"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s4_connected_2_1"], from:"visibility:hidden;", to:""},
-      {ids:["s11_road_1", "s4_connected_1c"], from:"", to:"visibility:hidden;"},
-    ]
-  },
-  "t37":{
-    from:"s37", to:"s38", 
-    assign:[
-      {ids:["s4_connected_2_1x"], 
-        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
-    ],
-    style:[
-      {ids:["s4"], from:"", to:"display:none;"},      
-      {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
-      {ids:["s4_connected_2_1", "s6_route_2_2c"], 
-        from:"", to:"visibility:hidden;"},
-    ]
-  },
-  "t38":{
-    from:"s38", to:"s39", 
-    assign:[
-      {ids:["s5_member_2_x", "s5_member_2_x_A"], from:"X", to: "joensuu"},
-      {ids:["s5_member_2__"], from:"_", to: "kajaani"},
-      {ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[oulu]"},
-      {ids:["s5_member_2_1x"], 
-        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
-    ],
-    style:[
-      {ids:["member_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s5"], from:"display:none;", to:""},
-      {ids:["s6_route_2_3", "s5_member_2_1", "s5_member_2_1c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_3c", "s5_member_2"], 
-        from:"visibility:hidden;", to:""},
-     ]
-  },
-  "t39":{
-    from:"s39", to:"s40", 
-    assign:[
-    ],
-    style:[
-      {ids:["member_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s5_member_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s5_member_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t40":{
-    from:"s40", to:"s41", 
-    assign:[
-      {ids:["s8_member_2_x", "s8_member_2_x_A"], from:"X", to: "joensuu"},
-      {ids:["s8_member_2__"], from:"_", to: "oulu"},
-      {ids:["s8_member_2_t", "s8_member_2_t_A"], from:"T", to: "[]"},
-    ],
-    style:[
-      {ids:["member_2"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s8"], from:"display:none;", to:""},
-      {ids:["s5_member_2_1", "s8_member_2_1c", "s8_member_2_1"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s5_member_2_1c", "s8_member_2"], 
-        from:"visibility:hidden;", to:""},
-     ]
-  },
-  "t41":{
-    from:"s41", to:"s42", 
-    assign:[
-    ],
-    style:[
-      {ids:["member_2"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s8_member_2"], from:"", to:"visibility:hidden;"},
-      {ids:["s8_member_2_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t42":{
-    from:"s42", to:"s43", 
-    assign:[
-      {ids:["s8_member_2_1x"], from:"", 
-        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
-    ],
-    style:[
-    ]
-  },
-  "t43":{
-    from:"s43", to:"s44", 
-    assign:[
-      {ids:["s8_member_2_x", "s8_member_2_x_A"], from:"joensuu", to:"X"},
-      {ids:["s8_member_2__"], from:"oulu", to:"_"},
-      {ids:["s8_member_2_t", "s8_member_2_t_A"], from:"[]", to:"T"},
-      {ids:["s5_member_2_1x"], from:"", 
-        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>"},
-    ],
-    style:[
-      {ids:["s8"], from:"", to:"display:none;"},
-      {ids:["s5_member_2_1"], 
-        from:"visibility:hidden;", to:""},
-      {ids:["s5_member_2_1c", "s8_member_2_1", 
-        "s8_member_2_1c"], from:"", to:"visibility:hidden;"},
-    ]
-  },
-  "t44":{
-    from:"s44", to:"s45", 
-    assign:[
-      {ids:["s6_route_2_3x"], from:"", 
-        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>"},
-    ],
-    style:[
-      {ids:["s5"], from:"", to:"display:none;"},
-      {ids:["s6_route_2_3not"], 
-        from:"", to:"background-color:#ffff00; font-weight: bold;"},
-      {ids:["s5_member_2_1", "s6_route_2_3c"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_3"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t45":{
-    from:"s45", to:"s46", 
-    assign:[
-      {ids:["s6_route_2_3x"], 
-        from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", 
-        to:""},
-    ],
-    style:[
-      {ids:["s6_route_2_3not"], 
-        from:"background-color:#ffff00; font-weight: bold;", to:""},
-      {ids:["s6_route_2_3"], 
-        from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_4"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t46":{
-    from:"s46", to:"s47", 
-    assign:[
-      {ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"], 
-        from:"Town", to:"joensuu"},
-      {ids:["s6_route_2_fromtown1", "s6_route_2_fromtown1_A"],
-        from:"FromTown1&#x2086;", to:"[joensuu]"},
-      {ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"],
-        from:"[kajaani|FromTown1&#x2086;]", to:"[kajaani, joensuu]"},
-//      {ids:["s1_goal_route", "s1_goal_route_A"],
-      {classes:["v_route_1"], 
-        from:"[oulu,kajaani|FromTown1&#x2086;]", 
-        to:"[oulu, kajaani, joensuu]"},
-      {ids:["s1_goal_length2", "s1_goal_length2_A"],
-        from:"Length2&#x2086;]", to:"0"},
-      {ids:["s9_route_1_1x"], 
-        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["route_1"], from:"", to:"background-color:#FFFF66;"},
-      {ids:["s9"], from:"display:none;", to:""},
-      {ids:["s6_route_2_4"], from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_4c", "s9_route_1"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t47":{
-    from:"s47", to:"s48", 
-    assign:[
-      {ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"], 
-        from:"joensuu", to:"Town"},
-      {ids:["s9_route_1_1x"], 
-        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:""},
-    ],
-    style:[
-      {ids:["route_1"], from:"background-color:#FFFF66;", to:""},
-      {ids:["s9"], from:"", to:"display:none;"},
-      {ids:["s6_route_2_4c", "s9_route_1"], from:"", to:"visibility:hidden;"},
-      {ids:["s6_route_2_5"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t48":{
-    from:"s48", to:"s49", 
-    assign:[
-      {ids:["s6_goal_length", "s6_goal_length_A", "s2_route_2_length2",
-        "s2_route_2_length2_A"], from:"Length2&#x2082;", to:"230"},
-      {ids:["s6_route_2_5x"], 
-        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-   ],
-    style:[
-    ]
-  },
-  "t49":{
-    from:"s49", to:"s50", 
-    assign:[
-    ],
-    style:[
-      {ids:["s6"], from:"", to:"display:none;"},
-      {ids:["s2_route_2_4c"], from:"", to:"visibility:hidden;"},
-      {ids:["s2_route_2_5"], from:"visibility:hidden;", to:""},
-    ]
-  },
-  "t50":{
-    from:"s50", to:"s51", 
-    assign:[
-      {ids:["s2_route_length", "s2_route_length_A", "s1_goal_len",
-        "s1_goal_len_A"], from:"Len&#x2081;", to:"413"},
-      {ids:["s2_route_2_5x"], 
-        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-   ],
-    style:[
-      {ids:["s1_goal_route_A", "s1_goal_len_A"], from:"", 
-          to:"background-color:#80ffff; font-weight: bold;"}
-    ]
-  },
-  "t51":{
-    from:"s51", to:"s52", 
-    assign:[
-    ],
-    style:[
-      {ids:["s2"], from:"", to:"display:none;"},
-      {ids:["s1_goal_1c"], from:"", to:"visibility:hidden;"},
-      {ids:["s1_goal_2"], from:"visibility:hidden;", to:""},
-      {ids:["s1_goal_route_A", "s1_goal_len_A"], 
-          from:"background-color:#80ffff; font-weight: bold;", to:""},
-    ]
-  },
-  "t52":{
-    from:"s52", to:"end", 
-    assign:[
-      {ids:["s1_goal_2x"], 
-        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
-    ],
-    style:[
-      {ids:["output"], from:"display:none;", to:""},
-    ]
-  },
-/*
-  "t":{
-    from:"s", to:"s", 
-    assign:[
-//      {ids:[""], from:"", to:""},
-    ],
-    style:[
-      {ids:[""], from:"", to:"visibility:hidden;"},
-      {ids:[""], from:"visibility:hidden;", to:""},
-//      {ids:["co_s"], from:"", to:"display:none;"},
-//      {ids:["co_s"], from:"display:none;", to:""},
-    ]
-  },
-*/
-};
-var prev_state = "_init";
-var states = {
-  "_init":{fw:"_init", bk:null, co:"co_s"},
-  "start":{fw:"_start_1", bk:null, co:"co_start"},
-  "s0_1":{fw:"t0_1", bk:"_start_1", co:"co_s0_1"},
-  "s1":{fw:"t1", bk:"t0_1", enter:"e1", xpln:"tx0a", co:"co_s1"},
-  "s1a":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0b", co:"co_s1a"},
-  "s1b":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0c", co:"co_s1b"},
-  "s1c":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:"tx0d", co:"co_s1c"},
-  "s1d":{fw:["tx0tox"], bk:["tx0x", "t1"], xpln:["tx0x", "tx0e"], 
-    co:"co_s1d"},
-  "s1e":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"], 
-    xpln:["tx0x",  "tx0f"], co:"co_s2_1"},
-  "s1f":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"], 
-    xpln:["tx0x",  "tx0g"], co:"co_s2_2"},
-  "s1g":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:["tx0x",  "tx0h"], co:"co_s2_3"},
-  "s1h":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:["tx0x",  "tx0i"], co:"co_s2_4"},
-  "s1i":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:["tx0x",  "tx0j"], co:"co_s2_5"},
-  "s1j":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:["tx0x",  "tx0k"], co:"co_s2_6"},
-  "s1k":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:["tx0x",  "tx0l"], co:"co_s2_7"},
+  { t: "style", ids:["connected_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s35", co:"co_s35", dis:["explain"] },
 
-  "s1l":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    xpln:["tx0x",  "tx0m"], co:"co_s2_8"},
+  { t: "assign", ids:["s6_route_townx", "s6_route_townx_A", "s6_route_townx_B"], 
+        from:"TownX&#x2086;", to:"joensuu" },
+  { t: "assign", cl:"v_town2_4", from:"TownX&#x2086;", to:"joensuu" },
+  { t: "assign", ids:["s6_route_length1", "s6_route_length1_A"], 
+        from:"Length1&#x2086;", to:"230" },
+  { t: "assign", cl:"v_length_4", from:"Length1&#x2086;", to:"230" },
+  { t: "assign", ids:["road_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s11"], from:"display:none;", to:"" },
+  { t: "style", ids:["road_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:[/*"s11_road_1",*/ "s4_connected_1c"],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s36", co:"co_s36", dis:["explain"] },
 
-  "s1m":{fw:["tx0tox"], bk:["tx0x", "tx0y", "txr0g", "t1"],
-    /*xpln:["tx0x",  "tx0n"],*/ co:"co_s2_9"},
-/**/
-  "s1x":{go:["tx0a", "tx0b", "tx0c", "tx0d", "tx0x", "tx0e",  "tx0f",
-    "tx0g",  "tx0h",  "tx0i",  "tx0j",  "tx0k",  "tx0l",  "tx0m",  
-    "tx0n"]},
-/**/
+  { t: "assign", ids:["road_1x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "assign", ids:["s4_connected_2_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s11"], from:"", to:"display:none;" },
+  { t: "style", ids:["road_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s11_road_1", "s4_connected_1c"],
+        from:"", to:"visibility:hidden;"},
+  { t: "state", name:"s37", co:"co_s37", dis:["explain"] },
 
-  "s2":{fw:"t2", bk:"t1", enter:"e2", co:"co_s2"},
-  "s3":{fw:"t3", bk:"t2", co:"co_s3"},
-  "s4":{fw:"t4", bk:"t3", co:"co_s4"},
-  "s5":{fw:"t5", bk:"t4", co:"co_s5"},
-  "s6":{fw:"t6", bk:"t5", co:"co_s6"},
-  "s7":{fw:"t7", bk:"t6", co:"co_s7"},
-  "s8":{fw:"t8", bk:"t7", co:"co_s8"},
-  "s9":{fw:"t9", bk:"t8", co:"co_s9"},
-  "s10":{fw:"t10", bk:"t9", co:"co_s10"},
-  "s11":{fw:"t11", bk:"t10", co:"co_s11"},
-  "s12":{fw:"t12", bk:"t11", co:"co_s12"},
-  "s13":{fw:"t13", bk:"t12", co:"co_s13"},
-  "s14":{fw:"t14", bk:"t13", co:"co_s14"},
-  "s15":{fw:"t15", bk:"t14", co:"co_s15"},
-  "s16":{fw:"t16", bk:"t15", co:"co_s16"},
-  "s17":{fw:"t17", bk:"t16", co:"co_s17"},
-  "s18":{fw:"t18", bk:"t17", co:"co_s18"},
-  "s19":{fw:"t19", bk:"t18", co:"co_s19"},
-  "s20":{fw:"t20", bk:"t19", co:"co_s20"},
-  "s21":{fw:"t21", bk:"t20", co:"co_s21"},
-  "s22":{fw:"t22", bk:"t21", co:"co_s22"},
-  "s23":{fw:"t23", bk:"t22", co:"co_s23"},
-  "s24":{fw:"t24", bk:"t23", co:"co_s24"},
-  "s25":{fw:"t25", bk:"t24", co:"co_s25"},
-  "s26":{fw:"t26", bk:"t25", co:"co_s26"},
-  "s27":{fw:"t27", bk:"t26", co:"co_s27"},
-  "s28":{fw:"t28", bk:"t27", co:"co_s28"},
-  "s29":{fw:"t29", bk:"t28", co:"co_s29"},
-  "s30":{fw:"t30", bk:"t29", co:"co_s30"},
-  "s31":{fw:"t31", bk:"t30", co:"co_s31"},
-  "s32":{fw:"t32", bk:"t31", co:"co_s32"},
-//  "s32.1":{fw:"t32.1", bk:"t32", co:"co_s32"},
-  "s33":{fw:"t33", bk:"t32", co:"co_s33"},
-  "s34":{fw:"t34", bk:"t33", co:"co_s34"},
-  "s35":{fw:"t35", bk:"t34", co:"co_s35"},
-  "s36":{fw:"t36", bk:"t35", co:"co_s36"},
-  "s37":{fw:"t37", bk:"t36", co:"co_s37"},
-  "s38":{fw:"t38", bk:"t37", co:"co_s38"},
-  "s39":{fw:"t39", bk:"t38", co:"co_s39"},
-  "s40":{fw:"t40", bk:"t39", co:"co_s40"},
-  "s41":{fw:"t41", bk:"t40", co:"co_s41"},
-  "s42":{fw:"t42", bk:"t41", co:"co_s42"},
-  "s43":{fw:"t43", bk:"t42", co:"co_s43"},
-  "s44":{fw:"t44", bk:"t43", co:"co_s44"},
-  "s45":{fw:"t45", bk:"t44", co:"co_s45"},
-  "s46":{fw:"t46", bk:"t45", co:"co_s46"},
-  "s47":{fw:"t47", bk:"t46", co:"co_s47"},
-  "s48":{fw:"t48", bk:"t47", co:"co_s48"},
-  "s49":{fw:"t49", bk:"t48", co:"co_s49"},
-  "s50":{fw:"t50", bk:"t49", co:"co_s50"},
-  "s51":{fw:"t51", bk:"t50", co:"co_s51"},
-  "s52":{fw:"t52", bk:"t51", co:"co_s52"},
-  "end":{fw:null, bk:"t52", co:"co_end"},
-};
+  { t: "assign", ids:["s4_connected_2_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["s4"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s4_connected_2_1", "s6_route_2_2c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s38", co:"co_s38", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_x", "s5_member_2_x_A"],
+        from:"oulu", to: "joensuu" },
+  { t: "assign", ids:["s5_member_2_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s5"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3c", "s5_member_2"], 
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s39", co:"co_s39", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s5_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s40", co:"co_s40", dis:["explain"] },
+
+  { t: "assign", ids:["s8_member_2_x", "s8_member_2_x_A"],
+        from:"X", to: "joensuu" },
+  { t: "assign", ids:["s8_member_2__"], from:"_", to: "oulu" },
+  { t: "assign", ids:["s8_member_2_t", "s8_member_2_t_A"], from:"T", to: "[]" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s8"], from:"display:none;", to:"" },
+  { t: "style", ids:["s5_member_2_1", "s8_member_2_1c", "s8_member_2_1"], 
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1c"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s41", co:"co_s41", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s8_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s8_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s42", co:"co_s42", dis:["explain"] },
+
+  { t: "assign", ids:["s8_member_2_1x"], from:"", 
+        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "state", name:"s43", co:"co_s43", dis:["explain"] },
+
+  { t: "assign", ids:["s8_member_2_x", "s8_member_2_x_A"],
+        from:"joensuu", to:"X" },
+  { t: "assign", ids:["s8_member_2__"], from:"oulu", to:"_" },
+  { t: "assign", ids:["s8_member_2_t", "s8_member_2_t_A"], from:"[]", to:"T" },
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "style", ids:["s8"], from:"", to:"display:none;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s5_member_2_1c", "s8_member_2_1"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s44", co:"co_s44", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"], from:"",
+        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>" },
+  { t: "style", ids:["s5"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"", to:"background-color:#ffff00; font-weight: bold;" },
+  { t: "style", ids:["s5_member_2_1", "s6_route_2_3c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s45", co:"co_s45", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"],
+        from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", to:"" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"background-color:#ffff00; font-weight: bold;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_4"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s46", co:"co_s46", dis:["explain"] },
+
+  { t: "assign", cl:"v_town_9", from:"Town&#x2089", to:"joensuu" },
+  { t: "assign", ids:["s6_route_2_fromtown1", "s6_route_2_fromtown1_A"],
+        from:"FromTown1&#x2086;", to:"[joensuu]" },
+  { t: "assign", ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"],
+        from:"[kajaani|FromTown1&#x2086;]", to:"[kajaani, joensuu]" },
+  { t: "assign", cl:"v_route_1",
+        from:"[oulu,kajaani|FromTown1&#x2086;]",
+        to:"[oulu, kajaani, joensuu]" },
+  { t: "assign", ids:["s1_goal_length2", "s1_goal_length2_A"],
+        from:"Length2&#x2086;", to:"0" },
+  { t: "assign", ids:["s9_route_1_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["route_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s9"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_4"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_4c"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s47", co:"co_s47", dis:["explain"] },
+
+  { t: "assign", ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"],
+        from:"joensuu", to:"Town" },
+  { t: "assign", ids:["s9_route_1_1x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["route_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s9"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_4c", "s9_route_1"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_5"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s48", co:"co_s48", dis:["explain"] },
+
+  { t: "assign", ids:["s6_goal_length", "s6_goal_length_A",
+                      "s2_route_2_length2", "s2_route_2_length2_A"],
+        from:"Length2&#x2082;", to:"230" },
+  { t: "assign", ids:["s6_route_2_5x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "state", name:"s49", co:"co_s49", dis:["explain"] },
+
+  { t: "style", ids:["s6"], from:"", to:"display:none;" },
+  { t: "style", ids:["s2_route_2_4c"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_5"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s50", co:"co_s50", dis:["explain"] },
+
+  { t: "assign", ids:["s2_route_length", "s2_route_length_A",
+                      "s1_goal_len", "s1_goal_len_A"],
+        from:"Len&#x2081;", to:"413" },
+  { t: "assign", ids:["s2_route_2_5x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s1_goal_route_A", "s1_goal_len_A"],
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "state", name:"s51", co:"co_s51", dis:["explain"] },
+
+  { t: "style", ids:["s2"], from:"", to:"display:none;" },
+  { t: "style", ids:["s1_goal_1c"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s1_goal_2"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s1_goal_route_A", "s1_goal_len_A"],
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "state", name:"s52", co:"co_s52", dis:["explain"] },
+
+  { t: "assign", ids:["s1_goal_2x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["output"], from:"display:none;", to:"" },
+  { t: "state", name:"end", co:"co_end", dis:["step", "explain"] },
+
+];
+
+//------------------------------------------------------------------------------
 
 var main_area = document.getElementById("main");
-var cur_state = "_init";
+
+var buttons = document.getElementsByTagName("button");
+var state_dpy = document.getElementById("state");
+
+var cur_state = -1;
+
+var comments = document.getElementsByClassName("comment")[0]
+                       .getElementsByTagName("p");
 
 var variables = { // Automatically collected from transitions
 //  "":null,
@@ -1670,284 +1033,118 @@ var variable_classes = {
 //  "classname" = [elem1ptr, elem2ptr,..];
 }
 
-function transit_fw(tr_id) {
-  var transition = transitions[tr_id];
-  var i, j, k, assign, style;
-  var elems;
-  
-  if ("backtrack" in transition) {
-    for(i = 0; i < transition.backtrack.length; i++) {
-      transit_bw(transition.backtrack[i]);
-    }
-  }
+var cur_co = "co_start";
 
-  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
-    assign = transition.assign[i];
-    if(assign.classes) {
-      for (j = 0; j < assign.classes.length; j++) {  // for all classes
-        elems = variable_classes[assign.classes[j]];
-        for (k = 0; k < elems.length; k++) {
-      
-          elems[k].innerHTML = assign.to;
-        }
-      }
-    
+function move(button) {
+  var more = true;
+  var styled = null;
+  comments[cur_co].style.cssText = "display:none;";
+  while (more) {
+    if (button == "back") {
+      cur_state--;
     } else {
-    
-      for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
-/*
-      if(variables[assign.ids[j]].innerHTML != assign.from) {
-        alert(ids[j] + " is " + variables[assign.ids[j]].innerHTML + 
-          ", sb " + assign.from);
-      }
-*/
-        variables[assign.ids[j]].innerHTML = assign.to;
-      }
+      cur_state++;
     }
-  }
-
-  scroll_to_show(transition);
-/*  
-  for (i = 0; i < transition.style.length; i++) { // for all affected variables
-    style = transition.style[i];
-    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
-      var current_var = variables[style.ids[j]];
-      var scrolling;
-/-*
-      if(variables[style.ids[j]].innerHTML != style.from) {
-        alert("Style of " + ids[j] + " is " + 
-          variables[style.ids[j]].innerHTML + ", sb " + style.from);
-      }
-*-/
-      current_var.style.cssText = style.to;
-      if(style.from.endsWith("hidden;")) {
-        scrolling = scroll_needed(current_var, main_area);
-        if (scrolling) {
-          current_var.scrollIntoView(scrolling < 0);
-          window.scrollTo(0, 0);
+    var transition = transitions[cur_state];
+    switch(transition.t) {
+      case "assign": {
+        var newVal = (button == "back" ? transition.from : transition.to);
+        var elems = [];
+        if (transition.cl) {
+if (typeof(transition.cl) == "string") {
+          var new_elems = variable_classes[transition.cl];
+          for (var i = 0; i < new_elems.length; i++) {
+            elems.push(new_elems[i]);
+          }
+} else {
+alert("#"+cur_state
+   +"\n<*> transition.cl not a string <*>"
+   +"\n\n"+JSON.stringify(transition));
+}
         }
-      }
-    }
-  }
-*/
-}
-
-function scroll_to_show(transition) {
-  var style;
-var apu;
-  
-  if (!transition || !transition.style) return;
-  for (i = 0; i < transition.style.length; i++) { // for all affected variables
-    style = transition.style[i];
-    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
-      var current_var = variables[style.ids[j]];
-      var scrolling;
-/*
-      if(variables[style.ids[j]].innerHTML != style.from) {
-        alert("Style of " + ids[j] + " is " + 
-          variables[style.ids[j]].innerHTML + ", sb " + style.from);
-      }
-*/
-apu=current_var.style.cssText;
-      current_var.style.cssText = style.to;
-//alert(style.ids[j]+": " + apu + "->" + style.to);
-      if(style.from.endsWith("hidden;")) {
-        scrolling = scroll_needed(current_var, main_area);
-        if (scrolling) {
-          current_var.scrollIntoView(scrolling < 0);
-          window.scrollTo(0, 0);
+        if (transition.ids) {
+          var new_ids = transition.ids;
+          for (var i = 0; i < new_ids.length; i++) {
+            elems.push(variables[new_ids[i]]);
+          }
         }
-      }
-    }
-  }
+if (elems.length == 0) {
+alert("#"+cur_state
+   +"\ncur_co = "+cur_co
+   +"\nno assign no elements"
+   +"\n\n"+JSON.stringify(transition));
 }
-
-function transit_bw(tr_id) {
-  var transition = transitions[tr_id];
-  var i, j, k, assign, style;
-  
-  for (i = 0; i < transition.assign.length; i++) { // for all affected variables
-    assign = transition.assign[i];
-    if(assign.classes) {
-      for (j = 0; j < assign.classes.length; j++) {  // for all classes
-        elems = variable_classes[assign.classes[j]];
-        for (k = 0; k < elems.length; k++) {
-      
-          elems[k].innerHTML = assign.from;
+        for (var i = 0; i < elems.length; i++) {
+var oldContent = elems[i].innerHTML;
+elems[i].innerHTML = transition.from;
+var newContent = elems[i].innerHTML
+var difference = "";
+if (button != "back" && newContent != oldContent) {
+if (newContent.length != oldContent.length) {
+difference = "\nnew length = "+newContent.length
+           + "\nold length = "+oldContent.length;
+} else {
+for (var p = 0; p < oldContent.lentgth; p++) {
+if (oldContent.charCodeAt(p) != newContent.charCodeAt(p)) {
+difference = "\nchar at "+p+": "+oldContent.charCodeAt(p).toString(16)
+           + " -> "+newContent.charCodeAt(p).toString(16);
+}
+}
+}
+alert("#"+cur_state
+   +"\ncur_co = "+cur_co
+   +"\nclassName = "+elems[i].className
+   +"\nid = "+elems[i].id
+   +"\ntransition.from = "+transition.from
+   +"\nold content = "+oldContent
+   +difference
+   +"\n\n"+JSON.stringify(transition));
+}
+          elems[i].innerHTML = newVal;
         }
-      }
-    } else {
-      for (j = 0; j < assign.ids.length; j++) {  // for all names of that variable
-        variables[assign.ids[j]].innerHTML = assign.from;
-      }
+      } break;
+      case "style": {
+        var newVal = (button == "back" ? transition.from : transition.to);
+        var ids = transition.ids;
+        for (var i = 0; i < ids.length; i++) {
+          styled = ids[i];
+var oldStyle = variables[styled].style.cssText;
+variables[styled].style.cssText = transition.from;
+if (button != "back" && variables[styled].style.cssText != oldStyle) {
+alert("#"+cur_state
+   +"\ncur_co = "+cur_co
+   +"\nid = "+styled
+   +"\ntransition.from = "+transition.from
+   +"\nold style = "+oldStyle
+   +"\n\n"+JSON.stringify(transition));
+}
+          variables[styled].style.cssText = newVal;
+        }
+      } break;
+      default: {
+        state_dpy.innerHTML = transition.name;
+        cur_co = transition.co;
+        var dis = transition.dis || [];
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].disabled = (dis.indexOf(buttons[i].id) >= 0);
+        }
+        more = (transition.t == "xpln" && button != "explain");
+      } break;
     }
   }
-    
-  for (i = 0; i < transition.style.length; i++) { // for all affected variables
-    style = transition.style[i];
-    for (j = 0; j < style.ids.length; j++) {  // for all names of that variable
-      variables[style.ids[j]].style.cssText = style.from;
-    }
-  }
-
-  if ("backtrack" in transition) {
-    for(i = transition.backtrack.length - 1; i >= 0; i--) {
-      transit_fw(transition.backtrack[i]);
-    }
+  comments[cur_co].style.cssText = "";
+  if (styled) {
+    scroll_to_show(styled);
   }
 }
 
-function enter_state() {
-  var state = states[cur_state];
-  var sequence;
-  var i;
-
-  if (state.xpln && 
-      (!Array.isArray(state.xpln) || state.xpln.length > 0 )) {
-    document.getElementById("explain").disabled = false;
-  } else {
-    document.getElementById("explain").disabled = true;
+function scroll_to_show(id) {
+  var current_var = variables[id];
+  var scrolling = scroll_needed(current_var, main_area);
+  if (scrolling) {
+    current_var.scrollIntoView(scrolling < 0);
+    window.scrollTo(0, 0);
   }
-
-  if (state.fw && 
-      (!Array.isArray(state.fw) || state.fw.length > 0 )) {
-    document.getElementById("step").disabled = false;
-  } else {
-    document.getElementById("step").disabled = true;
-  }
-
-  if (state.bk && 
-      (!Array.isArray(state.bk) || state.bk.length > 0 )) {
-    document.getElementById("back").disabled = false;
-  } else {
-    document.getElementById("back").disabled = true;
-  }
-
-  if (state.enter) {
-    if (Array.isArray(state.enter)) {
-      sequence = state.enter;
-    } else {
-      sequence = [state.enter];
-    }
-    for (i = 0; i < sequence.length; i++) {
-      transit_fw(sequence[i]);
-    }
-      
-  }
-}
-
-function forwards() {
-  var state = states[cur_state];
-  var prev_state = cur_state;
-  var sequence;
-  var i;
-  var transition;
-  
-  if (!state.fw) return;
-  variables[states[prev_state].co].style.cssText = "display:none;";
-  if (Array.isArray(state.fw)) {
-    sequence = state.fw;
-  } else {
-    sequence = [state.fw];
-  }
-  while (sequence) {
-    for (i = 0; i < sequence.length; i++) {
-      transit_fw(sequence[i]);
-      transition = transitions[sequence[i]];
-      if(transition.to) {
-        cur_state = transition.to; // finally, change current state
-        variables["state"].innerHTML = cur_state; // display state
-      }
-    }
-    
-    state = states[cur_state];
-    if (!state.go) {
-      sequence = null;
-    } else if (Array.isArray(state.go)) {
-      sequence = state.go;
-    } else {
-      sequence = [state.go];
-    }
-  }
-
-  variables[states[cur_state].co].style.cssText = "";
-  enter_state(cur_state);
-}
-
-function backwards() {
-  var state = states[cur_state];
-  var prev_state = cur_state;
-/*
-  if (!state.bk) return;
-  var transition = transitions[state.bk];
-
-  transit_bw(state.bk);
-  
-  if(transition.from) {
-    cur_state = transition.from; // finally, change current state
-    variables["state"].innerHTML = cur_state; // display state
-  }
-*/  
-  var sequence;
-  var i;
-  var transition;
-  
-  if (!state.bk) return;
-  if (Array.isArray(state.bk)) {
-    sequence = state.bk;
-  } else {
-    sequence = [state.bk];
-  }
-  for (i = 0; i < sequence.length; i++) {
-    transit_bw(sequence[i]);
-    transition = transitions[sequence[i]];
-    if(transition.from) {
-      cur_state = transition.from; // finally, change current state
-      variables["state"].innerHTML = cur_state; // display state
-    }
-  }
-  
-  variables[states[prev_state].co].style.cssText = "display:none;";
-  variables[states[cur_state].co].style.cssText = "";
-  enter_state(cur_state);
-}
-
-function explain() {
-  var state = states[cur_state];
-  var prev_state = cur_state;
-  if (!state.xpln) return;
-  // what if state.xpln == []?
-  var transition = transitions[state.xpln];
-  var sequence;
-  var i;
-
-  if (!state.xpln) return;
-  if (Array.isArray(state.xpln)) {
-    sequence = state.xpln;
-  } else {
-    sequence = [state.xpln];
-  }
-  for (i = 0; i < sequence.length; i++) {
-    transit_fw(sequence[i]);
-    transition = transitions[sequence[i]];
-    if(transition.to) {
-      cur_state = transition.to; // finally, change current state
-      variables["state"].innerHTML = cur_state; // display state
-    }
-  }
-  scroll_to_show(transition);
-
-
-
-
-//  transit_fw(state.xpln);
-//  if(transition.to) {
-//    cur_state = transition.to; // finally, change current state
-//    variables["state"].innerHTML = cur_state; // display state
-//  }
-  variables[states[prev_state].co].style.cssText = "display:none;";
-  variables[states[cur_state].co].style.cssText = "";
-  enter_state(cur_state);
 }
 
 function scroll_needed(element, container) {
@@ -1964,72 +1161,42 @@ function scroll_needed(element, container) {
 // Initialize
 
 var id;
-var trans_id, i, j, ids;
-var cur_trans;
-var state_id, statex;
-var classes;
+var i, j, ids;
+//var classes;
 
-for (trans_id in transitions) {
-  if (transitions.hasOwnProperty(trans_id)) {
-    cur_trans = transitions[trans_id];
-    if ("style" in cur_trans) {
-      for (i = 0; i < cur_trans.style.length; i++) {
-        classes = cur_trans.style[i].classes;
-        if (classes) {
-          for (j = 0; j < classes.length; j++) {
-              variable_classes[classes[j]] = null;
-          }
-          
-        } else {
-          ids = cur_trans.style[i].ids;
-          for (j = 0; j < ids.length; j++) {
-              variables[ids[j]] = null;
-          }
-        }
-      }
-    }
-    if ("assign" in cur_trans) {
-      for (i = 0; i < cur_trans.assign.length; i++) {
-        classes = cur_trans.assign[i].classes;
-        if (classes) {
-          for (j = 0; j < classes.length; j++) {
-              variable_classes[classes[j]] = null;
-          }
-          
-        } else {
-          ids = cur_trans.assign[i].ids;
-          for (j = 0; j < ids.length; j++) {
-              variables[ids[j]] = null;
-          }
-        }
-      }
+for (var i = 0; i < transitions.length; i++) {
+  var transition = transitions[i];
+  if (transition.hasOwnProperty("ids")) {
+    var ids = transition.ids;
+    for (var j = 0; j < ids.length; j++) {
+      variables[ids[j]] = null;
     }
   }
-}
-
-for (state_id in states) {
-  if (states.hasOwnProperty(state_id)) {
-    statex = states[state_id];
-    if ("co" in statex) {
-        variables[statex["co"]] = null;
-    }
+  if (transition.hasOwnProperty("cl")) {
+    variable_classes[transition.cl] = null;
   }
 }
 
 for (id in variables) {
   if (variables.hasOwnProperty(id)) {
     variables[id] = document.getElementById(id);
+if (!variables[id]) {
+alert("Element "+id+" not found");
+}
   }
 }  
 
 for (className in variable_classes) {
   if (variable_classes.hasOwnProperty(className)) {
     variable_classes[className] = document.getElementsByClassName(className);
+if (!variable_classes[className] || !variable_classes[className].length) {
+alert("Class "+className+" not found");
+}
   }
-}  
+}
 
 state = "_init";
-forwards();
+document.getElementById("step").click();
 
 // -->
 </script>

@@ -65,9 +65,9 @@ of line is considered a comment.</p>
 <TR><TH>LBRAK</TH><TD>[</TD></TR>
 <TR><TH>RBRAK</TH><TD>]</TD></TR>
 <TR><TH>CUT</TH><TD>!</TD></TR>
-<TR><TH></TH><TD>|</TD></TR>
+<TR><TH>VBAR</TH><TD>|</TD></TR>
 <TR><TH>OPEN</TH><TD>_</TD></TR>
-<TR><TH></table>
+</table>
 
 <H3>INT</H3>
 <p>Integer literal. A decimal literal consist of digits "<code>0</code>"..."<code>9</code>".
@@ -305,6 +305,13 @@ These are mainly used when the predicate gives an output variable that is not ne
 <H3>EOF</H3>
 <p>Physical end-of-file.</p>
 <H2 id="syntax">Syntax</H2>
+<p><b>NOTE:</b> The main differences to other Prolog syntaxes:</p>
+<ol>
+<li>This Prolog dialect does not support operator definitions.</li>
+<li>Arithmetics resembles Java.</li>
+<li>Equal sign <code>=</code> is used to store the value of an expression
+to a variable.</li>
+</ol></p>
 <p><a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">
 Backus-Naur form</a> is used here to present the syntax. Names in <code>CAPITAL</code> letters refer to <a href="#tokens">tokens</a>.</p>
 <p>
@@ -382,6 +389,11 @@ Backus-Naur form</a> is used here to present the syntax. Names in <code>CAPITAL<
 </pre>
 </p>
 <H2 id="notes_on_semantics">Notes on Semantics</H2>
+<p>For general idea read a short Wikipedia article 
+<a href=" https://en.wikipedia.org/wiki/Prolog_syntax_and_semantics">Prolog syntax and semantics</a>.</p>
+<ol>
+<li>Arithmetic expressions are replaced by their values as soon as possible.</li>
+</ol>
 
 </body>
 </html>

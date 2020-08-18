@@ -174,5 +174,143 @@ comline_arg(3, "", "report.txt").</pre>
       -->
       
     </dl>
+    <h2>Arithmetic Expressions</h2>
+    <h3>Operators</h3>
+    <h4>Operator Precedence</h4>
+    
+    <p>Arithmetic operators have their normal precedences. Operators multiplication, division, <code>mod</code>, and <code>div</code> have the same precedence and are evaluated from left to right.</p>
+    <h4>Operators and Data Types</h4>
+    <table>
+      <tr>
+        <th>Symbol</th>
+        <th>Operation</th>
+        <th>Left Type</th>
+        <th>Right Type</th>
+        <th>Result Type</th>
+        <th>Example</th>
+        <th>Example Value</th>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>2 * 3</code></td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2 * 3.2</code></td>
+        <td>6.4</td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>2.2 * 3</code></td>
+        <td>6.6</td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2.2 * 3.2</code></td>
+        <td>7.04</td>
+      </tr>
+
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>3 / 2</code></td>
+        <td>1.5</td>
+      </tr>
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>4 / 2.5</code></td>
+        <td>1.6</td>
+      </tr>
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>6.8 / 4</code></td>
+        <td>1.7</td>
+      </tr>
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>14.7 / 4.2</code></td>
+        <td>3.5</td>
+      </tr>
+
+      <tr>
+        <td><code>div</code></td>
+        <td>integer division</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>5 div 3</code></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td><code>mod</code></td>
+        <td>remainder</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>5 mod 3</code></td>
+        <td>2</td>
+      </tr>
+    </table>
+<!--  
+    <p></p>
+      <dt><font size="+1"><b><code>sin(</code><i>Expression</i><code>)</code></b></font></dt>
+      <dd><p>Calculates sine of the value of <i>Expression</i>.</p>
+      <p>Example:</p>
+      <p><code>sin(Alpha*K)</code></p>
+      </dd>
+    <p>
+    unary + ja -
+    binary + - * , integer tai real. real, jos toinen on real, muuten integer
+    / - tulos aina real
+    mod div vain integereille
+    </p>
+    <dl>
+      <dt><font size="+1"><b><code>sin(</code><i>Expression</i><code>)</code></b></font></dt>
+      <dd><p>Calculates sine of the value of <i>Expression</i>.</p>
+      <p>Example:</p>
+      <p><code>sin(Alpha*K)</code></p>
+      </dd>
+    </dl>
+    <h2>Built-in Functions</h2>
+    <dl>
+      <dt><font size="+1"><b><code>sin(</code><i>Expression</i><code>)</code></b></font></dt>
+      <dd><p>Calculates sine of the value of <i>Expression</i>.</p>
+      <p>Example:</p>
+      <p><code>sin(Alpha*K)</code></p>
+      </dd>
+    </dl>
+-->
 </body>
 </html>

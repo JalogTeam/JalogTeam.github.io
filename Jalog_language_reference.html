@@ -307,9 +307,10 @@ These are mainly used when the predicate gives an output variable that is not ne
 <H2 id="syntax">Syntax</H2>
 <p><b>NOTE:</b> The main differences to other Prolog syntaxes:</p>
 <ol>
-<li>This Prolog dialect does not support operator definitions.</li>
-<li>Arithmetics resembles Java.</li>
-<li>Equal sign <code>=</code> is used to store the value of an expression
+<li>Jalog does not support operator definitions.</li>
+<li>Arithmetics, including numeric literals, resembles Java.</li>
+<li>Strings and character literals resemble those of Java.</li>
+<li>Jalog has no <code>is</code> operator. Equal sign <code>=</code> is used to store the value of an expression
 to a variable.</li>
 </ol></p>
 <p><a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">
@@ -391,9 +392,19 @@ Backus-Naur form</a> is used here to present the syntax. Names in <code>CAPITAL<
 <H2 id="notes_on_semantics">Notes on Semantics</H2>
 <p>For general idea read a short Wikipedia article 
 <a href=" https://en.wikipedia.org/wiki/Prolog_syntax_and_semantics">Prolog syntax and semantics</a>.</p>
-<ol>
-<li>Arithmetic expressions are replaced by their values as soon as possible.</li>
-</ol>
 
+<h3>Differences between Jalog and traditional Prolog</h3>
+<p>
+The differences between traditional Prolog and Jalog can be broadly divided into these categories:
+<ol>
+<li>The equal sign <code>=</code> unifies left and right side expressions.</li>
+<li>Arithmetic expressions are replaced by their values in unification. This happens when the <code>=</code> sign is used or a predicate is called.</li>
+<li>When backtracking to database query the modifications after the previous query can be accessed.</li>
+<li>Unification is done mainly as explained in <a href="http://www.learnprolognow.org/lpnpage.php?pagetype=html&pageid=lpn-htmlse5">section 2.1 Unification in Learn Prolog Now!</a>. The biggest difference is that arithmetic expressions of known values are evaluated.</li>
+<li>Identification and handling cyclic terms is not supported.</li>
+<li>String is not a list. Instead, it is a primitive data type.</li>
+<li>Single quotes do not indicate an atom but a character literal as in Java.</li>
+</ol>
+</p>
 </body>
 </html>

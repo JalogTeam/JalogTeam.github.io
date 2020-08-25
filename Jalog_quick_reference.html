@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <head>
 <title>Jalog Quick Reference</title>
+<style>
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
 </head>
 <body>
   <h1>Jalog Quick Reference</h1>
@@ -178,10 +188,13 @@ comline_arg(3, "", "report.txt").</pre>
     <h3>Operators</h3>
     <h4>Operator Precedence</h4>
     
-    <p>Arithmetic operators have their normal precedences. Operators multiplication, division, <code>mod</code>, and <code>div</code> have the same precedence and are evaluated from left to right.</p>
+    <p>Arithmetic operators have their normal precedences. Expressions in 
+    parenthesis <code>()</code> are evaluated first. Operators multiplication, 
+    division, <code>mod</code>, and <code>div</code> have the same precedence 
+    and are evaluated from left to right.</p>
     <h4>Operators and Data Types</h4>
     <table>
-      <tr>
+      <tr style="border-bottom: 1px solid">
         <th>Symbol</th>
         <th>Operation</th>
         <th>Left Type</th>
@@ -273,7 +286,7 @@ comline_arg(3, "", "report.txt").</pre>
         <td><code>5 div 3</code></td>
         <td>1</td>
       </tr>
-      <tr>
+      <tr style="border-bottom: 1px solid">
         <td><code>mod</code></td>
         <td>remainder</td>
         <td>integer</td>
@@ -282,6 +295,121 @@ comline_arg(3, "", "report.txt").</pre>
         <td><code>5 mod 3</code></td>
         <td>2</td>
       </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>2 + 3</code></td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2 + 3.2</code></td>
+        <td>5.2</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>2.2 + 3</code></td>
+        <td>5.2</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2.2 + 3.2</code></td>
+        <td>5.4</td>
+      </tr>
+
+
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>3 - 2</code></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>3 - 2.2</code></td>
+        <td>0.8</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>3.2 - 2</code></td>
+        <td>1.2</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>3.2 - 2.2</code></td>
+        <td>1.0</td>
+      </tr>
+
+      <tr>
+        <td><code>+</code></td>
+        <td>identity function</td>
+        <td></td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>+ 3</code></td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>identity function</td>
+        <td></td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>+ 3.2</code></td>
+        <td>3.2</td>
+      </tr>
+
+
+      <tr>
+        <td><code>-</code></td>
+        <td>negation</td>
+        <td></td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>- 2</code></td>
+        <td>-2</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>negation</td>
+        <td></td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>- 2.2</code></td>
+        <td>-2.2</td>
+      </tr>
+
+
     </table>
 <!--  
     <p></p>

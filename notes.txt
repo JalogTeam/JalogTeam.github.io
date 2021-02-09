@@ -1,3 +1,9 @@
+Jalog_class_doc.html:
+---------------------
+
+Tiedostojen konsultointiin liittyviin operaatioihin selitys hakemistonimistä ja
+prefixeista (file: res:).
+
 Jalog_animation.html:
 ---------------------
 

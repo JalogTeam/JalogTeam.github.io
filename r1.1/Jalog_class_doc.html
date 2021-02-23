@@ -4,6 +4,9 @@
 <title>Jalog class</title>
 </head>
 <body>
+<p ALIGN="right"><EM>
+<b>Jalog&nbsp;1.1</b></EM>
+</p>
 <HR>
 <!-- ======== START OF CLASS DATA ======== -->
 <H2>
@@ -26,6 +29,7 @@ title="class in java.lang">java.lang.Object</A>
 <P>
 Class <code>Jalog</code> represents the Prolog subsystem.
 Before running the Prolog program the Prolog subsystem is instantiated.
+Then the program is consulted from a file, a resource, or an array of strings.
 Running the system can consist of several calls.
 Each call is preceded by construction of input and output data structures.
 Then the instantiated system is used to run the program.
@@ -752,14 +756,14 @@ public static void <B>consult_data_file</B
 >(String <A HREF="#filename">filename</A>, String[] filter)</PRE>
 <DL>
 <DD>Consults (reads) facts from a file. Only facts specified in the filter are
-consulted. Filter is an array of strings, each containing a predicate indication
+consulted. Filter is an array of strings, each containing a predicate indicator
 in form <i>name</i><code>/</code><i>arity</i> .
 <P>
 <DD>
 <DL>
   <DT><B>Parameters:</B>
   <DD><CODE>filename</CODE> - the name of the Prolog source lines.</DD>
-  <DD><CODE>filter</CODE> - predicate indications.</DD>
+  <DD><CODE>filter</CODE> - predicate indicators.</DD>
   <DT><B>Example:</B>
   <DD>
   <CODE>consult_data_file("data.pro", new String[]{"cars/4", "houses/2"});
@@ -776,13 +780,13 @@ public static void <B>consult_data_stringlist</B
 <DL>
 <DD>Consults facts from an array of strings. Only facts specified in the filter
 are consulted. Filter is an array of strings, each containing a predicate 
-indication in form <i>name</i><code>/</code><i>arity</i> .
+indicator in form <i>name</i><code>/</code><i>arity</i> .
 <P>
 <DD>
 <DL>
   <DT><B>Parameters:</B>
   <DD><CODE>lines</CODE> - the name of the Prolog source lines.</DD>
-  <DD><CODE>filter</CODE> - predicate indications.</DD>
+  <DD><CODE>filter</CODE> - predicate indicators.</DD>
   <DD><CODE>name</CODE> - comment for error messages.</DD>
   <DT><B>Example:</B>
   <DD><CODE>String[] things = {</CODE></DD>
@@ -903,10 +907,12 @@ CELLSPACING="0" SUMMARY="">
 <DL>
 <DD>
 Directory names can refer to directories either in the file system or in the 
-jar file. The default value is the file system, if not otherwise
-specified. In order to specifically refer to the file system prepend the name
-with <code>file:</code> . In order to refer to a resource of the jar file 
-prepend the name with <code>res:</code> .
+resource system. In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a directory in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+dirname is an absolute path it refers to the file system. A relative path
+refers to a subdirectory of the current consult directory.
   <DL>
   <DT><B>Examples:</B>
   <DD><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
@@ -922,16 +928,18 @@ prepend the name with <code>res:</code> .
 <DL>
 <DD>
 File names can refer either to files in the file system or to 
-resources of the jar package. The default is a file in the current consult
-directory, if not otherwise
-specified. In order to specifically refer to the file system prepend the name
-with <code>file:</code> . In order to refer to a resource of the jar file 
-prepend the name with <code>res:</code> .
+resources of the jar package.
+In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a resource in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+filename is an absolute path it refers to the file system. A relative path
+refers to a file or resource in the current consult directory.
   <DL>
   <DT><B>Examples:</B>
   <DD><CODE>"file:C:/data/trees.pro"</CODE> - refers to a file in the file
   system.
-  <DD><CODE>"res:parameters.pro"</CODE> - refers to a resource in the jar file.
+  <DD><CODE>"res:parameters.pro"</CODE> - refers to a resource in the resource system.
   <DD><CODE>"rules.pro"</CODE> - refers to a file or a resource in the current
   directory.
  </DL>

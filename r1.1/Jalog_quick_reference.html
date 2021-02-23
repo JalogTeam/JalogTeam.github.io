@@ -13,6 +13,10 @@ th, td {
 </style>
 </head>
 <body>
+<p ALIGN="right"><EM>
+<b>Jalog&nbsp;1.1</b></EM>
+</p>
+<HR>
   <h1>Jalog Quick Reference</h1>
     <h2>Built-in Predicates</h2>
     <dl>
@@ -51,6 +55,28 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Reads the facts and rules to the database and executes the goals from the file <i>Filename</i>.</p>
         <p>Example:</p>
         <p><code>consult("route_data.pro")</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>consult_data(</code><i>Filename</i><code>, </code><i>Filter</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Reads the facts to the database from the file <i>Filename</i>. Only facts specified in the <i>Filter</i> are consulted. <i>Filter</i> is a list of strings, each containing a predicate indicator in form <i>name</i>/<i>arity</i> .</p>
+        <p>Example:</p>
+        <p><code>consult_data("data.pro", ["cars/4", "houses/2"])</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>consult_dir(</code><i>Dirname</i><code>)</code></b></font></dt>
+      <dd>
+        <p>If <i>Dirname</i> is bound to a string sets current consult directory.</p>
+        <p>If <i>Dirname</i> is open it will be bound to the current
+        consult directory name. The directory name is absolute and always begins with
+"<code>file:</code>" or "<code>res:</code>". It can be used as an argument to
+<code>set_consult_dir</code> .</p>
+        <p>Examples:</p>
+        <p><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
+        the C disk.</p>
+        <p><CODE>"res:lib/routes"</CODE> - refers to a resource directory.</p>
+        <p><CODE>"sub"</CODE> - refers to the subdirectory <code>sub</code> of
+        the current directory.</p>
       </dd>
 
       <dt><font size="+1"><b><code>dynamic(</code><i>PredicateIndicator</i><code>)</code></b></font></dt>
@@ -95,6 +121,11 @@ comline_arg(3, "", "report.txt").</pre>
         to the succeeding items.</p>
         <p><code>foreach_(X, [1, 2, 3]), write(' ', X), fail.</code> prints
         <code> 1 2 3</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>free(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is open, otherwise fails.</p>
       </dd>
 
       <dt><font size="+1"><b><code>is_char(</code><i>Var</i><code>)</code></b></font></dt>
@@ -177,11 +208,31 @@ comline_arg(3, "", "report.txt").</pre>
         </p>
       </dd>
       
+      <dt><font size="+1"><b><i>Left</i> <code>=</code> 
+      <i>Right</i></b></font></dt>
+      <dd>
+        <p>Tries to unify <i>Left</i> and <i>Right</i>.</p>
+      </dd>
+
+      <dt><font size="+1"><b>
+      <i>Left</i> <code>&gt;</code> <i>Right</i><br/>
+      <i>Left</i> <code>&gt;=</code> <i>Right</i><br/>
+      <i>Left</i> <code>&lt;</code> <i>Right</i><br/>
+      <i>Left</i> <code>&lt;=</code> <i>Right</i><br/>
+      <i>Left</i> <code>!=</code> <i>Right</i><br/>
+      </b></font></dt>
+      <dd>
+        <p>
+        Compares arithmetically or lexicographically <i>Left</i> and <i>Right</i>.
+        </p>
+      </dd>
+
       <!-- Template for additional stuff
       <dt><font size="+1"><b>__</b></font></dt>
       <dd>
       </dd>
       -->
+      
       
     </dl>
     <h2>Arithmetic Expressions</h2>

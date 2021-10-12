@@ -1,0 +1,59 @@
+Jalog 1.3 uudet interfacemäärittelyt
+====================================
+Työdokumentti
+
+
+Jalog
+=====
+
+Nested classes
+--------------
+
+static class ResourceManager
+
+static class Output
+
+static class OutputErr extends Output
+
+Fields
+------
+
+static Output out
+
+static Output err
+
+Methods
+-------
+
+static void setResourceManager(ResourceManager rm)
+
+static void setOut(Output o)
+
+static void setErr(Output o)
+
+static InputStream getResourceAsStream(String fileName) throws IOException
+
+Jalog.ResourceManager
+=====================
+
+Methods
+-------
+
+InputStream getResourceAsStream(String fileName) throws IOException
+
+Jalog.Output
+============
+
+Methods
+-------
+
+void print(String s)
+
+void println(String s)
+
+void println()
+
+Jalog.OutputErr
+===============
+
+void print(String s)

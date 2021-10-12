@@ -1,0 +1,1204 @@
+<html>
+<!-- 
+    Jalog (a dialect of Prolog) execution visuoalization demo
+        Demonstration searches a path in a trivial network. However, it
+        visualizes many aspects of the Jalog language (and Prolog) and its
+        execution.
+        
+    Project: Jalog
+    By: Mikko Levanto, Ari Okkonen
+-->
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.8"/>
+<style>
+body {
+  height: 100%;
+  overflow: hidden;
+}
+.top {
+  padding: 2px;
+  border: 3px solid #73AD21;
+  background-color: white;
+  height: 25px;
+  margin-bottom: 2px;
+}
+.comment {
+  padding: 2px;
+  border: 3px solid black;
+  background-color: white;
+  height: 60px;
+  margin-bottom: 2px;
+  overflow-Y: scroll;
+}
+  .comment p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    
+  }
+  .s {
+  }
+  .x {
+  }
+
+
+.main {
+  height: calc(100% - 120px);
+  overflow-Y: scroll;
+}
+
+pre {margin-left:1em;}
+</style>
+</head>
+<body>
+<div class="top">
+<button id="step" onclick="move('step')">Step</button>
+<button id="back" onclick="move('back')">Back</button>
+<button id="explain" disabled="disabled" onclick="move('explain')"
+  >Explain more</button>
+
+<code><span id="state"><i>state</i></span></code>
+</div>
+
+<div class="comment">
+<p id="co_s" style="display:none"></p>
+
+<p id="co_start">Ready. Push Step to start animating a Jalog (Prolog) 
+program.<br/>
+By: Mikko Levanto and Ari Okkonen 2019<br/>
+Jalog home: <code><a href="https://jalogteam.github.io/">https://jalogteam.github.io/</a></code></p>
+
+<p id="co_s0_1" style="display:none">
+Execution is started from the 
+<em>goal</em>. The first characters of the goal are <span style="background-color:#80ffff;">:-</span>.</p>
+
+<p id="co_s1" style="display:none">
+The goal is instantiated creating a variable for  each variable name in the clause. Variable names begin with an uppercase letter or underscore. Variables are local and not visible outside of the clause. In this example variable <code>Route&#x2081;</code> is created for the name <code>Route</code> and likewise <code>Len&#x2081;</code> for <code>Len</code>. (In this visualization the subscripts are used to differentiate different variable instances with the same name.) After instantiation the execution of the instantiated clause is started. First the predicate <code>route</code> is called.</p>
+
+<p class="x" id="co_s1a" style="display:none">
+Predicate <code>route</code> is called 
+with the following parameters:...</p>
+
+<p class="x" id="co_s1b" style="display:none">
+...symbols (the first character must be 
+lower case) defining the beginning and the end of the route,...</p>
+
+<p class="x" id="co_s1c" style="display:none">
+...an empty list meaning no junctions to 
+avoid, and...</p>
+
+<p class="x" id="co_s1d" style="display:none">
+...variables to return the results. (The first character of a variable name must be upper case.)</p>
+
+<p class="x" id="co_s2_1" style="display:none">
+The database is searched for a matching clause. The head of the first clause of <code>route</code> is compared to the call.
+</p>
+
+<p class="x" id="co_s2_2" style="display:none">
+The first parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>Town</code> will be
+replaced with the value <code>oulu</code> everywhere in the clause.
+</p>
+
+<p class="x" id="co_s2_3" style="display:none">
+The second parameter of the called predicate is compared to the call. Because
+it is a definite value and different from the value in the call it does not match.
+So, the head of the clause does not match the call. The database will be searched
+for next clause of the <code>route</code> predicate.
+</p>
+
+<p class="x" id="co_s2_4" style="display:none">
+The head of the second clause of <code>route</code> is compared to the call.
+</p>
+
+<p class="x" id="co_s2_5" style="display:none">
+The first parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>Town1</code> will be
+replaced with the value <code>oulu</code> everywhere in the clause.
+</p>
+
+<p class="x" id="co_s2_6" style="display:none">
+The second parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>Town2</code> will be
+replaced with the value <code>joensuu</code> everywhere in the clause.
+</p>
+
+<p class="x" id="co_s2_7" style="display:none">
+The third parameter of the called predicate is compared to the call. Because it is
+a variable, it matches and can be unified: the variable <code>ToTown1</code> will be
+replaced with the value <code>[]</code> (i.e., an empty list) everywhere in the clause.
+</p>
+
+<p class="x" id="co_s2_8" style="display:none">
+The fourth parameter of the called predicate is compared to the call. 
+Because the call has a variable at this position it matches and can be
+unified: the variable <code>Route</code> in the calling clause will be
+replaced with the expression <code>[oulu|FromTown1&#x2082;]</code> everywhere
+in the calling clause.
+</p>
+
+<p class="x" id="co_s2_9" style="display:none">
+The fifth parameter of the called predicate is compared to the call.
+Because both are variables, they match and can be unified: one of the variables will be replaced with the other everywhere in the clause.
+</p>
+
+<p id="co_s2x" style="display:none">
+The first matching clause of <code>route</code> is the second one.
+It is instantiated, and the parameters are unified.</p>
+
+<p id="co_s2" style="display:none">The second clause of <code>route</code>
+ matches, it is instantiated, and the parameters are unified.
+The unified expressions (including single variables and values) are 
+compared. If the expressions are equivalent or they can be made equivalent substituting their variables with the corresponding expression from the other side and eveluating the arithmetic expressions, then the unification succeeds. If the unification fails, the clause fails. However, in this case the unification succeeds.
+ </p>
+
+<p id="co_s3" style="display:none">Next subgoal (&#8776;statement): The expressions on both sides of the equal sign are unified. In the unification the variable <code>ToTownX&#x2082;</code> is replaced by the value in the right side.</p>
+
+<p id="co_s4" style="display:none">Variable unified. An <span style="background-color:#80ffff;">empty list at the end of a list</span> is implicit and need not to be shown.<br/>
+Next the predicate <code>connected</code> is called.</p>
+
+<p id="co_s5" style="display:none">The first clause of 
+<code>connected</code> is instantiated.</p>
+
+<p id="co_s6" style="display:none">Searching a <code>road</code> from <code>
+oulu</code>.</p>
+
+<p id="co_s7" style="display:none">Not found! <br/><b>NOTE:</b> Roads are
+defined in single direction only.</p>
+
+<p id="co_s8" style="display:none">The second clause of 
+<code>connected</code> is instantiated.</p>
+
+<p id="co_s9" style="display:none">Searching a <code>road</code> <b>to</b> 
+<code>oulu</code>.</p>
+
+<p id="co_s10" style="display:none">Found a <code>road</code> from 
+<code>kajaani</code> to <code>oulu</code>.</p>
+
+<p id="co_s11" style="display:none">Connection from <code>oulu</code> to
+<code>kajaani</code> found.</p>
+
+<p id="co_s12" style="display:none">Here the argument of the operator <code>not</code> is executed first. The <code>not</code> succeeds if its argument fails but fails if the argument succeeds.<br/>
+Here it is used to check that <code>kajaani</code> is <b>not</b> visited yet.</p>
+
+<p id="co_s13" style="display:none"><code>kajaani</code> is not in the
+beginning of the path already travelled. Therefore, the first clause of
+<code>member</code> does not match.</p>
+
+<p id="co_s14" style="display:none">Is it visited later?</p>
+
+<p id="co_s15" style="display:none">No. Already at the end of the travelled
+path.</p>
+
+<p id="co_s16" style="display:none"><code>not</code> succeeds, if the
+argument fails.</p>
+
+<p id="co_s17" style="display:none">Ok. <code>kajaani</code> is not visited.<br/>
+Next trying to find a route from <code>kajaani</code>.
+The predicate <code>route</code> will be called recursivey. The first clause does
+not match, so the second clause will be instantiated with new variables.</p>
+
+<p id="co_s18" style="display:none">Do we find a route from 
+<code>kajaani</code> to <code>joensuu</code> without visiting 
+<code>oulu</code>?</p>
+
+<p id="co_s19" style="display:none">Another unification</p>
+
+<p id="co_s20" style="display:none">Here the <span style="background-color:#80ffff;">same list</span> is written in two ways:
+on the left as comma separated members, on the right the first member as head
+and, after vertical bar, rest as tail.<br/>Where we can go from 
+<code>kajaani</code>?</p>
+
+<p id="co_s21" style="display:none">Searching a road from 
+<code>kajaani</code>.</p>
+
+<p id="co_s22" style="display:none">Searching a road from 
+<code>kajaani</code>.</p>
+
+<p id="co_s23" style="display:none">Found a road to <code>oulu</code>.</p>
+
+<p id="co_s24" style="display:none">Found a road to <code>oulu</code>.</p>
+
+<p id="co_s25" style="display:none">Be sure the route does not include <code>oulu</code> already to avoid looping!</p>
+
+<p id="co_s26" style="display:none">Is <code>oulu</code> in the list?</p>
+
+<p id="co_s27" style="display:none">Is <code>oulu</code> in the list?</p>
+
+<p id="co_s28" style="display:none">Yes, <code>oulu</code> is in the list.</p>
+
+<p id="co_s29" style="display:none">Yes, <code>oulu</code> is in the list.</p>
+
+<p id="co_s30" style="display:none"><code>member</code> succeeded, so <code>not</code> fails: A place already visited does not apply.</p>
+
+<p id="co_s31" style="display:none">After a fail execution goes backwards.
+Next the <code>connected</code> is redone in order to find another connection.</p>
+
+<p id="co_s32" style="display:none">When redoing, the instance of <code>connect</code> that was executed last is returned to the top of the stack. The execution is started from the end of the clause.<br/>
+Next the predicate road is redone: 
+Another road from <code>kajaani</code>?</p>
+
+<p id="co_s33" style="display:none">No other roads from <code>kajaani</code>.
+All variables that have given value 
+in the failed predicate lose their values.</p>
+
+<p id="co_s34" style="display:none">Searching another connection.</p>
+
+<p id="co_s35" style="display:none">Road to <code>kajaani</code>?</p>
+
+<p id="co_s36" style="display:none">Yes, from <code>joensuu</code>.</p>
+
+<p id="co_s37" style="display:none">Found a 230 km connection between <code>kajaani</code> and <code>joensuu</code>.</p>
+
+<p id="co_s38" style="display:none">Travelled via <code>joensuu</code> already?</p>
+
+<p id="co_s39" style="display:none"><code>joensuu</code> is not at the
+beginnig of the list.</p>
+
+<p id="co_s40" style="display:none">Is <code>joensuu</code> in the rest of the list?</p>
+
+<p id="co_s41" style="display:none"><code>joensuu</code> is not the next of 
+the list. </p>
+
+<p id="co_s42" style="display:none">Is <code>joensuu</code> in the rest of the list?</p>
+
+<p id="co_s43" style="display:none">No clause of <code>member</code> matches to the call: No, <code>joensuu</code> is not in the list.</p>
+
+<p id="co_s44" style="display:none">Call to <code>member</code> failed, so,
+this clause fails too.</p>
+
+<p id="co_s45" style="display:none">The <code>not</code> operator changes
+success to fail and vv. OK. Not in the loop. Go on!</p>
+
+<p id="co_s46" style="display:none">Do we have a route from <code>joensuu</code> to <code>joensuu</code>? Can our program sort it out?</p>
+
+<p id="co_s47" style="display:none">Yes! There is 0 kilometers from <code>joensuu</code> to <code>joensuu</code>!</p>
+
+<p id="co_s48" style="display:none">Total length from <code>kajaani</code> to our destination <code>joensuu</code>...</p>
+
+<p id="co_s49" style="display:none">... is 230 km. In Jalog unification
+includes evaluation of arthmetic expressions if possible.</p>
+
+<p id="co_s50" style="display:none">Total length from <code>oulu</code> to our destination <code>joensuu</code>...</p>
+
+<p id="co_s51" style="display:none">... is 413 km. You can find that the
+<span style="background-color:#80ffff; font-weight: bold;">results</span>
+are already in place to be displayed.</p>
+
+<p id="co_s52" style="display:none">And now...</p>
+
+<p id="co_end" style="display:none">... display the results and finish.</p>
+</div>
+
+<div id="main" class="main">
+<span id="output" style="display:none;">
+<h4>OUTPUT</h4>
+<pre>
+<b>[oulu, kajaani, joensuu] total length 413 km</b>
+</pre>
+<hr/>
+</span>
+
+<h4>STACK</h4>
+
+<!-- *** road s11 *** --><span id="s11" style="display:none;"><pre>
+<span id="s11_road_1">&#x23E9;</span> road(joensuu, kajaani, 230). <span id="road_1x"></span> % 230 km road connection from Joensuu to Kajaani</pre></span>
+
+<!-- *** road s10 *** --><span id="s10" style="display:none;"><pre>
+<span id="s10_road_2">&#x23E9;</span> road(kajaani, oulu, 183). <span id="road_2x"></span> % 183 km road connection from Kajaani to Oulu</pre></span>
+
+<!-- *** member s7 *** --><span id="s7" style="display:none;"><pre>
+<span id="s7_member_1">&#x23E9;</span> member(<span id="s7_member_h">H</span>, [<span id="s7_member_h_A">H</span>|<span id="s7_member__">_</span>]). <span id="s7_member_1_1x"></span> % 1</pre></span>
+
+<!-- *** member s8 *** --><span id="s8" style="display:none"><pre>
+<span id="s8_member_2">&#x23E9;</span> member(<span id="s8_member_2_x">X</span>, [<span id="s8_member_2__">_</span>|<span id="s8_member_2_t">T</span>]) :- % 2
+<span id="s8_member_2_1">&#x23E9;</span>   member(<span id="s8_member_2_x_A">X</span>, <span id="s8_member_2_t_A">T</span>). <span id="s8_member_2_1c">&rarr;</span><span id="s8_member_2_1x"></span></pre></span>
+
+<!-- *** member s5 *** --><span id="s5" style="display:none"><pre>
+<span id="s5_member_2">&#x23E9;</span> member(<span id="s5_member_2_x">X</span>, [<span id="s5_member_2__">_</span>|<span id="s5_member_2_t">T</span>]) :- % 2
+<span id="s5_member_2_1">&#x23E9;</span>   member(<span id="s5_member_2_x_A">X</span>, <span id="s5_member_2_t_A">T</span>). <span id="s5_member_2_1c">&rarr;</span><span id="s5_member_2_1x"></span></pre></span>
+
+<!-- *** connected s4 *** -- ><span id="s4" style="display:none"><pre>
+<span id="s4_connected_2">&#x23E9;</span> connected(oulu, <span id="s4_connected_town2">TownX&#x2082;</span>, <span id="s4_connected_length">Length1&#x2082;</span>) :- % 2
+<span id="s4_connected_2_1">&#x23E9;</span>   road(<span id="s4_connected_town2_A">TownX&#x2082;</span>, oulu, <span id="s4_connected_length_A">Length1&#x2082;</span>). <span id="s4_connected_1c">&rarr;</span><span id="s4_connected_2_1x"></span></pre></span>
+-->
+
+<!-- *** connected s4 *** --><span id="s4" style="display:none"><pre>
+<span id="s4_connected_2">&#x23E9;</span> connected(<span class="v_town1_4">Town1</span>, <span class="v_town2_4">Town2</span>, <span class="v_length_4">Length</span>) :- % 2
+<span id="s4_connected_2_1">&#x23E9;</span>   road(<span class="v_town2_4">Town2</span>, <span class="v_town1_4">Town1</span>, <span class="v_length_4">Length</span>). <span id="s4_connected_1c">&rarr;</span><span id="s4_connected_2_1x"></span></pre></span>
+
+
+
+
+
+<!-- *** connected s3 *** --><span id="s3" style="display:none"><pre>
+<span id="s3_connected_1">&#x23E9;</span> connected(<span id="s3_connected_town1">oulu</span>, <span id="s3_connected_town2">TownX&#x2082;</span>, <span id="s3_connected_length">Length1&#x2082;</span>) :- % 1
+<span id="s3_connected_1_1">&#x23E9;</span>   road(<span id="s3_connected_town1_A">oulu</span>, <span id="s3_connected_town2_A">TownX&#x2082;</span>, <span id="s3_connected_length_A">Length1&#x2082;</span>). <span id="s3_connected_1_1c">&rarr;</span><span id="s3_connected_1_1x"></span></pre>
+</span>
+<!-- *** route s9 *** --><span id="s9" style="display:none"><pre>
+<span id="s9_route_1">&#x23E9;</span> route(<span id="s9_route_town" class="v_town_9">Town&#x2089;</span>, <span id="s9_route_town_A" class="v_town_9">Town&#x2089;</span>, _, [<span id="s9_route_town_B" class="v_town_9">Town&#x2089;</span>], 0). <span id="s9_route_1_1x"></span> % 1
+</pre></span>
+<!-- *** route s6 *** --><span id="s6" style="display:none"><pre>
+<span id="s6_route_2">&#x23E9;</span> route(kajaani, joensuu, [oulu|[]], [kajaani|<span id="s6_route_2_fromtown1">FromTown1&#x2086;</span>], <span id="s6_goal_length">Length2&#x2082;</span>) :-  % 2
+<span id="s6_route_2_1">&#x23E9;</span>   <span id="s6_route_totownx">ToTownX&#x2086;</span> = <span id="s6_route_totownxA">[kajaani|[oulu]]</span>,
+<span id="s6_route_2_2">&#x23E9;</span>   connected(kajaani, <span id="s6_route_townx">TownX&#x2086;</span>, <span id="s6_route_length1">Length1&#x2086;</span>), <span id="s6_route_2_2c">&rarr;</span><span id="s6_route_2_2x"></span> 
+<span id="s6_route_2_3">&#x23E9;</span>   <span id="s6_route_2_3not">not</span>(member(<span id="s6_route_townx_A">TownX&#x2086;</span>, <span id="s6_route_totownx_A">ToTownX&#x2086;</span>)), <span id="s6_route_2_3c" style="visibility:hidden;">&rarr;</span><span id="s6_route_2_3x"></span>   
+<span id="s6_route_2_4">&#x23E9;</span>   route(<span id="s6_route_townx_B">TownX&#x2086;</span>, joensuu, <span id="s6_route_totownx_B">ToTownX&#x2086;</span>, <span id="s6_route_2_fromtown1_A">FromTown1&#x2086;</span>, <span id="s1_goal_length2">Length2&#x2086</span>), <span id="s6_route_2_4c">&rarr;</span>
+<span id="s6_route_2_5">&#x23E9;</span>   <span id="s6_goal_length_A">Length2&#x2082;</span> = <span id="s6_route_length1_A">Length1&#x2086;</span> + <span id="s1_goal_length2_A">Length2&#x2086;</span>. <span id="s6_route_2_5x"></span>
+</pre></span>
+
+
+
+
+
+<!-- *** route s2 *** --><span id="s2" style="display:none"><pre>
+<span id="s2_route_2">&#x23E9;</span> route(<span id="s2_route_town1" class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_town2" class="v2_town2">Town2&#x2082;</span>, <span id="s2_route_totown1" class="v2_totown1">ToTown1&#x2082;</span>, <span  id="s2_route_param4">[<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_2_fromtown1">FromTown1&#x2082;</span>]</span>, <span id="s2_route_length" class="v2_len">Len&#x2082;</span>) :-  % 2
+<span id="s2_route_2_1">&#x23E9;</span>   <span class="v_totownx_2">ToTownX&#x2082;</span> = <span id="s2_route_totownXB">[<span  class="v2_town1">Town1&#x2082;</span>|<span id="s2_route_totown1A" class="v2_totown1">ToTown1&#x2082;</span>]</span>,
+<span id="s2_route_2_2">&#x23E9;</span>   connected(<span  class="v2_town1">Town1&#x2082;</span>, <span id="s2_route_townx">TownX&#x2082;</span>, <span id="s2_route_length1">Length1&#x2082;</span>), <span id="s1_route_1c">&rarr;</span> 
+<span id="s2_route_2_3">&#x23E9;</span>   <span id="s2_route_2_3not">not</span>(member(<span id="s2_route_townx_A">TownX&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>)), <span id="s2_route_2_3c" style="visibility:hidden">&rarr;</span><span id="s2_route_2_3x"></span>   
+<span id="s2_route_2_4">&#x23E9;</span>   route(<span id="s2_route_townx_B">TownX&#x2082;</span>, <span class="v2_town2">Town2&#x2082;</span>, <span class="v_totownx_2">ToTownX&#x2082;</span>, <span id="s2_route_2_fromtown1_A">FromTown1&#x2082;</span>, <span id="s2_route_2_length2">Length2&#x2082;</span>), <span id="s2_route_2_4c">&rarr;</span>  
+<span id="s2_route_2_5">&#x23E9;</span>   <span id="s2_route_length_A" class="v2_len">Len&#x2082;</span> = <span id="s2_route_length1_A">Length1&#x2082;</span> + <span id="s2_route_2_length2_A">Length2&#x2082;</span>. <span id="s2_route_2_5x"></span>
+</pre></span>
+
+
+<!-- *** route s2h *** -- ><span id="s2h" style="display:none"><pre>
+<span id="s2h_route_2">&#x23E9;</span> route(<span id="s2h_route_2_town1">Town1&#x2082;</span>, <span id="s2h_route_2_town1">Town2&#x2082;</span>, <span id="s2h_route_2_totown1">ToTown1&#x2082;</span>, [<span id="s2h_route_2_town1_A">Town1&#x2082;</span>|<span id="s2h_route_2_fromtown1">FromTown1&#x2082;</span>], <span id="s2_route_length">Len&#x2081;</span>) :-  % 2
+</pre></span>
+-->
+
+
+<!-- *** route s9 *** --><span id="s9" style="display:none"><pre>
+<span id="s9_route_1">&#x23E9;</span> route(<span id="s9_route_town">Town</span>, <span id="s9_route_town_A">Town</span>, _, [<span id="s9_route_town_B">Town</span>], 0). <span id="s9_route_1_1x"></span> % 1
+</pre></span>
+
+<!-- *** goal s1 *** --><span id="s1" style="display:none"><pre>
+<span id="s1_goal_1">&#x23E9;</span> :- <span id="s1_goal_1a">route</span>(<span id="s1_goal_1b">oulu</span>, <span id="s1_goal_1b1">joensuu</span>, <span id="s1_goal_1cc">[]</span>, <span class="v_route_1" id="s1_goal_route">Route&#x2081;</span>, <span id="s1_goal_len">Len&#x2081;</span>), <span id="s1_goal_1c">&rarr;</span>   
+<span id="s1_goal_2">&#x23E9;</span>   writeln(<span class="v_route_1" id="s1_goal_route_A">Route&#x2081;</span>, ", total length ", <span id="s1_goal_len_A">Len&#x2081;</span>, " km"). <span id="s1_goal_2x"></span>
+</pre></span>
+<hr/>
+<h4>DATABASE</h4>
+
+<pre>
+<span id="road_1">  road(joensuu, kajaani, 230). % 230 km road connection from Joensuu to Kajaani</span>
+<span id="road_2">  road(kajaani, oulu, 183). % 183 km road connection from Kajaani to Oulu</span>
+
+
+<span id="member_1">  member(H, [H|_]). % 1</span>
+
+<span id="member_2">  member(X, [_|T]) :- % 2
+    member(X, T).</span>
+
+  
+<span id="connected_1">  connected(Town1, Town2, Length) :- % 1
+    road(Town1, Town2, Length).</span>
+
+<span id="connected_2">  connected(Town1, Town2, Length) :- % 2
+    road(Town2, Town1, Length).</span>
+
+
+<span id="route_1">  route(Town, Town, _, [Town], 0). % 1</span>
+
+<span id="route_2">  route(Town1, Town2, ToTown1, [Town1|FromTown1], Length) :- % 2
+    ToTownX = [Town1|ToTown1],
+    connected(Town1, TownX, Length1), 
+    not(member(TownX, ToTownX)),   
+    route(TownX, Town2, ToTownX, FromTown1, Length2), 
+    Length = Length1 + Length2.</span>
+   
+   
+<span id="_goal_1">  <span id="_goal_1_a">:-</span> route(oulu, joensuu, [], Route, Len),
+    writeln(Route, ", total length ", Len, " km").</span>
+
+</pre>
+</div>
+<script>
+<!--
+
+//------------------------------------------------------------------------------
+
+var transitions = [
+  { t: "style", ids:[ "s1_goal_2" ],
+       from:"", to:"visibility: hidden;" },
+  { t: "state", name:"start", co:"co_start", dis:["back", "explain"] },
+
+  { t: "style", ids:["_goal_1_a"], from:"", 
+       to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "state", name:"s0_1", co:"co_s0_1", dis:["explain"] },
+
+  { t: "style", ids:["s1"], from:"display: none;", to:"" },
+  { t: "style", ids:["_goal_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["_goal_1_a"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s1_goal_1c"], from:"", to:"visibility:hidden;"},
+  { t: "state", name:"s1", co:"co_s1" },
+
+  { t: "style", ids:["s1_goal_1a"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "style", ids:["_goal_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "xpln", name:"s1a", co:"co_s1a" },
+
+  { t: "style", ids:["s1_goal_1a"],
+       from:"background-color:#80ffff; font-weight: bold;", to: ""},
+  { t: "style", ids:["s1_goal_1b", "s1_goal_1b1"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1b", co:"co_s1b" },
+
+  { t: "style", ids:["s1_goal_1b", "s1_goal_1b1"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s1_goal_1cc"],
+       from:";", to:"background-color:#80ffff; font-weight: bold" },
+  { t: "xpln", name:"s1c", co:"co_s1c" },
+
+  { t: "style", ids:["s1_goal_1cc"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s1_goal_route", "s1_goal_len"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1d", co:"co_s1d" },
+
+  { t: "style", ids:["s1_goal_route", "s1_goal_len"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["route_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s1_goal_1"], from:"", to:"visibility: hidden;" },
+  { t: "style", ids:["s1_goal_1c"], from:"visibility:hidden;", to:""},
+  { t: "style", ids:["s9"], from:"display:none;", to:"" },
+  { t: "style", ids:["s9_route_1"], from:"", to:"" },
+  { t: "xpln", name:"s1e", co:"co_s2_1" },
+
+  { t: "style", ids:["route_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s9_route_town", "s1_goal_1b"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1f", co:"co_s2_2" },
+
+  { t: "style", ids:["s9_route_town", "s1_goal_1b"],
+       from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "assign", cl: "v_town_9", from:"Town&#x2089;", to:"oulu" },
+  { t: "style", ids:["s9_route_town_A", "s1_goal_1b1"],
+        from:"", to:"background-color:#ffcccc; font-weight: bold;" },
+  { t: "xpln", name:"s1g", co:"co_s2_3" },
+
+  { t: "style", ids:["route_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "assign", cl: "v_town_9", from:"oulu", to:"Town&#x2089;" },
+  { t: "style", ids:["s9_route_town_A", "s1_goal_1b1"],
+        from:"background-color:#ffcccc; font-weight: bold;", to:"" },
+  { t: "style", ids:["s9"], from:"", to:"display:none" },
+  { t: "style", ids:["s2"], from:"display:none", to:"" },
+  { t: "style", ids:["s2_route_2_1", "s2_route_2_2", "s2_route_2_3",
+                     "s2_route_2_4", "s2_route_2_5", "s1_route_1c",
+                     "s2_route_2_4c"], 
+       from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2"], 
+        from:"", to:"" },
+  { t: "xpln", name:"s1h", co:"co_s2_4" },
+
+  { t: "style", ids:["route_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s2_route_town1", "s1_goal_1b"],
+       from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1i", co:"co_s2_5" },
+
+  { t: "assign", cl:"v2_town1", from:"Town1&#x2082;", to:"oulu" },
+  { t: "style", ids:["s2_route_town1", "s1_goal_1b"], 
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s2_route_town2", "s1_goal_1b1"],
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1j", co:"co_s2_6" },
+
+  { t: "assign", cl:"v2_town2", from:"Town2&#x2082;", to:"joensuu" },
+  { t: "style", ids:["s2_route_town2", "s1_goal_1b1"], 
+        from:"background-color:#80ffff; font-weight: bold;", 
+        to:"" },
+  { t: "style", ids:["s2_route_totown1", "s1_goal_1cc"],
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1k", co:"co_s2_7" },
+
+  { t: "assign", cl:"v2_totown1", from:"ToTown1&#x2082;", to:"[]" },
+  { t: "style", ids:["s2_route_totown1", "s1_goal_1cc"], 
+        from:"background-color:#80ffff; font-weight: bold;", 
+        to:"" },
+  { t: "style", ids:["s2_route_param4", "s1_goal_route"], 
+        from:"", 
+        to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1l", co:"co_s2_8" },
+
+  { t: "assign", cl:"v_route_1",
+       from:"Route&#x2081;", to:"[oulu|FromTown1&#x2082;]" },
+  { t: "style",ids:["s2_route_param4", "s1_goal_route"], 
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["s2_route_length", "s1_goal_len"], 
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "xpln", name:"s1m", co:"co_s2_9", dis:["explain"] },
+
+  { t: "assign", cl:"v2_len", from:"Len&#x2082;", to:"Len&#x2081;" },
+  { t: "style", ids:["s2_route_length", "s1_goal_len"],
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "style", ids:["route_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "state", name:"s2", co:"co_s2", dis:["explain"]  },
+
+  { t: "style", ids:["route_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s2_route_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s3", co:"co_s3", dis:["explain"]  },
+
+  { t: "assign", cl:"v_totownx_2", from:"ToTownX&#x2082;", to:"[oulu]" },
+  { t: "style", ids:["s2_route_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_2"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s2_route_totown1A"],
+          from:"", to: "background-color:#80ffff;" },
+  { t: "state", name:"s4", co:"co_s4", dis:["explain"]  },
+
+  { t: "style", ids:["s2_route_totown1A"],
+          from:"background-color:#80ffff;", to: "" },
+  { t: "style", ids:["connected_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s3"], from:"display:none;", to:"" },
+  { t: "style", ids:["s2_route_2_2", "s3_connected_1_1", "s3_connected_1_1c"], 
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s1_route_1c"], 
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s5", co:"co_s5", dis:["explain"]  },
+
+  { t: "style", ids:["connected_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s3_connected_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s6", co:"co_s6", dis:["explain"]  },
+
+  { t: "assign", ids:["s3_connected_1_1x"],
+        from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "state", name:"s7", co:"co_s7", dis:["explain"]  },
+
+  { t: "assign", cl:"v_town1_4", from:"Town1", to:"oulu" },
+  { t: "assign", cl:"v_town2_4", from:"Town2", to:"TownX&#x2082;" },
+  { t: "assign", cl:"v_length_4", from:"Length", to:"Length1&#x2082;" },
+  { t: "style", ids:["s3"], from:"", to:"display:none;" },
+  { t: "style", ids:["connected_2"], from:"", to:"background-color:#FFFF66;"},
+  { t: "style", ids:["s4"], from:"display:none;", to:"" },
+  { t: "style", ids:["s4_connected_2_1", "s4_connected_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s8", co:"co_s8", dis:["explain"]  },
+
+  { t: "style", ids:["connected_2"], from:"background-color:#FFFF66;", to:""},
+  { t: "style", ids:["s4_connected_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s9", co:"co_s9", dis:["explain"]  },
+
+  { t: "assign", ids:["s2_route_townx", "s2_route_townx_A", "s2_route_townx_B"],
+        from:"TownX&#x2082;", to:"kajaani" },
+  { t: "assign", cl:"v_town2_4", from:"TownX&#x2082;", to:"kajaani" },
+  { t: "assign", ids:["s2_route_length1", "s2_route_length1_A"],
+        from:"Length1&#x2082;", to:"183" },
+  { t: "assign", cl:"v_length_4", from:"Length1&#x2082;", to:"183" },
+  { t: "assign", ids:["road_2x"], from:"",
+        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["road_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s4_connected_1c"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s10"], from:"display:none;", to:""},
+  { t: "state", name:"s10", co:"co_s10", dis:["explain"] },
+
+  { t: "assign", ids:["road_2x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "assign", ids:["s4_connected_2_1x"], from:"", 
+        to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["road_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s10_road_2", "s4_connected_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s10"], from:"", to:"display:none;" },
+  { t: "state", name:"s11", co:"co_s11", dis:["explain"] },
+
+  { t: "assign", cl:"v_town1_4", from:"oulu", to:"Town1" },
+  { t: "assign", cl:"v_town2_4", from:"kajaani", to:"Town2" },
+  { t: "assign", cl:"v_length_4", from:"183", to:"Length" },
+  { t: "assign", ids:["s4_connected_2_1x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["s4"], from:"", to:"display:none;" },
+  { t: "style", ids:["s2_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s4_connected_2_1", "s1_route_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s12", co:"co_s12", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_x", "s5_member_2_x_A"],
+        from:"X", to: "kajaani" },
+  { t: "assign", ids:["s5_member_2__"], from:"_", to: "oulu" },
+  { t: "assign", ids:["s5_member_2_t", "s5_member_2_t_A"], from:"T", to: "[]" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s5"], from:"display:none;", to:"" },
+  { t: "style", ids:["s2_route_2_3", "s5_member_2_1", "s5_member_2_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_3c"/*, "s4_connected_2"*/],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s13", co:"co_s13", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s5_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s14", co:"co_s14", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "state", name:"s15", co:"co_s15", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"<font color=\"#BB0000\"><b>FAIL!</b></font>", to:"" },
+  { t: "assign", ids:["s2_route_2_3x"], from:"",
+        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>" },
+  { t: "style", ids:["s5"], from:"", to:"display:none;" },
+  { t: "style", ids:["s2_route_2_3not"],
+        from:"", to:"background-color:#ffff00; font-weight: bold;" },
+  { t: "style", ids:["s5_member_2_1", "s2_route_2_3c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s16", co:"co_s16", dis:["explain"] },
+
+  { t: "assign", ids:["s2_route_2_3x"], 
+        from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", to:"" },
+  { t: "style", ids:["s2_route_2_3not"],
+        from:"background-color:#ffff00; font-weight: bold;", to:"" },
+  { t: "style", ids:["s2_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_4"], from:"visibility:hidden;", to:""},
+  { t: "state", name:"s17", co:"co_s17", dis:["explain"] },
+
+  { t: "assign", ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"],
+        from:"FromTown1&#x2082;", to:"[kajaani|FromTown1&#x2086;]" },
+  { t: "assign", cl:"v_route_1",
+        from:"[oulu|FromTown1&#x2082;]",
+        to:"[oulu,kajaani|FromTown1&#x2086;]" },
+  { t: "style", ids:["route_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s6"], from:"display:none;", to:"" },
+  { t: "style", ids:[ "s2_route_2_4", "s6_route_2_1", "s6_route_2_2",
+                      "s6_route_2_3", "s6_route_2_4", "s6_route_2_5",
+                      "s6_route_2_2c", "s6_route_2_4c" ], 
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_4c"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s18", co:"co_s18", dis:["explain"] },
+
+  { t: "style", ids:["route_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s6_route_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s19", co:"co_s19", dis:["explain"] },
+
+  { t: "assign", ids:[ "s6_route_totownx", "s6_route_totownx_A",
+                       "s6_route_totownx_B" ], 
+        from:"ToTownX&#x2086;", to:"[kajaani, oulu]" },
+  { t: "style", ids:["s6_route_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s6_route_totownx", "s6_route_totownxA"],
+        from:"", to:"background-color:#80FFFF;" },
+  { t: "state", name:"s20", co:"co_s20", dis:["explain"] },
+
+  { t: "assign", ids:["s3_connected_1_1x"],
+        from:"<font color=\"#BB0000\"><b>FAIL!</b></font>", to:"" },
+  { t: "assign", ids:["s3_connected_town1", "s3_connected_town1_A"],
+        from:"oulu", to:"kajaani" },
+  { t: "assign", ids:["s3_connected_town2", "s3_connected_town2_A"],
+        from:"TownX&#x2082;", to:"TownX&#x2086;" },
+  { t: "assign", ids:["s3_connected_length", "s3_connected_length_A"],
+        from:"Length1&#x2082;", to:"Length1&#x2086;" },
+  { t: "style", ids:["connected_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s3"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_2", "s3_connected_1_1"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2c", "s3_connected_1"],
+        from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s6_route_totownx", "s6_route_totownxA"],
+        from:"background-color:#80FFFF;", to:"" },
+  { t: "state", name:"s21", co:"co_s21", dis:["explain"] },
+
+  { t: "style", ids:["connected_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s3_connected_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s22", co:"co_s22", dis:["explain"] },
+
+  { t: "assign", ids:[ "s3_connected_town2", "s3_connected_town2_A",
+                       "s6_route_townx", "s6_route_townx_A",
+                       "s6_route_townx_B" ],
+        from:"TownX&#x2086;", to:"oulu" },
+  { t: "assign", ids:[ "s3_connected_length", "s3_connected_length_A",
+                       "s6_route_length1", "s6_route_length1_A" ], 
+        from:"Length1&#x2086;", to:"183" },
+  { t: "assign", ids:["road_2x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s10"], from:"display:none;", to:"" },
+  { t: "style", ids:["road_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1_1c", "s10_road_2"],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s23", co:"co_s23", dis:["explain"] },
+
+  { t: "assign", ids:["road_2x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "assign", ids:["s3_connected_1_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>"},
+  { t: "style", ids:["road_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s3_connected_1_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s10_road_2", "s3_connected_1_1c"],
+        from:"", to:"visibility:hidden; "},
+  { t: "style", ids:["s10"], from:"", to:"display:none; "},
+  { t: "state", name:"s24", co:"co_s24", dis:["explain"] },
+
+  { t: "assign", ids:["s3_connected_1_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["s3"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s3_connected_1_1", "s6_route_2_2c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s3_connected_1"],
+        from:"visibility:hidden;", to:"visibility:hidden;" },
+  { t: "state", name:"s25", co:"co_s25", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_x", "s5_member_2_x_A"],
+        from:"kajaani", to: "oulu" },
+  { t: "assign", ids:["s5_member_2__"], from:"oulu", to: "kajaani" },
+  { t: "assign", ids:["s5_member_2_t", "s5_member_2_t_A"],
+        from:"[]", to: "[oulu]" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s5"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3c", "s5_member_2"], 
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s26", co:"co_s26", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s5_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s27", co:"co_s27", dis:["explain"] },
+
+  { t: "assign", ids:["s7_member_h", "s7_member_h_A"], from:"H", to:"oulu" },
+  { t: "assign", ids:["s7_member__"], from:"_", to:"[]" },
+  { t: "assign", ids:["s7_member_1_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["member_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s7"], from:"display:none;", to:"" },
+  { t: "style", ids:["s5_member_2_1c"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s5_member_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s28", co:"co_s28", dis:["explain"] },
+
+  { t: "assign", ids:["s7_member_h", "s7_member_h_A"], from:"oulu", to:"H" },
+  { t: "assign", ids:["s7_member__"], from:"[]", to:"_" },
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["member_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s7"], from:"", to:"display:none;" },
+  { t: "style", ids:["s7_member_1", "s5_member_2_1c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s29", co:"co_s29", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"], from:"", to:
+     "<font color=\"#BB0000\"><i>success&rarr;fail&rarr;backtrack</i></font>" },
+  { t: "style", ids:["s5"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"", to:"background-color:#ffff00; font-weight: bold;" },
+  { t: "style", ids:["s5_member_2_1", "s6_route_2_3c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s30", co:"co_s30", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"], from:
+     "<font color=\"#BB0000\"><i>success&rarr;fail&rarr;backtrack</i></font>", 
+        to:"" },
+  { t: "assign", ids:["s6_route_2_2x"], from:"",
+        to:"<font color=\"#008888\"><i>redo</i></font>" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"background-color:#ffff00; font-weight: bold;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s31", co:"co_s31", dis:["explain"] },
+
+  { t: "style", ids:["s3"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "assign", ids:["s6_route_2_2x"],
+        from:"<font color=\"#008888\"><i>redo</i></font>", to:"" },
+  { t: "assign", ids:["s3_connected_1_1x"],
+        from:"", to:"<font color=\"#008888\"><i>redo</i></font>" },
+  { t: "style", ids:["s6_route_2_2",  "s6_route_2_3"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_2c", "s3_connected_1_1"],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s32", co:"co_s32", dis:["explain"] },
+
+  { t: "assign", ids:["s3_connected_1_1x"], 
+        from:"<font color=\"#008888\"><i>redo</i></font>", 
+        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "assign", ids:[ "s3_connected_town2", "s3_connected_town2_A", 
+                       "s6_route_townx", "s6_route_townx_A",
+                       "s6_route_townx_B"],
+        from:"oulu", to:"TownX&#x2086;" },
+  { t: "assign", ids:[ "s3_connected_length", "s3_connected_length_A",
+                       "s6_route_length1", "s6_route_length1_A"], 
+        from:"183", to:"Length1&#x2086;" },
+  { t: "state", name:"s33", co:"co_s33", dis:["explain"] },
+
+  { t: "assign", ids:["s3_connected_town1", "s3_connected_town1_A"],
+        from:"kajaani", to:"oulu" },
+  { t: "assign", ids:["s3_connected_town2", "s3_connected_town2_A"],
+        from:"TownX&#x2086;", to:"kajaani" },
+  { t: "assign", ids:["s3_connected_length", "s3_connected_length_A"],
+        from:"Length1&#x2086;", to:"183" },
+  { t: "assign", cl:"v_town1_4", from:"Town1", to:"kajaani" },
+  { t: "assign", cl:"v_town2_4", from:"Town2", to:"TownX&#x2086;" },
+  { t: "assign", cl:"v_length_4", from:"Length", to:"Length1&#x2086;" },
+  { t: "style", ids:["s3"], from:"", to:"display:none;" },
+  { t: "style", ids:["connected_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s4"], from:"display:none;", to:"" },
+  { t: "style", ids:["s3_connected_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s3_connected_1_1"], from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s34", co:"co_s34", dis:["explain"] },
+
+  { t: "style", ids:["connected_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s35", co:"co_s35", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_townx", "s6_route_townx_A", "s6_route_townx_B"], 
+        from:"TownX&#x2086;", to:"joensuu" },
+  { t: "assign", cl:"v_town2_4", from:"TownX&#x2086;", to:"joensuu" },
+  { t: "assign", ids:["s6_route_length1", "s6_route_length1_A"], 
+        from:"Length1&#x2086;", to:"230" },
+  { t: "assign", cl:"v_length_4", from:"Length1&#x2086;", to:"230" },
+  { t: "assign", ids:["road_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s11"], from:"display:none;", to:"" },
+  { t: "style", ids:["road_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s4_connected_2_1"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:[/*"s11_road_1",*/ "s4_connected_1c"],
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s36", co:"co_s36", dis:["explain"] },
+
+  { t: "assign", ids:["road_1x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "assign", ids:["s4_connected_2_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s11"], from:"", to:"display:none;" },
+  { t: "style", ids:["road_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s4_connected_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s11_road_1", "s4_connected_1c"],
+        from:"", to:"visibility:hidden;"},
+  { t: "state", name:"s37", co:"co_s37", dis:["explain"] },
+
+  { t: "assign", ids:["s4_connected_2_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["s4"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s4_connected_2_1", "s6_route_2_2c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s38", co:"co_s38", dis:["explain"] },
+
+  { t: "assign", ids:["s5_member_2_x", "s5_member_2_x_A"],
+        from:"oulu", to: "joensuu" },
+  { t: "assign", ids:["s5_member_2_1x"], 
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s5"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3c", "s5_member_2"], 
+        from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s39", co:"co_s39", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s5_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s40", co:"co_s40", dis:["explain"] },
+
+  { t: "assign", ids:["s8_member_2_x", "s8_member_2_x_A"],
+        from:"X", to: "joensuu" },
+  { t: "assign", ids:["s8_member_2__"], from:"_", to: "oulu" },
+  { t: "assign", ids:["s8_member_2_t", "s8_member_2_t_A"], from:"T", to: "[]" },
+  { t: "style", ids:["member_2"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s8"], from:"display:none;", to:"" },
+  { t: "style", ids:["s5_member_2_1", "s8_member_2_1c", "s8_member_2_1"], 
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s5_member_2_1c"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s41", co:"co_s41", dis:["explain"] },
+
+  { t: "style", ids:["member_2"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s8_member_2"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s8_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s42", co:"co_s42", dis:["explain"] },
+
+  { t: "assign", ids:["s8_member_2_1x"], from:"", 
+        to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "state", name:"s43", co:"co_s43", dis:["explain"] },
+
+  { t: "assign", ids:["s8_member_2_x", "s8_member_2_x_A"],
+        from:"joensuu", to:"X" },
+  { t: "assign", ids:["s8_member_2__"], from:"oulu", to:"_" },
+  { t: "assign", ids:["s8_member_2_t", "s8_member_2_t_A"], from:"[]", to:"T" },
+  { t: "assign", ids:["s5_member_2_1x"],
+        from:"", to:"<font color=\"#BB0000\"><b>FAIL!</b></font>" },
+  { t: "style", ids:["s8"], from:"", to:"display:none;" },
+  { t: "style", ids:["s5_member_2_1"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s5_member_2_1c", "s8_member_2_1"],
+        from:"", to:"visibility:hidden;" },
+  { t: "state", name:"s44", co:"co_s44", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"], from:"",
+        to:"<font color=\"#008888\"><i>fail&rarr;success</i></font>" },
+  { t: "style", ids:["s5"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"", to:"background-color:#ffff00; font-weight: bold;" },
+  { t: "style", ids:["s5_member_2_1", "s6_route_2_3c"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_3"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s45", co:"co_s45", dis:["explain"] },
+
+  { t: "assign", ids:["s6_route_2_3x"],
+        from:"<font color=\"#008888\"><i>fail&rarr;success</i></font>", to:"" },
+  { t: "style", ids:["s6_route_2_3not"],
+        from:"background-color:#ffff00; font-weight: bold;", to:"" },
+  { t: "style", ids:["s6_route_2_3"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_4"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s46", co:"co_s46", dis:["explain"] },
+
+  { t: "assign", cl:"v_town_9", from:"Town&#x2089", to:"joensuu" },
+  { t: "assign", ids:["s6_route_2_fromtown1", "s6_route_2_fromtown1_A"],
+        from:"FromTown1&#x2086;", to:"[joensuu]" },
+  { t: "assign", ids:["s2_route_2_fromtown1", "s2_route_2_fromtown1_A"],
+        from:"[kajaani|FromTown1&#x2086;]", to:"[kajaani, joensuu]" },
+  { t: "assign", cl:"v_route_1",
+        from:"[oulu,kajaani|FromTown1&#x2086;]",
+        to:"[oulu, kajaani, joensuu]" },
+  { t: "assign", ids:["s1_goal_length2", "s1_goal_length2_A"],
+        from:"Length2&#x2086;", to:"0" },
+  { t: "assign", ids:["s9_route_1_1x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["route_1"], from:"", to:"background-color:#FFFF66;" },
+  { t: "style", ids:["s9"], from:"display:none;", to:"" },
+  { t: "style", ids:["s6_route_2_4"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_4c"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s47", co:"co_s47", dis:["explain"] },
+
+  { t: "assign", ids:["s9_route_town", "s9_route_town_A", "s9_route_town_B"],
+        from:"joensuu", to:"Town" },
+  { t: "assign", ids:["s9_route_1_1x"],
+        from:"<font color=\"#008888\"><b>SUCCESS! </b></font>", to:"" },
+  { t: "style", ids:["route_1"], from:"background-color:#FFFF66;", to:"" },
+  { t: "style", ids:["s9"], from:"", to:"display:none;" },
+  { t: "style", ids:["s6_route_2_4c", "s9_route_1"],
+        from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s6_route_2_5"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s48", co:"co_s48", dis:["explain"] },
+
+  { t: "assign", ids:["s6_goal_length", "s6_goal_length_A",
+                      "s2_route_2_length2", "s2_route_2_length2_A"],
+        from:"Length2&#x2082;", to:"230" },
+  { t: "assign", ids:["s6_route_2_5x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "state", name:"s49", co:"co_s49", dis:["explain"] },
+
+  { t: "style", ids:["s6"], from:"", to:"display:none;" },
+  { t: "style", ids:["s2_route_2_4c"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s2_route_2_5"], from:"visibility:hidden;", to:"" },
+  { t: "state", name:"s50", co:"co_s50", dis:["explain"] },
+
+  { t: "assign", ids:["s2_route_length", "s2_route_length_A",
+                      "s1_goal_len", "s1_goal_len_A"],
+        from:"Len&#x2081;", to:"413" },
+  { t: "assign", ids:["s2_route_2_5x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["s1_goal_route_A", "s1_goal_len_A"],
+        from:"", to:"background-color:#80ffff; font-weight: bold;" },
+  { t: "state", name:"s51", co:"co_s51", dis:["explain"] },
+
+  { t: "style", ids:["s2"], from:"", to:"display:none;" },
+  { t: "style", ids:["s1_goal_1c"], from:"", to:"visibility:hidden;" },
+  { t: "style", ids:["s1_goal_2"], from:"visibility:hidden;", to:"" },
+  { t: "style", ids:["s1_goal_route_A", "s1_goal_len_A"],
+        from:"background-color:#80ffff; font-weight: bold;", to:"" },
+  { t: "state", name:"s52", co:"co_s52", dis:["explain"] },
+
+  { t: "assign", ids:["s1_goal_2x"],
+        from:"", to:"<font color=\"#008888\"><b>SUCCESS! </b></font>" },
+  { t: "style", ids:["output"], from:"display:none;", to:"" },
+  { t: "state", name:"end", co:"co_end", dis:["step", "explain"] },
+
+];
+
+//------------------------------------------------------------------------------
+
+var main_area = document.getElementById("main");
+
+var buttons = document.getElementsByTagName("button");
+var state_dpy = document.getElementById("state");
+
+var cur_state = -1;
+
+var comments = document.getElementsByClassName("comment")[0]
+                       .getElementsByTagName("p");
+
+var variables = { // Automatically collected from transitions
+//  "":null,
+}
+
+var variable_classes = {
+//  "classname" = [elem1ptr, elem2ptr,..];
+}
+
+var cur_co = "co_start";
+
+function move(button) {
+  var more = true;
+  var styled = null;
+  comments[cur_co].style.cssText = "display:none;";
+  while (more) {
+    if (button == "back") {
+      cur_state--;
+    } else {
+      cur_state++;
+    }
+    var transition = transitions[cur_state];
+    switch(transition.t) {
+      case "assign": {
+        var newVal = (button == "back" ? transition.from : transition.to);
+        var elems = [];
+        if (transition.cl) {
+if (typeof(transition.cl) == "string") {
+          var new_elems = variable_classes[transition.cl];
+          for (var i = 0; i < new_elems.length; i++) {
+            elems.push(new_elems[i]);
+          }
+} else {
+alert("#"+cur_state
+   +"\n<*> transition.cl not a string <*>"
+   +"\n\n"+JSON.stringify(transition));
+}
+        }
+        if (transition.ids) {
+          var new_ids = transition.ids;
+          for (var i = 0; i < new_ids.length; i++) {
+            elems.push(variables[new_ids[i]]);
+          }
+        }
+if (elems.length == 0) {
+alert("#"+cur_state
+   +"\ncur_co = "+cur_co
+   +"\nno assign no elements"
+   +"\n\n"+JSON.stringify(transition));
+}
+        for (var i = 0; i < elems.length; i++) {
+var oldContent = elems[i].innerHTML;
+elems[i].innerHTML = transition.from;
+var newContent = elems[i].innerHTML
+var difference = "";
+if (button != "back" && newContent != oldContent) {
+if (newContent.length != oldContent.length) {
+difference = "\nnew length = "+newContent.length
+           + "\nold length = "+oldContent.length;
+} else {
+for (var p = 0; p < oldContent.lentgth; p++) {
+if (oldContent.charCodeAt(p) != newContent.charCodeAt(p)) {
+difference = "\nchar at "+p+": "+oldContent.charCodeAt(p).toString(16)
+           + " -> "+newContent.charCodeAt(p).toString(16);
+}
+}
+}
+alert("#"+cur_state
+   +"\ncur_co = "+cur_co
+   +"\nclassName = "+elems[i].className
+   +"\nid = "+elems[i].id
+   +"\ntransition.from = "+transition.from
+   +"\nold content = "+oldContent
+   +difference
+   +"\n\n"+JSON.stringify(transition));
+}
+          elems[i].innerHTML = newVal;
+        }
+      } break;
+      case "style": {
+        var newVal = (button == "back" ? transition.from : transition.to);
+        var ids = transition.ids;
+        for (var i = 0; i < ids.length; i++) {
+          styled = ids[i];
+var oldStyle = variables[styled].style.cssText;
+variables[styled].style.cssText = transition.from;
+if (button != "back" && variables[styled].style.cssText != oldStyle) {
+alert("#"+cur_state
+   +"\ncur_co = "+cur_co
+   +"\nid = "+styled
+   +"\ntransition.from = "+transition.from
+   +"\nold style = "+oldStyle
+   +"\n\n"+JSON.stringify(transition));
+}
+          variables[styled].style.cssText = newVal;
+        }
+      } break;
+      default: {
+        state_dpy.innerHTML = transition.name;
+        cur_co = transition.co;
+        var dis = transition.dis || [];
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].disabled = (dis.indexOf(buttons[i].id) >= 0);
+        }
+        more = (transition.t == "xpln" && button != "explain");
+      } break;
+    }
+  }
+  comments[cur_co].style.cssText = "";
+  if (styled) {
+    scroll_to_show(styled);
+  }
+}
+
+function scroll_to_show(id) {
+  var current_var = variables[id];
+  var scrolling = scroll_needed(current_var, main_area);
+  if (scrolling) {
+    current_var.scrollIntoView(scrolling < 0);
+    window.scrollTo(0, 0);
+  }
+}
+
+function scroll_needed(element, container) {
+  var elementTop = element.getBoundingClientRect().top;
+  var elementBottom = element.getBoundingClientRect().bottom;
+  var containerTop = container.getBoundingClientRect().top;
+  var containerBottom = container.getBoundingClientRect().bottom;
+  
+  if (elementTop < containerTop) return -1;
+  if (elementBottom > containerBottom) return 1;
+  return 0;
+}
+
+// Initialize
+
+var id;
+var i, j, ids;
+//var classes;
+
+for (var i = 0; i < transitions.length; i++) {
+  var transition = transitions[i];
+  if (transition.hasOwnProperty("ids")) {
+    var ids = transition.ids;
+    for (var j = 0; j < ids.length; j++) {
+      variables[ids[j]] = null;
+    }
+  }
+  if (transition.hasOwnProperty("cl")) {
+    variable_classes[transition.cl] = null;
+  }
+}
+
+for (id in variables) {
+  if (variables.hasOwnProperty(id)) {
+    variables[id] = document.getElementById(id);
+if (!variables[id]) {
+alert("Element "+id+" not found");
+}
+  }
+}  
+
+for (className in variable_classes) {
+  if (variable_classes.hasOwnProperty(className)) {
+    variable_classes[className] = document.getElementsByClassName(className);
+if (!variable_classes[className] || !variable_classes[className].length) {
+alert("Class "+className+" not found");
+}
+  }
+}
+
+state = "_init";
+document.getElementById("step").click();
+
+// -->
+</script>
+</body>
+</html>

@@ -662,10 +662,11 @@ public static <A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> <B>err</B> 
 
 <H3 id="Jalog">
 Jalog</H3>
-<PRE>public <B>Jalog</B>()</PRE>
+<PRE>public <B>Jalog</B>()
+           throws Error</PRE>
 <DL>
-  <DD>Constructs a <CODE>Jalog</CODE> inference engine. Limitation: Only one
-  engine can exist at any time. After usage it must be disposed of using
+  <DD>Constructs a <CODE>Jalog</CODE> inference engine. <b>Limitation</b>: Only
+  one engine can exist at any time. After usage it must be disposed of using
   the dispose method.
   <P>
   <DL>
@@ -992,7 +993,9 @@ memory. Allows creating a new inference engine for another purpose.
 <H3 id="call(String,Jalog.Term...)">call</H3>
 <PRE>
 public static boolean <B>call</B>(String predname, <a
- href="Jalog_Term_class_doc.html">Jalog.Term</a> ... args)</PRE>
+ href="Jalog_Term_class_doc.html">Jalog.Term</a> ... args)
+           throws <A HREF="Jalog_Exit_class_doc.html">Jalog.Exit</A></PRE>
+</PRE>
 <DL>
 <DD>Calls a predicate defined in the consulted file.</DD>
 <P>
@@ -1014,7 +1017,8 @@ public static boolean <B>call</B>(String predname, <a
 <HR></HR>
 <H3 id="getResourceAsStream(String)">getResourceAsStream</H3>
 <PRE>
-public static InputStream <B>getResourceAsStream</B>(String fileName)</PRE>
+public static InputStream <B>getResourceAsStream</B>(String fileName)
+           throws IOException</PRE>
 <DL>
 <DD>Provides a stream for reading a resource file.</DD>
 <P>

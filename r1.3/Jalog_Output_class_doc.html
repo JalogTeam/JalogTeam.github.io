@@ -58,6 +58,15 @@ continuing the above example, the following instructions can be used:
     Jalog myJalog = new Jalog();
     myJalog.setOut(new TestOutput());
 </pre>
+<p>
+In addition, error messages from the Jalog system can be redirected with the
+same or another Jalog.Output object. The procedure is as above except 
+<code>setErr</code> is
+used instead of <code>setOut<code>, for example:
+</p>
+<pre>
+    myJalog.setErr(new TestOutput());
+</pre>
 
 <HR>
 
@@ -133,7 +142,7 @@ continuing the above example, the following instructions can be used:
 </TR>
 </TABLE>
 
-<H3 id="#nl()">nl</H3>
+<H3 id="nl()">nl</H3>
 <PRE>
 public void <B>nl</B>()</PRE>
 <DL>
@@ -145,7 +154,7 @@ public void <B>nl</B>()</PRE>
 </DD>
 </DL>
 
-<H3 id="#print()">print</H3>
+<H3 id="print(String)">print</H3>
 <PRE>
 public void <B>print</B>(String s)</PRE>
 <DL>
@@ -159,7 +168,7 @@ public void <B>print</B>(String s)</PRE>
 </DD>
 </DL>
 
-<H3 id="#println()">println</H3>
+<H3 id="println(String)">println</H3>
 <PRE>
 public void <B>println</B>(String s)</PRE>
 <DL>

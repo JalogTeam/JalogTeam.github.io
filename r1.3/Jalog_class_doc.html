@@ -381,10 +381,12 @@ is of type symbol.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static InputStream</CODE></FONT>
+    <CODE>&nbsp;static <a href=
+    "https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"
+    >InputStream</a></CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#get_consult_dir">getResourceAsStream</A></B>String fileName)</CODE>
+    <CODE><B><A HREF="#getResourceAsStream(String)">getResourceAsStream</A></B>(String fileName)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -663,7 +665,9 @@ public static <A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> <B>err</B> 
 <H3 id="Jalog">
 Jalog</H3>
 <PRE>public <B>Jalog</B>()
-           throws Error</PRE>
+           throws <a href=
+           "https://docs.oracle.com/javase/6/docs/api/java/lang/Error.html"
+           >Error</a></PRE>
 <DL>
   <DD>Constructs a <CODE>Jalog</CODE> inference engine. <b>Limitation</b>: Only
   one engine can exist at any time. After usage it must be disposed of using
@@ -1017,8 +1021,12 @@ public static boolean <B>call</B>(String predname, <a
 <HR></HR>
 <H3 id="getResourceAsStream(String)">getResourceAsStream</H3>
 <PRE>
-public static InputStream <B>getResourceAsStream</B>(String fileName)
-           throws IOException</PRE>
+public static <a href=
+    "https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"
+    >InputStream</a> <B>getResourceAsStream</B>(String fileName)
+           throws <a href=
+           "https://docs.oracle.com/javase/6/docs/api/java/io/IOException.html"
+           >IOException</a></PRE>
 <DL>
 <DD>Provides a stream for reading a resource file.</DD>
 <P>
@@ -1051,7 +1059,7 @@ public static void <B>setErr</B>(<A HREF="Jalog_Output_class_doc.html">Jalog.Out
 </DL>
 
 <HR></HR>
-<H3 id="setOut(Output)">setOut</H3>
+<H3 id="setOut(Jalog.Output)">setOut</H3>
 <PRE>
 public static void <B>setOut</B>(<A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> o)</PRE>
 <DL>

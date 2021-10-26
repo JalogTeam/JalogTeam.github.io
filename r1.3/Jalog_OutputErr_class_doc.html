@@ -30,7 +30,8 @@ Class Jalog.OutputErr</H2>
 </DT>
 </DL>
 <P>
-Jalog uses OutputErr to write error messages. OutputErr may be redirected to a
+Jalog uses <code>OutputErr</code> to write error messages. 
+<code>OutputErr</code> may be redirected to a
 nonstandard destination or captured for
 use by the calling program.
 </p>
@@ -58,7 +59,9 @@ continuing the above example, the following instructions can be used:
     Jalog myJalog = new Jalog();
     myJalog.setErr(new TestErr());
 </pre>
-
+<p>
+Instead of <code>Jalog.OutputErr</code> the parent class 
+<a href="Jalog_Output_class_doc.html"><code>Jalog.Output</code></a> can be used.
 <HR>
 
 <P>
@@ -101,7 +104,7 @@ continuing the above example, the following instructions can be used:
 </TR>
 </TABLE>
 
-<H3 id="#print()">print</H3>
+<H3 id="print(String)">print</H3>
 <PRE>
 public void <B>print</B>(String s)</PRE>
 <DL>

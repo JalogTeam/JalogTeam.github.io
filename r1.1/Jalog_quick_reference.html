@@ -52,21 +52,25 @@ comline_arg(3, "", "report.txt").</pre>
 
       <dt><font size="+1"><b><code>consult(</code><i>Filename</i><code>)</code></b></font></dt>
       <dd>
-        <p>Reads the facts and rules to the database and executes the goals from the file <i>Filename</i>.</p>
+        <p>Reads the facts and rules to the database and executes the goals from the file <a href="#filename"
+        ><i>Filename</i></a>.</p>
         <p>Example:</p>
         <p><code>consult("route_data.pro")</code></p>
       </dd>
 
       <dt><font size="+1"><b><code>consult_data(</code><i>Filename</i><code>, </code><i>Filter</i><code>)</code></b></font></dt>
       <dd>
-        <p>Reads the facts to the database from the file <i>Filename</i>. Only facts specified in the <i>Filter</i> are consulted. <i>Filter</i> is a list of strings, each containing a predicate indicator in form <i>name</i>/<i>arity</i> .</p>
+        <p>Reads the facts to the database from the file <a
+        href="#filename"
+        ><i>Filename</i></a>. Only facts specified in the <i>Filter</i> are consulted. <i>Filter</i> is a list of strings, each containing a predicate indicator in form <i>name</i>/<i>arity</i> .</p>
         <p>Example:</p>
         <p><code>consult_data("data.pro", ["cars/4", "houses/2"])</code></p>
       </dd>
 
       <dt><font size="+1"><b><code>consult_dir(</code><i>Dirname</i><code>)</code></b></font></dt>
       <dd>
-        <p>If <i>Dirname</i> is bound to a string sets current consult directory.</p>
+        <p>If <a href="#filename"
+        ><i>Dirname</i></a> is bound to a string sets current consult directory.</p>
         <p>If <i>Dirname</i> is open it will be bound to the current
         consult directory name. The directory name is absolute and always begins with
 "<code>file:</code>" or "<code>res:</code>". It can be used as an argument to
@@ -491,5 +495,50 @@ comline_arg(3, "", "report.txt").</pre>
       </dd>
     </dl>
 -->
+    <h2>Other Details</h2>
+<H3 id="dirname">dirname</H3>
+<DL>
+<DD>
+Directory names can refer to directories either in the file system or in the 
+resource system. In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a directory in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+dirname is an absolute path it refers to the file system. A relative path
+refers to a subdirectory of the current consult directory.
+  <DL>
+  <DT><B>Examples:</B>
+  <DD><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
+  the C disk.</DD>
+  <DD><CODE>"res:lib/routes"</CODE> - refers to a resource directory.</DD>
+  <DD><CODE>"sub"</CODE> - refers to the subdirectory <code>sub</code> of
+  the current directory.</DD>
+ </DL>
+</DD>
+</DL>
+
+<H3 id="filename">filename</H3>
+<DL>
+<DD>
+File names can refer either to files in the file system or to 
+resources of the jar package.
+In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a resource in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+filename is an absolute path it refers to the file system. A relative path
+refers to a file or resource in the current consult directory.
+  <DL>
+  <DT><B>Examples:</B>
+  <DD><CODE>"file:C:/data/trees.pro"</CODE> - refers to a file in the file
+  system.
+  <DD><CODE>"res:parameters.pro"</CODE> - refers to a resource in the resource system.
+  <DD><CODE>"rules.pro"</CODE> - refers to a file or a resource in the current
+  directory.
+ </DL>
+</DD>
+</DL>
+
+
 </body>
 </html>

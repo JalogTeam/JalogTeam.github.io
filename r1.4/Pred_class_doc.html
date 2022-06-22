@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pred class</title>
+</head>
+<body>
+<p ALIGN="right"><EM>
+<b>Pred&nbsp;1.4</b></EM>
+</p>
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+io.github.JalogTeam.jalog</FONT>
+<BR>
+Class Pred</H2>
+<PRE>
+<A HREF="https://docs.oracle.com/javase/6/docs/api/java/lang/Object.html" 
+title="class in java.lang">java.lang.Object</A>
+  <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pred</B>
+</PRE>
+<HR>
+<DL>
+  <DT>
+    <PRE>public class <B>Pred</B>
+    </PRE>
+  </DT>
+</DL>
+<P>
+Class <code>Pred</code> is the base class for all classes that implement Prolog predicates.
+</p>
+<p id="calling_pattern">
+Typical calling pattern:
+</p>
+<pre>
+    // Pred_example.java
+    // example(String, String, String) - (i,i,i) (i,i,o) (i,o,i) (o,i,i)
+    /*
+        In order to create a synonym to an existing predicate add a line to
+        built_in_preds table in Ops.java .
+    */
+
+    Something should be said about post_call .
+
+    package io.github.JalogTeam.jalog;
+
+    import java.io.*;
+    import java.util.*;
+
+    public class Pred_example extends Pred
+    {
+
+      public static Pred first_call(Pro_TermData_Compound data) {
+
+        Pred result = null;
+    /*
+        Take parameters to local variables:
+    */    
+        Pro_Term left_term = data.subterm[0].getRealNode();
+        Pro_Term right_term = data.subterm[1].getRealNode();
+        Pro_Term result_term = data.subterm[2].getRealNode();
+
+    /*
+        Local variables as needed
+    */
+        long len_left, len_right, len;
+        Pro_TermData_Compound compare_data;
+        Pro_Term right_part, left_part;
+
+    /*
+        Identify flow pattern and act accordingly.
+        _term.data == null means an open variable.
+    */    
+        if (left_term.data != null && right_term.data != null) {
+          Pro_Term so = Pro_Term.m_string_concat(
+              (Pro_TermData_String)left_term.data, 
+              (Pro_TermData_String)right_term.data);
+        
+          result = new Pred__eq_(
+              new Pro_TermData_Compound("=", so, result_term));
+          result.call();
+      Pro_Term.debug = 0;
+        } else if (left_term.data != null && result_term.data != null) {
+          len_left = ((Pro_TermData_String)left_term.data).len;
+          len = ((Pro_TermData_String)result_term.data).len;
+          left_part = Pro_Term.m_string_substring(
+              (Pro_TermData_String)result_term.data, 0, len_left);
+          result = new Pred__eq_(
+              new Pro_TermData_Compound("=", left_term, left_part));
+          result.call();
+          if (Pred.forward) {
+            right_part = Pro_Term.m_string_substring(
+                (Pro_TermData_String)result_term.data, len_left, 
+                len - len_left);
+            result = new Pred__eq_(
+                new Pro_TermData_Compound("=", right_term, right_part));
+            result.call();
+          }
+        } else if (right_term.data != null && result_term.data != null) {
+          len_right = ((Pro_TermData_String)right_term.data).len;
+          len = ((Pro_TermData_String)result_term.data).len;
+          right_part = Pro_Term.m_string_substring(
+              (Pro_TermData_String)result_term.data, len - len_right, 
+              len_right);
+          result = new Pred__eq_(
+              new Pro_TermData_Compound("=", right_term, right_part));
+          result.call();
+          if (Pred.forward) {
+            left_part = Pro_Term.m_string_substring(
+                (Pro_TermData_String)result_term.data, 0, len - len_right);
+            result = new Pred__eq_(
+                new Pro_TermData_Compound("=", left_term, left_part));
+            result.call();
+          }
+        } else {
+          Pred.forward = false;  // invalid flow pattern (o,o,o) (i,o,o),(o,i,o),(o,o,i)
+        }
+        return null;
+      }
+
+    }
+</pre>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#body_item">body_item</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For Prolog system. Not needed in subclasses.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#called_body">called_body</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Used in <code>trap</code> and <code>not</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#cut">cut</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Used in <code>cut</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#cutting">cutting</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Used in <code>cut</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#exception">exception</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set in e.g. <code>exit</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static <a href="Pro_Term_class_doc.html">Pro_Term</a></CODE></FONT></TD>
+<TD><CODE><B><A HREF="#exit_value">exit_value</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set in e.g. <code>exit</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#forward">forward</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Value <code>true</code> controls and indicates forward execution.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<a href="Pro_TrailMark_class_doc.html"><CODE>Pro_TrailMark</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#Mark">Mark</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Controls backtracking of unifications.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#op_found">op_found</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set <code>true</code> when right code for this predicate.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>Pred</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#prev">prev</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For Prolog system. Not needed in subclasses.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<code>public static </code><a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#trail">trail</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Controls backtracking of unifications.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<a href="Activation_class_doc.html"><CODE>Activation</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#sub_activation">sub_activation</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For Prolog system. Not needed in subclasses.</TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="#Pred">Pred</A></B>()</CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Constructs a <CODE>Pred</CODE> instance.</TD>
+</TR>
+
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public void</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#call">call</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Called in backtrack.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public static Pred</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#first_call">first_call</A></B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> data)</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Called when the predicate is executed first time.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public void</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#post_call">post_call</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Called e.g. in <code>not</code> after sub predicates are executed.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#toString">toString</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Converts predicate status to string for debugging.
+   </TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+<P>
+<!-- ============ FIELD DETAIL =========== -->
+<TABLE id="field_detail" BORDER="1" WIDTH="100%" CELLPADDING="3" 
+CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+
+<H3 id="OPEN">
+OPEN</H3>
+<PRE>
+public static final String <B>OPEN</B> = "open"</PRE>
+<DL>
+<DD>Code for open variable.</DD>
+</DL>
+<HR>
+
+<H3 id="INTEGER">
+INTEGER</H3>
+<PRE>
+public static final String <B>INTEGER</B> = "integer"</PRE>
+<DL>
+<DD>Code for integer variable.</DD>
+</DL>
+<HR>
+
+<H3 id="SYMBOL">
+SYMBOL</H3>
+<PRE>
+public static final String <B>SYMBOL</B> = "symbol"</PRE>
+<DL>
+<DD>Code for symbol variable.</DD>
+</DL>
+<HR>
+
+<H3 id="REAL">
+REAL</H3>
+<PRE>
+public static final String <B>REAL</B> = "real"</PRE>
+<DL>
+<DD>Code for real variable.</DD>
+</DL>
+<HR>
+
+<H3 id="CHARACTER">
+CHARACTER</H3>
+<PRE>
+public static final String <B>CHARACTER</B> = "character"</PRE>
+<DL>
+<DD>Code for character variable.</DD>
+</DL>
+<HR>
+
+<H3 id="STRING">
+STRING</H3>
+<PRE>
+public static final String <B>STRING</B> = "string"</PRE>
+<DL>
+<DD>Code for string variable.</DD>
+</DL>
+<HR>
+
+<H3 id="LIST">
+LIST</H3>
+<PRE>
+public static final String <B>LIST</B> = "list"</PRE>
+<DL>
+<DD>Code for list variable.</DD>
+</DL>
+<HR>
+
+<H3 id="COMPOUND">
+COMPOUND</H3>
+<PRE>
+public static final String <B>COMPOUND</B> = "compound"</PRE>
+<DL>
+<DD>Code for compound variable.</DD>
+</DL>
+<HR>
+
+<H3 id="out">
+out</H3>
+<PRE>
+public static <A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> <B>out</B> = new Jalog.Output();</PRE>
+<DL>
+<DD>Current output.</DD>
+</DL>
+<HR>
+
+<H3 id="err">
+err</H3>
+<PRE>
+public static <A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> <B>err</B> = new <A HREF="Jalog_OutputErr_class_doc.html">Jalog.OutputErr</A>();</PRE>
+<DL>
+<DD>Current error output.</DD>
+</DL>
+<HR>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="Jalog">
+Jalog</H3>
+<PRE>public <B>Jalog</B>()
+           throws <a href=
+           "https://docs.oracle.com/javase/6/docs/api/java/lang/Error.html"
+           >Error</a></PRE>
+<DL>
+  <DD>Constructs a <CODE>Jalog</CODE> inference engine. <b>Limitation</b>: Only
+  one engine can exist at any time. After usage it must be disposed of using
+  the dispose method.
+  <P>
+  <DL>
+    <DT><B>Throws:</B>
+    <DD><CODE>Error</CODE> - if a Jalog inference engine already exists.
+    <DT><B>See Also:</B>
+    <DD><A HREF="#dispose"><CODE>dispose()</CODE></A>
+  </DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="open">open</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
+>open</B>()</PRE>
+<DL>
+<DD>Creates a new open variable.
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the new open variable.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="integer(long)">integer</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
+>integer</B>(long i)</PRE>
+<DL>
+<DD>Creates a new integer term with value i.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>i</CODE> - the value of the new integer.
+  <DT><B>Returns:</B>
+  <DD>an integer term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+
+<H3 id="symbol(String)">symbol</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
+>symbol</B>(String name)</PRE>
+<DL>
+<DD>Creates a new symbol term with value name.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>name</CODE> - the value of the new symbol.
+  <DT><B>Returns:</B>
+  <DD>a symbol term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="real(double)">real</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>real</B
+>(double r)</PRE>
+<DL>
+<DD>Creates a new real term with value r.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>r</CODE> - the value of the new real.
+  <DT><B>Returns:</B>
+  <DD>a real term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="character(char)">character</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
+>character</B>(char c)</PRE>
+<DL>
+<DD>Creates a new character term with value c.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>c</CODE> - the value of the new character.
+  <DT><B>Returns:</B>
+  <DD>a character term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="string(String)">string</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>string</B
+>(String s)</PRE>
+<DL>
+<DD>Creates a new string term with value s.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>s</CODE> - the value of the new string.
+  <DT><B>Returns:</B>
+  <DD>a string term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="list(Jalog.Term[])">list</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>list</B
+>(<a href="Jalog_Term_class_doc.html">Jalog.Term</a>[] elements)</PRE>
+<DL>
+<DD>Creates a new list term populated with items from <code>elements</code> 
+array.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>elements</CODE> - the items of the new list.
+  <DT><B>Returns:</B>
+  <DD>a list term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="compound(String,Jalog.Term[])">compound</H3>
+<PRE>
+public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
+>compound</B>(String name, <a href="Jalog_Term_class_doc.html">Jalog.Term</a
+>[] arguments)</PRE>
+<DL>
+<DD>Creates a new compound term with functor name <code>name</code> and
+components from arguments array. If the arguments array is empty, the result
+is of type symbol.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>name</CODE> - the functor of the new compound.</DD>
+  <DD><CODE>arguments</CODE> - the components of the new compound.</DD>
+  <DT><B>Returns:</B>
+  <DD>a compound term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="consult_file(String)">consult_file</H3>
+<PRE>
+public static void <B>consult_file</B>(String <A HREF="#filename">filename</A
+>)</PRE>
+<DL>
+<DD>Consults (reads and compiles) a Prolog source file.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>filename</CODE> - the name of the Prolog source file.</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="consult_stringlist(String[],String)">consult_stringlist</H3>
+<PRE>
+public static void <B>consult_stringlist</B
+>(String[] lines, String name)</PRE>
+<DL>
+<DD>Consults (compiles) Prolog source from an array of strings.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>lines</CODE> - Prolog source lines.</DD>
+  <DD><CODE>name</CODE> - comment for error messages.</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="consult_data_file(String,String[])">consult_data_file</H3>
+<PRE>
+public static void <B>consult_data_file</B
+>(String <A HREF="#filename">filename</A>, String[] filter)</PRE>
+<DL>
+<DD>Consults (reads) facts from a file. Only facts specified in the filter are
+consulted. Filter is an array of strings, each containing a predicate indicator
+in form <i>name</i><code>/</code><i>arity</i> .
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>filename</CODE> - the name of the Prolog source lines.</DD>
+  <DD><CODE>filter</CODE> - predicate indicators.</DD>
+  <DT><B>Example:</B>
+  <DD>
+  <CODE>consult_data_file("data.pro", new String[]{"cars/4", "houses/2"});
+  </CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="consult_data_stringlist(String[],String[],String)">
+consult_data_stringlist</H3>
+<PRE>
+public static void <B>consult_data_stringlist</B
+>(String[] lines, String[] filter, String name)</PRE>
+<DL>
+<DD>Consults facts from an array of strings. Only facts specified in the filter
+are consulted. Filter is an array of strings, each containing a predicate 
+indicator in form <i>name</i><code>/</code><i>arity</i> .
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>lines</CODE> - the name of the Prolog source lines.</DD>
+  <DD><CODE>filter</CODE> - predicate indicators.</DD>
+  <DD><CODE>name</CODE> - comment for error messages.</DD>
+  <DT><B>Example:</B>
+  <DD><CODE>String[] things = {</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;"cars(\"Volvo\", 17, 88, 36).", </CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;"cars(\"Opel\", 5, 42, 150).", </CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;"houses(\"Home\", 128000)."</CODE></DD>
+  <DD><CODE>};</CODE></DD>
+  <DD><CODE>consult_data_stringlist(things, new String[]{"cars/4", "houses/2"},
+  "things");</CODE></DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="set_consult_dir(String)">set_consult_dir</H3>
+<PRE>
+public static void <B>set_consult_dir</B>(String <A HREF="#dirname">dirname</A
+>)</PRE>
+<DL>
+<DD>Sets current consult directory, i.e. default directory for consult 
+operations.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>dirname</CODE> - the name of the consult directory.</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="get_consult_dir">get_consult_dir</H3>
+<PRE>
+public static String <B>get_consult_dir</B>()</PRE>
+<DL>
+<DD>Returns current consult directory, i.e. default directory for consult 
+operations. The directory name is absolute and always begins with
+"<code>file:</code>" or "<code>res:</code>". It can be used as an argument to
+<code>set_consult_dir</code> .
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the name of the current consult directory.</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+<H3 id="set_comline_arg(String,String)">set_comline_arg</H3>
+<PRE>
+public static void <B>set_comline_arg</B>(String option, String argument)</PRE>
+<DL>
+<DD>Defines a command-line argument.</DD>
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B></DT>
+  <DD><CODE>option</CODE> - the name of the option.</DD>
+  <DD><CODE>argument</CODE> - the value of the option.</DD>
+  <DT><B>Example:</B>
+  <DD>To emulate the following command line arguments<BR/>
+  <CODE>&nbsp;&nbsp;-foo=bar -up report.txt</CODE><BR/>
+  the calls</DD>
+  <DD><CODE>&nbsp;&nbsp;set_comline_arg("foo", "bar");</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;set_comline_arg("up", "");</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;set_comline_arg("", "report.txt");</CODE></DD>
+  <DD>store the following facts to the Jalog database</DD>
+  <DD><CODE>&nbsp;&nbsp;comline_arg(1, "foo", "bar").</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;comline_arg(2, "up", "").</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;comline_arg(3, "", "report.txt").</CODE></DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="dispose">dispose</H3>
+<PRE>
+public static void <B>dispose</B>()</PRE>
+<DL>
+<DD>Clears the Prolog program, its data and the inference engine from the 
+memory. Allows creating a new inference engine for another purpose.
+<P>
+</DL>
+<HR>
+
+<H3 id="call(String,Jalog.Term...)">call</H3>
+<PRE>
+public static boolean <B>call</B>(String predname, <a
+ href="Jalog_Term_class_doc.html">Jalog.Term</a> ... args)
+           throws <A HREF="Jalog_Exit_class_doc.html">Jalog.Exit</A></PRE>
+</PRE>
+<DL>
+<DD>Calls a predicate defined in the consulted file.</DD>
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>predname</CODE> - the name of the predicate to be called.</DD>
+  <DD><CODE>args</CODE> - the arguments for the predicate.</DD>
+  <DT><B>Returns:</B>
+  <DD><code>true</code> if the predicate succeeds, <code>false</code> if the
+    predicate fails.</DD>
+  <DT><B>Throws:</B>
+  <DD><CODE>Jalog.Exit</CODE
+  > - when the program executes an exit predicate.</DD>
+ </DL>
+</DD>
+</DL>
+
+<HR></HR>
+<H3 id="getResourceAsStream(String)">getResourceAsStream</H3>
+<PRE>
+public static <a href=
+    "https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"
+    >InputStream</a> <B>getResourceAsStream</B>(String fileName)
+           throws <a href=
+           "https://docs.oracle.com/javase/6/docs/api/java/io/IOException.html"
+           >IOException</a></PRE>
+<DL>
+<DD>Provides a stream for reading a resource file.</DD>
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>filename</CODE> - the name of the resource file.</DD>
+  <DT><B>Returns:</B>
+  <DD>an input stream for reading a resource.</DD>
+  <DT><B>Throws:</B>
+  <DD><CODE>IOException</CODE
+  > - propagated from I/O system.</DD>
+ </DL>
+</DD>
+</DL>
+
+<HR></HR>
+<H3 id="setErr(Jalog.Output)">setErr</H3>
+<PRE>
+public static void <B>setErr</B>(<A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> o)</PRE>
+<DL>
+<DD>Redirects error messages.</DD>
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>o</CODE> - output class for error messages.</DD>
+ </DL>
+</DD>
+</DL>
+
+<HR></HR>
+<H3 id="setOut(Jalog.Output)">setOut</H3>
+<PRE>
+public static void <B>setOut</B>(<A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> o)</PRE>
+<DL>
+<DD>Redirects output: print and println.</DD>
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>o</CODE> - output class for error messages.</DD>
+  
+  <DT><B>Example:</B>
+  <DD>To add additional processing to the output define subclass of Jalog.Output:
+  </DD>
+  <DD><CODE>&nbsp;&nbsp;public static class TestOutput extends Jalog.Output {</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;public void print(String s) {</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print("|" + s);</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;}</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;}</CODE></DD>
+  <DD><CODE>&nbsp;</CODE></DD>
+  <DD>Before calling the Prolog code redirect the output:</DD>
+  <DD><CODE>&nbsp;</CODE></DD>
+  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;myJalog.setOut(new TestOutput());</CODE></DD>
+ 
+
+ </DL>
+</DD>
+</DL>
+
+<HR></HR>
+<H3 id="setResourceManager(Jalog.ResourceManager)">setResourceManager</H3>
+<PRE>
+public static void <B>setResourceManager</B>(<a href="Jalog_ResourceManager_class_doc.html">Jalog.ResourceManager</a> rm)</PRE>
+<DL>
+<DD>To consult resource files from a non-standard place (e.g. in Android 
+applications) define a subclass of 
+<code>Jalog.ResourceManager</code>
+ and introduce it with this function. </DD>
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>rm</CODE> - new resource manager</DD>
+ </DL>
+</DD>
+</DL>
+
+
+<!-- ============ OTHER DETAIL =========== -->
+<TABLE id="other_detail" BORDER="1" WIDTH="100%" CELLPADDING="3" 
+CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Other Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="dirname">dirname</H3>
+<DL>
+<DD>
+Directory names can refer to directories either in the file system or in the 
+resource system. In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a directory in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+dirname is an absolute path it refers to the file system. A relative path
+refers to a subdirectory of the current consult directory.
+  <DL>
+  <DT><B>Examples:</B>
+  <DD><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
+  the C disk.</DD>
+  <DD><CODE>"res:lib/routes"</CODE> - refers to a resource directory.</DD>
+  <DD><CODE>"sub"</CODE> - refers to the subdirectory <code>sub</code> of
+  the current directory.</DD>
+ </DL>
+</DD>
+</DL>
+
+<H3 id="filename">filename</H3>
+<DL>
+<DD>
+File names can refer either to files in the file system or to 
+resources of the jar package.
+In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a resource in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+filename is an absolute path it refers to the file system. A relative path
+refers to a file or resource in the current consult directory.
+  <DL>
+  <DT><B>Examples:</B>
+  <DD><CODE>"file:C:/data/trees.pro"</CODE> - refers to a file in the file
+  system.
+  <DD><CODE>"res:parameters.pro"</CODE> - refers to a resource in the resource system.
+  <DD><CODE>"rules.pro"</CODE> - refers to a file or a resource in the current
+  directory.
+ </DL>
+</DD>
+</DL>
+
+
+
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+<font size="-1">Authors: Mikko Levanto, Ari Okkonen</font>
+</body>
+</html>

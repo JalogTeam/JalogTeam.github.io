@@ -50,20 +50,11 @@ terms for normal use in Java programs.
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;long</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#lastId">lastId</A></B></CODE>
+<CODE>static&nbsp;Pro_Term</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#EMPTY_LIST">EMPTY_LIST</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-To assign individual id for each term. Updated by constructors.</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;long</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#lastPrintId">lastPrintId</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-To assign individual id for each displayed open term. Updated by <code>toString</code> method.</TD>
+The empty list.</TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -77,20 +68,29 @@ Individual Id of this object.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#lastId">lastId</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+To assign individual id for each term. Updated by constructors.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#lastPrintId">lastPrintId</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+To assign individual id for each displayed open term. Updated by <code><A HREF="#toString()">toString</A></code> method.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>public&nbsp;long</CODE></FONT></TD>
 <TD><CODE><B><A HREF="#printId">printId</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Individual printId of this object.</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;Pro_Term</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#EMPTY_LIST">EMPTY_LIST</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-The empty list.</TD>
 </TR>
 
 </TABLE>
@@ -135,90 +135,6 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;boolean</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#unify(Pro_Term,Pro_Trail,Pro_TrailMark)">unify</A></B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack, <a href="Pro_TrailMark_class_doc.html">Pro_TrailMark</a> Mark)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Unifies this term with another term.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;boolean</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#unify(Pro_Term,Pro_Trail)">unify</A></B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Unifies this term with another term.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;boolean</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#match(Pro_Term)">match</A></B>(Pro_Term pn2)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Checks wheter this term can be unified with another term but does not unify them.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#getRealNode">getRealNode</A></B>()
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    If this object is linked to another Pro_Term object (as a result of unification) then finds the actual node otherwise returns this object.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;<a href="Pro_TermData_class_doc.html">Pro_TermData</a></CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#getData">getData</A></B>()
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Returns the data associated to this term, or <code>null</code> if this term is open.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;String</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#getData">getType</A></B>()
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Returns the type of this term.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
     <CODE>&nbsp;void</CODE></FONT>
   </TD>
   <TD>
@@ -233,148 +149,6 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_integer(long)">m_integer</A></B>(long iniVal)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with an integer value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_real(double)">m_real</A></B>(double iniVal)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with a real value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_char(char)">m_char</A></B>(char iniVal)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with a character value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_string(String)">m_string</A></B>(String iniVal)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with a string value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_string_substring(Pro_TermData_String,long,long)">m_string_substring</A></B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> base_string,
-      long req_start, long req_len)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with a string value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_string_concat(Pro_TermData_String,Pro_TermData_String)">m_string_concat</A></B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> left,
-      <A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> right)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with a string value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_open()">m_open</A></B>()
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new open <code>Pro_Term</code> object.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_unified(Pro_Term)">m_unified</A></B>(Pro_Term iniVal)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object unified with another.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_list(Pro_Term[],Pro_Term)">m_list</A></B>(Pro_Term[] iniVal, Pro_Term tail)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with a list value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>&nbsp;static Pro_Term</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#m_compound(String,Pro_Term[])">m_compound</A></B>(String iniName, Pro_Term[] iniSubterm)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Creates a new <code>Pro_Term</code> object with a compound value.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
     <CODE>&nbsp;void</CODE></FONT>
   </TD>
   <TD>
@@ -384,48 +158,6 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Calculates the value of the expression in <code>term</code> and stores the result in this object.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>static&nbsp;long</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#eval_integer(Pro_Term)">eval_integer</A></B>(Pro_Term p)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Calculates the value of the expression in <code>p</code> and returns it if it is an integer otherwise 0.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>String</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#toString()">toString</A></B>()
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Returns the string representation of this term.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>String</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#image()">image</A></B>()
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Returns another string representation of this term.
    </TD>
 </TR>
 
@@ -457,6 +189,274 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
    </TD>
 </TR>
 
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>static&nbsp;long</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#eval_integer(Pro_Term)">eval_integer</A></B>(Pro_Term p)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Calculates the value of the expression in <code>p</code> and returns it if it is an integer otherwise 0.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;<a href="Pro_TermData_class_doc.html">Pro_TermData</a></CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#getData">getData</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns the data associated to this term, or <code>null</code> if this term is open.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#getRealNode">getRealNode</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    If this object is linked to another <code>Pro_Term</code> object (as a result of unification) then finds the actual node otherwise returns this object.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#getType">getType</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns the type of this term.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#image()">image</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns human readable string representation of this term.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_char(char)">m_char</A></B>(char iniVal)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with a character value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_compound(String,Pro_Term[])">m_compound</A></B>(String iniName, Pro_Term[] iniSubterm)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with a compound value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_integer(long)">m_integer</A></B>(long iniVal)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with an integer value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_list(Pro_Term[],Pro_Term)">m_list</A></B>(Pro_Term[] iniVal, Pro_Term tail)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with a list value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_open()">m_open</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new open <code>Pro_Term</code> object.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_real(double)">m_real</A></B>(double iniVal)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with a real value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_string(String)">m_string</A></B>(String iniVal)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with a string value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_string_concat(Pro_TermData_String,Pro_TermData_String)">m_string_concat</A></B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> left,
+      <A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> right)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with a string value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_string_substring(Pro_TermData_String,long,long)">m_string_substring</A></B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> base_string,
+      long req_start, long req_len)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object with a string value.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;static Pro_Term</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#m_unified(Pro_Term)">m_unified</A></B>(Pro_Term iniVal)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Creates a new <code>Pro_Term</code> object unified with another.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;boolean</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#match(Pro_Term)">match</A></B>(Pro_Term pn2)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Checks wheter this term can be unified with another term but does not unify them.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#toString()">toString</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns Jalog syntax representation of this term.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;boolean</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#unify(Pro_Term,Pro_Trail)">unify</A></B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Unifies this term with another term.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;boolean</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#unify(Pro_Term,Pro_Trail,Pro_TrailMark)">unify</A></B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack, <a href="Pro_TrailMark_class_doc.html">Pro_TrailMark</a> Mark)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Unifies this term with another term.
+   </TD>
+</TR>
+
 
 
 </TABLE>
@@ -473,123 +473,98 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
 </TR>
 </TABLE>
 
-<H3 id="getCharacterValue">getCharacterValue</H3>
+<H3 id="clearData">clearData</H3>
 <PRE>
-public char <B>getCharacterValue</B>()</PRE>
+public void <B>clearData</B>()</PRE>
 <DL>
-<DD>Gets the char out of the Jalog.Term.
+<DD>Removes data and makes this term open. Used by <code>Pro_Trail.backtrack</code> . Should not be used otherwise.
+<P>
+</DL>
+<HR>
+
+<H3 id="compval">compval</H3>
+<PRE>
+void <B>compval</B>(Pro_Term term)</PRE>
+<DL>
+<DD>Calculates the value of the expression in <code>term</code> and stores the result in this object. This method should only be used if <code>this</code> term is open.
+<P>
+</DL>
+<HR>
+
+<H3 id="copy">copy</H3>
+<PRE>
+public Pro_Term <B>copy</B>()</PRE>
+<DL>
+<DD>Makes a full copy of this term without linkages to other data. Open terms are changed to new open terms. Repeated open terms are changed to repeated open terms.
 <P>
 <DD>
 <DL>
   <DT><B>Returns:</B>
-  <DD>the char value if present, otherwise '\uFFFF'.
+  <DD>an independent copy this term.
 </DL>
 </DD>
 </DL>
 <HR>
 
-<H3 id="getElements">getElements</H3>
+<H3 id="copy(Hashtable)">copy</H3>
 <PRE>
-public Jalog.Term[] <B>getElements</B>()</PRE>
+public Pro_Term <B>copy</B>(Hashtable variable_map)</PRE>
 <DL>
-<DD>Converts a Jalog list to a Jalog.Term array.
+<DD>Returns a copy this term using <code>variable_map</code>. Hashtable is used to map repeated open terms to repeated open terms. Hashtable is updated for new open terms.
 <P>
 <DD>
 <DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>variable_map</CODE> - contains open variable mapping for this term.
   <DT><B>Returns:</B>
-  <DD>an array of the list values for a list, otherwise null.
+  <DD>a copy this term using <code>variable_map</code>.
 </DL>
 </DD>
 </DL>
 <HR>
 
-<H3 id="getFunctor">getFunctor</H3>
+<H3 id="eval_integer">eval_integer</H3>
 <PRE>
-public String <B>getFunctor</B>()</PRE>
+public static long <B>eval_integer</B>(Pro_Term p)</PRE>
 <DL>
-<DD>Gets the name of the functor of the compound Jalog.Term.
+<DD>Calculates the value of the expression in <code>p</code> and returns it if it is an integer, otherwise returns 0. Useful for indexing.
 <P>
 <DD>
 <DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>p</CODE> - the expression as a <code>Pro_Term</code>.
   <DT><B>Returns:</B>
-  <DD>the functor of a compound Term as a String, null for other types.
+  <DD>the the value of the expression if it is an integer otherwise 0.
 </DL>
 </DD>
 </DL>
 <HR>
 
-<H3 id="getIntegerValue">getIntegerValue</H3>
+<H3 id="getData">getData</H3>
 <PRE>
-public long <B>getIntegerValue</B>()</PRE>
+public <a href="Pro_TermData_class_doc.html">Pro_TermData</a> <B>getData</B>()</PRE>
 <DL>
-<DD>Gets the long out of the Jalog.Term.
+<DD>Returns the data associated to this term, or <code>null</code> if this term is open.
 <P>
 <DD>
 <DL>
   <DT><B>Returns:</B>
-  <DD>the long value if the term is numeric. Integers are as such, reals are 
-  typecast to long, Other types return 0.
+  <DD>the data associated to this term, or <code>null</code> if this term is open.
 </DL>
 </DD>
 </DL>
 <HR>
 
-<H3 id="getRealValue">getRealValue</H3>
+<H3 id="getRealNode">getRealNode</H3>
 <PRE>
-public double <B>getRealValue</B>()</PRE>
+public Pro_Term <B>getRealNode</B>()</PRE>
 <DL>
-<DD>Gets the double value out of the Jalog.Term.
+<DD>If this object is linked to another Pro_Term object (as a result of unification) then finds the actual node otherwise returns this object.
 <P>
 <DD>
 <DL>
   <DT><B>Returns:</B>
-  <DD>the double value for numeric terms. Real values are as such, integers 
-  are typecast to double, other types return 0.0.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="getStringValue">getStringValue</H3>
-<PRE>
-public String <B>getStringValue</B>()</PRE>
-<DL>
-<DD>Gets the String out of the Jalog.Term.
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the String value if present, otherwise null.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="getSubTerms">getSubTerms</H3>
-<PRE>
-public Jalog.Term[] <B>getSubTerms</B>()</PRE>
-<DL>
-<DD>Collects the subterms of a Jalog compound term to an array.
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>a Jalog.Term array of the arguments for a compound; null for other types.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="getSymbolValue">getSymbolValue</H3>
-<PRE>
-public String <B>getSymbolValue</B>()</PRE>
-<DL>
-<DD>Gets the name of the symbol.
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the name of the symbol, null for other Term types.
+  <DD>the actual node
 </DL>
 </DD>
 </DL>
@@ -599,22 +574,439 @@ public String <B>getSymbolValue</B>()</PRE>
 <PRE>
 public String <B>getType</B>()</PRE>
 <DL>
-  <DD>Gets the type name of the Jalog.Term.
-  <P>
-  <DD>
-    <DL>
-      <DT><B>Returns:</B></DT>
-      <DD>the type name string. One of <code>Jalog.OPEN</code>, 
-        <code>Jalog.INTEGER</code>, <code>Jalog.SYMBOL</code>,
-        <code>Jalog.REAL</code>, <code>Jalog.CHARACTER</code>, 
-        <code>Jalog.STRING</code>, <code>Jalog.LIST</code>, or 
-        <code>Jalog.COMPOUND</code>. 
-        See <a href="Jalog_class_doc.html#field_summary">
-          Jalog Field Summary</a>.
-        </DD>
-    </DL>
-  </DD>
+<DD>Gets the type of the symbol. Type is one of the fields of the class <a href="Jalog_class_doc.html#field_summary"><code>Jalog</code></a>
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the type of this term.
 </DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="image">image</H3>
+<PRE>
+public String <B>image</B>()</PRE>
+<DL>
+  <DD>Returns human readable string representation of this term. Used by built-in predicate <code>write</code>.
+  <P>
+</DL>
+<HR>
+
+<H3 id="m_char(char)">m_char</H3>
+<PRE>
+public static Pro_Term <B>m_char</B>(char iniVal)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a character value.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniVal</CODE> - value for the new term.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_compound(String,Pro_Term[])">m_compound</H3>
+<PRE>
+public static Pro_Term <B>m_compound</B>(String iniName, Pro_Term[] iniSubterm)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a compound value. If the <code>iniSubterm</code> array is empty the type of the created term is <code>SYMBOL</code>, otherwise <code>COMPOUND</code>.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniName</CODE> - functor.
+  <DD><CODE>iniSubterm</CODE> - subterms in an array.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_integer(long)">m_integer</H3>
+<PRE>
+public static Pro_Term <B>m_integer</B>(long iniVal)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with an integer value.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniVal</CODE> - value for the new term.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+
+<H3 id="m_list(Pro_Term[],Pro_Term)">m_list</H3>
+<PRE>
+public static Pro_Term <B>m_list</B>(Pro_Term[] iniVal, Pro_Term tail)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a list value.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniVal</CODE> - list items in an array.
+  <DD><CODE>tail</CODE> - tail of the list. Can be the <A HREF="#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> if all items are listed in  <CODE>iniVal</CODE>.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_open()">m_open</H3>
+<PRE>
+public static Pro_Term <B>m_open</B>()</PRE>
+<DL>
+<DD>Creates a new open <code>Pro_Term</code> object.
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_char(char)">m_char</H3>
+<PRE>
+public static Pro_Term <B>m_char</B>(char iniVal)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a character value.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniVal</CODE> - value for the new term.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_real(double)">m_real</H3>
+<PRE>
+public static Pro_Term <B>m_real</B>(double iniVal)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a real value.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniVal</CODE> - value for the new term.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_string(String)">m_string</H3>
+<PRE>
+public static Pro_Term <B>m_string</B>(String iniVal)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a string value.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniVal</CODE> - value for the new term.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_string_concat(String,String)">m_string_concat</H3>
+<PRE>
+public static Pro_Term <B>m_string_concat</B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> left,
+      <A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> right)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a string value.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>left</CODE> - left part for the new term.
+  <DD><CODE>right</CODE> - right part for the new term.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_string_substring(String,long,long)">m_string_substring</H3>
+<PRE>
+public static Pro_Term <B>m_string_substring</B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> base_string,
+      long req_start, long req_len)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object with a string value. The resulting string contains a part of the <code>base_string</code>. First <code>req_start</code> characters are not included. If <code>req_len</code> is less than the remaining length of the <code>base_string</code> then <code>req_len</code> characters are included, otherwise the rest of the <code>base_string</code> is included. If <code>req_start</code> is greater than the length of the <code>base_string</code> then an empty string is created.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>base_string</CODE> - value for the new term.
+  <DD><CODE>req_start</CODE> - number of characters skipped from the beginning of the <CODE>base_string</CODE>.
+  <DD><CODE>req_len</CODE> - number of characters to be included in the result.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="m_unified(Pro_Term)">m_unified</H3>
+<PRE>
+public static Pro_Term <B>m_unified</B>(Pro_Term iniVal)</PRE>
+<DL>
+<DD>Creates a new <code>Pro_Term</code> object unified with <code>iniVal</code>.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>iniVal</CODE> - the term to be unified with.
+  <DT><B>Returns:</B>
+  <DD>the created term object
+</DL>
+</DD>
+</DL>
+<HR>
+
+
+<H3 id="match(Pro_Term)">match</H3>
+<PRE>
+public boolean <B>match</B>(Pro_Term pn2)</PRE>
+<DL>
+<DD>Checks wheter this term can be unified with another term but does not unify them.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>pn2</CODE> - compared term.
+  <DT><B>Returns:</B>
+  <DD><code>true</code> if the paramater can be unified with <code>this</code>, <code>false</code> othewise.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="toString()">toString</H3>
+<PRE>
+public String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns Jalog syntax representation of this term.
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>Jalog syntax representation of this term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="unify(Pro_Term,Pro_Trail)">unify</H3>
+<PRE>
+public boolean <B>unify</B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack)</PRE>
+<DL>
+<DD>Unifies this term with another term. Tries to modify <code>this</code> term and the argument term so that they are equivalent. Open subterms are replaced with corresponding subterms in the other term, or computed values of corresponding subterms if they can be computed. If the corresponding subterm is open, the subterms are unified.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>pn2</CODE> - compared term.
+  <DD><CODE>pBack</CODE> - trail, typically <code>Pred.trail</code>.
+  <DT><B>Returns:</B>
+  <DD><code>true</code> if unification succeeded, <code>false</code> otherwise.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="(Pro_Term,Pro_Trail)">soopaa</H3>
+<PRE>
+public String <B>unify</B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack)</PRE>
+<DL>
+<DD>Unifies this term with another term.
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Name">Name</H3>
+<PRE>
+public String <B>Name</B>()</PRE>
+<DL>
+<DD>What does this do
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>the result value.
+</DL>
+</DD>
+</DL>
+<HR>
+
+
+
+
 
 <!-- ========= END OF CLASS DATA ========= -->
 <HR>

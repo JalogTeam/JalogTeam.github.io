@@ -19,6 +19,9 @@ Class Pro_Term</H2>
 title="class in java.lang">java.lang.Object</A>
   <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pro_Term</B>
 </PRE>
+<DL>
+<DT><B>Direct Known Subclasses:</B> <DD><A HREF="Jalog_Term_class_doc.html" title="class in java.nio">Jalog.Term</A></DD>
+</DL>
 <HR>
 <DL>
 <DT><PRE>public class <B>Pro_Term</B>
@@ -26,15 +29,13 @@ title="class in java.lang">java.lang.Object</A>
 </DT>
 </DL>
 <P>
-? Data of class <code>Jalog.Term</code> are used by the Jalog inference engine.
-The methods of <code>Jalog.Term</code> are used to extract the values of 
-terms for normal use in Java programs.
-</p>
-<p>
-? Functions to create data items of type <code>Jalog.Term</code> are found in 
-<a href="Jalog_class_doc.html">Jalog class</a>.
-</p>
-
+All data and programs are represented as <code>Pro_Term</code> objects.</P>
+<P>A <code>Pro_Term</code> object representing a program clause points to an object of type <A HREF="Pro_TermData_Compound_class_doc.html"><code>Pro_TermData_Compound</code></A> that contains the head and the body of the clause.</P>
+<P>A <code>Pro_Term</code> object representing an open variable <b>either</b> points to an object of type <A HREF="Pro_TermData_Unified_class_doc.html"><code>Pro_TermData_Unified</code></A> that points to another open <code>Pro_Term</code> object <b>or</b> does not point to any data.<P>
+<P>A <code>Pro_Term</code> object representing a bound variable 
+<b>either</b> points to an object of type <A HREF="Pro_TermData_Unified_class_doc.html"><code>Pro_TermData_Unified</code></A> that points to another bound <code>Pro_Term</code> object <b>or</b> points to an object of type <A HREF="Pro_TermData_class_doc.html"><code>Pro_TermData</code></A> that contains the data.</P>
+<P>The usual way to create a term is to use one of the methods whose name starts with "<code>m_</code>". The usual way to assign a value to an existing open term is to use one of the <code>unify</code> methods.
+<P>According to Prolog rules a value of a term can be changed only if it is open or in backtrack.</P>
 <HR>
 
 <P>
@@ -63,7 +64,7 @@ The empty list.</TD>
 <TD><CODE><B><A HREF="#Id">Id</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Individual Id of this object.</TD>
+Unique identification number of this object.</TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -72,7 +73,7 @@ Individual Id of this object.</TD>
 <TD><CODE><B><A HREF="#lastId">lastId</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-To assign individual id for each term. Updated by constructors.</TD>
+To assign unique identification number for each term. Updated by constructors.</TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -81,7 +82,7 @@ To assign individual id for each term. Updated by constructors.</TD>
 <TD><CODE><B><A HREF="#lastPrintId">lastPrintId</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-To assign individual id for each displayed open term. Updated by <code><A HREF="#toString()">toString</A></code> method.</TD>
+To assign unique display number for each displayed open term. Updated by <code><A HREF="#toString()">toString</A></code> method.</TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -90,7 +91,7 @@ To assign individual id for each displayed open term. Updated by <code><A HREF="
 <TD><CODE><B><A HREF="#printId">printId</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Individual printId of this object.</TD>
+Unique display number of this object.</TD>
 </TR>
 
 </TABLE>
@@ -116,7 +117,7 @@ Constructs an open <CODE>Pro_Term</CODE> object.</TD>
 <TD><CODE><B><A HREF="#Pro_Term(Pro_TermData)">Pro_Term</A></B>(<a href="Pro_TermData_class_doc.html">Pro_TermData</a> data)</CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
+Constructs a unified or bound <CODE>Pro_Term</CODE> object.</TD>
 </TR>
 
 
@@ -171,7 +172,7 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Returns an independent copy this term.
+    Returns an independent copy of this term.
    </TD>
 </TR>
 
@@ -185,7 +186,7 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Returns a copy this term using <code>variable_map</code>.
+    Returns an independent copy this of term using <code>variable_map</code>.
    </TD>
 </TR>
 
@@ -208,7 +209,7 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
     <CODE>&nbsp;<a href="Pro_TermData_class_doc.html">Pro_TermData</a></CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#getData">getData</A></B>()
+    <CODE><B><A HREF="#getData()">getData</A></B>()
     </CODE>
 
     <BR>
@@ -222,7 +223,7 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
     <CODE>&nbsp;Pro_Term</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#getRealNode">getRealNode</A></B>()
+    <CODE><B><A HREF="#getRealNode()">getRealNode</A></B>()
     </CODE>
 
     <BR>
@@ -236,7 +237,7 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
     <CODE>&nbsp;String</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#getType">getType</A></B>()
+    <CODE><B><A HREF="#getType()">getType</A></B>()
     </CODE>
 
     <BR>
@@ -457,11 +458,107 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
    </TD>
 </TR>
 
-
-
 </TABLE>
 &nbsp;
 <P>
+
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="EMPTY_LIST"><!-- --></A><H3>
+MIN_VALUE</H3>
+<PRE>
+public static Pro_Term <B>EMPTY_LIST</B></PRE>
+<DL>
+<DD>The empty list. This is the last item of all closed lists.
+<P>
+<!-- <DL>
+<DT><B>See Also:</B><DD><A HREF="../../constant-values.html#java.lang.Integer.MIN_VALUE">Constant Field Values</A></DL> -->
+</DL>
+<HR>
+
+<A NAME="Id"><!-- --></A><H3>Id</H3>
+<PRE>
+public long <B>Id</B></PRE>
+<DL>
+<DD>Unique identification number of this object.
+<P>
+</DL>
+<HR>
+
+<A NAME="lastId"><!-- --></A><H3>lastId</H3>
+<PRE>
+public static long <B>lastId</B></PRE>
+<DL>
+<DD>The latest <code>Id</code> assigned to a term by a constructor. Before creating a term a
+constructor increases this by one.
+<P>
+</DL>
+<HR>
+
+<A NAME="lastPrintId"><!-- --></A><H3>lastPrintId</H3>
+<PRE>
+public static long <B>lastPrintId</B></PRE>
+<DL>
+<DD>The latest <code>printId</code> assigned to an open term by a <code>toString</code> method. The purpose of
+this is to assign small integer <code>printId</code> for each separate open 
+variable to be displayed.
+<P>
+</DL>
+<HR>
+
+<A NAME="printId"><!-- --></A><H3>
+printId</H3>
+<PRE>
+public long <B>printId</B></PRE>
+<DL>
+<DD>Unique display number for an open variable for printout. Zero in those objects that are not assigned a display number.
+<P>
+</DL>
+<HR>
+
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Pro_Term()"><!-- --></A><H3>
+Pro_Term</H3>
+<PRE>
+public <B>Pro_Term</B>()</PRE>
+<DL>
+<DD>Constructs an open <CODE>Pro_Term</CODE> object.
+<P>
+</DL>
+<HR>
+
+<A NAME="Pro_Term(Pro_TermData)"><!-- --></A><H3>
+Pro_Term</H3>
+<PRE>
+public <B>Pro_Term</B>(<a href="Pro_TermData_class_doc.html">Pro_TermData</a> data)</PRE>
+<DL>
+<DD>Constructs a unified or bound <CODE>Pro_Term</CODE> object.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the data to be associated to <code>this</code> term.</DL>
+</DL>
+<HR>
+
+
 
 <!-- ============ METHOD DETAIL ========== -->
 
@@ -477,25 +574,26 @@ Constructs an unified or bound <CODE>Pro_Term</CODE> object.</TD>
 <PRE>
 public void <B>clearData</B>()</PRE>
 <DL>
-<DD>Removes data and makes this term open. Used by <code>Pro_Trail.backtrack</code> . Should not be used otherwise.
+<DD>Removes data and makes this term open. <b>Usually not needed</b> as Jalog system automatically clears variables on backtrack, and they should not be cleared otherwise. Can be used in backtrack if Jalog system does not know that the data should be cleared.
 <P>
 </DL>
 <HR>
 
-<H3 id="compval">compval</H3>
+<H3 id="compval(Pro_Term)">compval</H3>
 <PRE>
 void <B>compval</B>(Pro_Term term)</PRE>
 <DL>
-<DD>Calculates the value of the expression in <code>term</code> and stores the result in this object. This method should only be used if <code>this</code> term is open.
+<DD>Calculates the value of the expression in <code>term</code> and stores the result in <code>this</code> object. If there is no calculable expression value of this object is set to the same as the value of <code>term</code>. If <code>term</code> is open <code>this</code> and <code>term</code> are unified.
+<P>This method should only be used if <code>this</code> term is open because according to Prolog rules a value of a term can be changed only if it is open or in backtrack.
 <P>
 </DL>
 <HR>
 
-<H3 id="copy">copy</H3>
+<H3 id="copy()">copy</H3>
 <PRE>
 public Pro_Term <B>copy</B>()</PRE>
 <DL>
-<DD>Makes a full copy of this term without linkages to other data. Open terms are changed to new open terms. Repeated open terms are changed to repeated open terms.
+<DD>Makes a full copy of this term without linkages to other data. Open terms are changed to new open terms. Repeated open terms are changed to repeated open terms. Used in database asserting and fetching.
 <P>
 <DD>
 <DL>
@@ -510,7 +608,7 @@ public Pro_Term <B>copy</B>()</PRE>
 <PRE>
 public Pro_Term <B>copy</B>(Hashtable variable_map)</PRE>
 <DL>
-<DD>Returns a copy this term using <code>variable_map</code>. Hashtable is used to map repeated open terms to repeated open terms. Hashtable is updated for new open terms.
+<DD>Returns a copy this term using <code>variable_map</code>. Hashtable is used to map repeated open terms to repeated open terms. Hashtable is updated for new open terms. Used in database asserting and fetching.
 <P>
 <DD>
 <DL>
@@ -523,7 +621,7 @@ public Pro_Term <B>copy</B>(Hashtable variable_map)</PRE>
 </DL>
 <HR>
 
-<H3 id="eval_integer">eval_integer</H3>
+<H3 id="eval_integer(Pro_Term)">eval_integer</H3>
 <PRE>
 public static long <B>eval_integer</B>(Pro_Term p)</PRE>
 <DL>
@@ -540,11 +638,11 @@ public static long <B>eval_integer</B>(Pro_Term p)</PRE>
 </DL>
 <HR>
 
-<H3 id="getData">getData</H3>
+<H3 id="getData()">getData</H3>
 <PRE>
 public <a href="Pro_TermData_class_doc.html">Pro_TermData</a> <B>getData</B>()</PRE>
 <DL>
-<DD>Returns the data associated to this term, or <code>null</code> if this term is open.
+<DD>Returns the data associated to this term, or <code>null</code> if this term is open. If this term is unified to another term the data of the other term is returned, or null if the other term is open.
 <P>
 <DD>
 <DL>
@@ -555,11 +653,11 @@ public <a href="Pro_TermData_class_doc.html">Pro_TermData</a> <B>getData</B>()</
 </DL>
 <HR>
 
-<H3 id="getRealNode">getRealNode</H3>
+<H3 id="getRealNode()">getRealNode</H3>
 <PRE>
 public Pro_Term <B>getRealNode</B>()</PRE>
 <DL>
-<DD>If this object is linked to another Pro_Term object (as a result of unification) then finds the actual node otherwise returns this object.
+<DD>If this object is linked to another <code>Pro_Term</code> object (as a result of unification) then finds the actual node otherwise returns this object.
 <P>
 <DD>
 <DL>
@@ -570,11 +668,11 @@ public Pro_Term <B>getRealNode</B>()</PRE>
 </DL>
 <HR>
 
-<H3 id="getType">getType</H3>
+<H3 id="getType()">getType</H3>
 <PRE>
 public String <B>getType</B>()</PRE>
 <DL>
-<DD>Gets the type of the symbol. Type is one of the fields of the class <a href="Jalog_class_doc.html#field_summary"><code>Jalog</code></a>
+<DD>Gets the type of this term. Type is one of the fields of the class <a href="Jalog_class_doc.html#field_summary"><code>Jalog</code></a>
 <P>
 <DD>
 <DL>
@@ -585,7 +683,7 @@ public String <B>getType</B>()</PRE>
 </DL>
 <HR>
 
-<H3 id="image">image</H3>
+<H3 id="image()">image</H3>
 <PRE>
 public String <B>image</B>()</PRE>
 <DL>
@@ -657,7 +755,7 @@ public static Pro_Term <B>m_list</B>(Pro_Term[] iniVal, Pro_Term tail)</PRE>
 <DL>
   <DT><B>Parameters:</B>
   <DD><CODE>iniVal</CODE> - list items in an array.
-  <DD><CODE>tail</CODE> - tail of the list. Can be the <A HREF="#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> if all items are listed in  <CODE>iniVal</CODE>.
+  <DD><CODE>tail</CODE> - tail of the list. Can be the <A HREF="#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> if all items are listed in  <CODE>iniVal</CODE>. For an open list this must be an open term.
   <DT><B>Returns:</B>
   <DD>the created term object
 </DL>
@@ -673,23 +771,6 @@ public static Pro_Term <B>m_open</B>()</PRE>
 <P>
 <DD>
 <DL>
-  <DT><B>Returns:</B>
-  <DD>the created term object
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="m_char(char)">m_char</H3>
-<PRE>
-public static Pro_Term <B>m_char</B>(char iniVal)</PRE>
-<DL>
-<DD>Creates a new <code>Pro_Term</code> object with a character value.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>iniVal</CODE> - value for the new term.
   <DT><B>Returns:</B>
   <DD>the created term object
 </DL>
@@ -731,7 +812,7 @@ public static Pro_Term <B>m_string</B>(String iniVal)</PRE>
 </DL>
 <HR>
 
-<H3 id="m_string_concat(String,String)">m_string_concat</H3>
+<H3 id="m_string_concat(Pro_TermData_String,Pro_TermData_String)">m_string_concat</H3>
 <PRE>
 public static Pro_Term <B>m_string_concat</B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> left,
       <A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> right)</PRE>
@@ -750,7 +831,7 @@ public static Pro_Term <B>m_string_concat</B>(<A HREF="Pro_TermData_String_class
 </DL>
 <HR>
 
-<H3 id="m_string_substring(String,long,long)">m_string_substring</H3>
+<H3 id="m_string_substring(Pro_TermData_String,long,long)">m_string_substring</H3>
 <PRE>
 public static Pro_Term <B>m_string_substring</B>(<A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A> base_string,
       long req_start, long req_len)</PRE>
@@ -760,7 +841,7 @@ public static Pro_Term <B>m_string_substring</B>(<A HREF="Pro_TermData_String_cl
 <DD>
 <DL>
   <DT><B>Parameters:</B>
-  <DD><CODE>base_string</CODE> - value for the new term.
+  <DD><CODE>base_string</CODE> - a string containing the required result as a substring.
   <DD><CODE>req_start</CODE> - number of characters skipped from the beginning of the <CODE>base_string</CODE>.
   <DD><CODE>req_len</CODE> - number of characters to be included in the result.
   <DT><B>Returns:</B>
@@ -822,15 +903,15 @@ public String <B>toString</B>()</PRE>
 
 <H3 id="unify(Pro_Term,Pro_Trail)">unify</H3>
 <PRE>
-public boolean <B>unify</B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack)</PRE>
+public boolean <B>unify</B>(Pro_Term pn2, Pro_Trail pBack)</PRE>
 <DL>
-<DD>Unifies this term with another term. Tries to modify <code>this</code> term and the argument term so that they are equivalent. Open subterms are replaced with corresponding subterms in the other term, or computed values of corresponding subterms if they can be computed. If the corresponding subterm is open, the subterms are unified.
+<DD>Unifies this term with another term. Tries to modify <code>this</code> term and the argument term so that they are equivalent. Open subterms are replaced with corresponding subterms in the other term, or computed values of corresponding subterms if they can be computed. If the corresponding subterm is open, the subterms are unified. If unification does not succeed neither <code>this</code> nor <code>pn2</code> is updated.
 <P>
 <DD>
 <DL>
   <DT><B>Parameters:</B>
   <DD><CODE>pn2</CODE> - compared term.
-  <DD><CODE>pBack</CODE> - trail, typically <code>Pred.trail</code>.
+  <DD><CODE>pBack</CODE> - use <a href="Pred_class_doc.html#trail"><code>Pred.trail</code></a>.
   <DT><B>Returns:</B>
   <DD><code>true</code> if unification succeeded, <code>false</code> otherwise.
 </DL>
@@ -838,172 +919,25 @@ public boolean <B>unify</B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro
 </DL>
 <HR>
 
-<H3 id="(Pro_Term,Pro_Trail)">soopaa</H3>
+<H3 id="unify(Pro_Term,Pro_Trail,Pro_TrailMark)">unify</H3>
 <PRE>
-public String <B>unify</B>(Pro_Term pn2, <a href="Pro_Trail_class_doc.html">Pro_Trail</a> pBack)</PRE>
+public boolean <B>unify</B>(Pro_Term pn2, Pro_Trail pBack, <a href="Pro_TrailMark_class_doc.html">Pro_TrailMark</a> Mark)</PRE>
 <DL>
-<DD>Unifies this term with another term.
+<DD>Unifies this term with another term. Tries to modify <code>this</code> term and the argument term so that they are equivalent. Open subterms are replaced with corresponding subterms in the other term, or computed values of corresponding subterms if they can be computed. If the corresponding subterm is open, the subterms are unified.  If unification does not succeed neither <code>this</code> nor <code>pn2</code> is updated.<br/>
+If <code>Mark</code> is not <code>null</code> then before unification sets <code>Mark.marked</code> to point to the top of <b>the trail</b>.
 <P>
 <DD>
 <DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>pn2</CODE> - compared term.
+  <DD><CODE>pBack</CODE> - use <a href="Pred_class_doc.html#trail"><code>Pred.trail</code></a>.
+  <DD><CODE>Mark</CODE> - trail mark for backtracking.
   <DT><B>Returns:</B>
-  <DD>the result value.
+  <DD><code>true</code> if unification succeeded, <code>false</code> otherwise.
 </DL>
 </DD>
 </DL>
 <HR>
-
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="Name">Name</H3>
-<PRE>
-public String <B>Name</B>()</PRE>
-<DL>
-<DD>What does this do
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the result value.
-</DL>
-</DD>
-</DL>
-<HR>
-
 
 
 

@@ -29,7 +29,9 @@ title="class in java.lang">java.lang.Object</A>
 </DT>
 </DL>
 <P>
-All data and programs are represented as <code>Pro_Term</code> objects.</P>
+All data and programs are represented as <code>Pro_Term</code> objects. Every 
+<code>Pro_Term</code> object has a pointer to a <A HREF="Pro_TermData_class_doc.html"><code>Pro_TermData</code></A> object
+that contains the associated data.</P>
 <P>A <code>Pro_Term</code> object representing a program clause points to an object of type <A HREF="Pro_TermData_Compound_class_doc.html"><code>Pro_TermData_Compound</code></A> that contains the head and the body of the clause.</P>
 <P>A <code>Pro_Term</code> object representing an open variable <b>either</b> points to an object of type <A HREF="Pro_TermData_Unified_class_doc.html"><code>Pro_TermData_Unified</code></A> that points to another open <code>Pro_Term</code> object <b>or</b> does not point to any data.<P>
 <P>A <code>Pro_Term</code> object representing a bound variable 

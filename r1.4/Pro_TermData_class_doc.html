@@ -20,22 +20,31 @@ title="class in java.lang">java.lang.Object</A>
   <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pro_TermData</B>
 </PRE>
 <DL>
-<DT><B>Direct Known Subclasses:</B> <DD><A HREF="Jalog_Term_class_doc.html" title="class in java.nio">Jalog.Term</A></DD>
+<DT><B>Direct Known Subclasses:</B> 
+  <DD><A HREF="Pro_TermData_Char_class_doc.html">Pro_TermData_Char</A>,
+  <A HREF="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</A>,
+  <A HREF="Pro_TermData_Integer_class_doc.html">Pro_TermData_Integer</A>,
+  <A HREF="Pro_TermData_List_class_doc.html">Pro_TermData_List</A>,
+  <A HREF="Pro_TermData_Real_class_doc.html">Pro_TermData_Real</A>,
+  <A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A>,
+  <A HREF="Pro_TermData_Unified_class_doc.html">Pro_TermData_Unified</A></DD>
+  
+  
+  
+  
+  
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <B>Pro_TermData</B>
+<DT><PRE>public abstract class <B>Pro_TermData</B>
 </PRE>
 </DT>
 </DL>
 <P>
-All data and programs are represented as <code>Pro_Term</code> objects.</P>
-<P>A <code>Pro_Term</code> object representing a program clause points to an object of type <A HREF="Pro_TermData_Compound_class_doc.html"><code>Pro_TermData_Compound</code></A> that contains the head and the body of the clause.</P>
-<P>A <code>Pro_Term</code> object representing an open variable <b>either</b> points to an object of type <A HREF="Pro_TermData_Unified_class_doc.html"><code>Pro_TermData_Unified</code></A> that points to another open <code>Pro_Term</code> object <b>or</b> does not point to any data.<P>
-<P>A <code>Pro_Term</code> object representing a bound variable 
-<b>either</b> points to an object of type <A HREF="Pro_TermData_Unified_class_doc.html"><code>Pro_TermData_Unified</code></A> that points to another bound <code>Pro_Term</code> object <b>or</b> points to an object of type <A HREF="Pro_TermData_class_doc.html"><code>Pro_TermData</code></A> that contains the data.</P>
-<P>The usual way to create a term is to use one of the methods whose name starts with "<code>m_</code>". The usual way to assign a value to an existing open term is to use one of the <code>unify</code> methods.
-<P>According to Prolog rules a value of a term can be changed only if it is open or in backtrack.</P>
+All data and programs are represented as <code>Pro_Term</code> objects. Every 
+<code>Pro_Term</code> object has a pointer to a <A HREF="Pro_TermData_class_doc.html"><code>Pro_TermData</code></A> object
+that contains the associated data.</P>
+<P>For each data type there is a subclass of this class. In addition there is the subclass <A HREF="Pro_TermData_Unified_class_doc.html"><code>Pro_TermData_Unified</code></A> to indicate that the data is the same as in another term.</P>
 <HR>
 
 <P>
@@ -73,6 +82,20 @@ Type of the term</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>Pro_TermData</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#copy(Hashtable)">copy</A></B>(Hashtable variable_map)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns an independent copy this of term using <code>variable_map</code>.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
     <CODE>String</CODE></FONT>
   </TD>
   <TD>
@@ -87,7 +110,7 @@ Type of the term</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>String</CODE></FONT>
+    <CODE>abstract String</CODE></FONT>
   </TD>
   <TD>
     <CODE><B><A HREF="#toString()">toString</A></B>()
@@ -96,20 +119,6 @@ Type of the term</TD>
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Returns Jalog syntax representation of this term.
-   </TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>Pro_TermData</CODE></FONT>
-  </TD>
-  <TD>
-    <CODE><B><A HREF="#copy(Hashtable)">copy</A></B>(Hashtable variable_map)
-    </CODE>
-
-    <BR>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Returns an independent copy this of term using <code>variable_map</code>.
    </TD>
 </TR>
 
@@ -134,7 +143,7 @@ typename</H3>
 <PRE>
 public String <B>typename</B></PRE>
 <DL>
-<DD>The type of this term. Type is one of the fields of the class <a href="Jalog_class_doc.html#field_summary"><code>Jalog</code></a>
+<DD>The type of this term. Type is one of the fields of the class <a href="Jalog_class_doc.html#field_summary"><code>Jalog</code></a>. This is set in the subclass constructor. <b>Do not change!</b>
 
 <P>
 <!-- <DL>
@@ -154,20 +163,49 @@ public String <B>typename</B></PRE>
 </TR>
 </TABLE>
 
+<H3 id="copy(Hashtable)">copy</H3>
+<PRE>
+public static Pro_Term <B>copy</B>(Hashtable variable_map)</PRE>
+<DL>
+<DD>Returns a copy this term data using <code>variable_map</code>. Hashtable is used to map repeated open terms to repeated open terms. Hashtable is updated for new open terms. Used in database asserting and fetching.
+<P>
+This must be overridden in subclass if the data value may contain subterms. In the overridden method the possible subterms must be copied using the parameter <code>variable_map</code>, e.g.<br/>
+<pre>
+    if (t1 != null) {
+      new_t1 = t1.copy(variable_map);
+    }
+</pre>
+The <code>copy</code> method of <code>Pro_Term</code> may return the original object. If this happens for all subterms the original <code>Pro_TermData</code> object <code>this</code> should be returned. Otherwise a new <code>Pro_TermData</code> object must be created and returned.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>variable_map</CODE> - contains open variable mapping for this term.
+  <DT><B>Returns:</B>
+  <DD>a copy this term data using <code>variable_map</code>.
+</DL>
+</DD>
+</DL>
+<HR>
+
 <H3 id="image()">image</H3>
 <PRE>
 public String <B>image</B>()</PRE>
 <DL>
-  <DD>Returns human readable string representation of this term. Used by built-in predicate <code>write</code>.
+  <DD>A subclass may override this method to return a human readable string 
+  representation of this term. By default the Jalog syntax representation returned
+  by <code>toString</code> is used.
+  Used by built-in predicate <code>write</code>.
   <P>
 </DL>
 <HR>
 
 <H3 id="toString()">toString</H3>
 <PRE>
-public String <B>toString</B>()</PRE>
+public abstract String <B>toString</B>()</PRE>
 <DL>
-<DD>Returns Jalog syntax representation of this term.
+<DD>
+Every subclass must override this method to return the Jalog syntax representation of this term.
 <P>
 <DD>
 <DL>
@@ -177,6 +215,8 @@ public String <B>toString</B>()</PRE>
 </DD>
 </DL>
 <HR>
+
+
 
 <!-- ========= END OF CLASS DATA ========= -->
 <font size="-1">Authors: Mikko Levanto, Ari Okkonen</font>

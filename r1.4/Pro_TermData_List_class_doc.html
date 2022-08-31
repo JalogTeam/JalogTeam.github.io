@@ -15,8 +15,7 @@ io.github.JalogTeam.jalog</FONT>
 <BR>
 Class Pro_TermData_List</H2>
 <PRE>
-<A HREF="Object_class_doc.html" 
-title="class in java.lang">java.lang.Object</A>
+<B>java.lang.Object</B>
   <IMG SRC="inherit.png" ALT="extended by "><A HREF="Pro_TermData_class_doc.html" 
 title="class in java.lang"><B>io.github.JalogTeam.jalog.Pro_TermData</B></A>
     <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pro_TermData_List</B>
@@ -138,10 +137,10 @@ Constructs a <CODE>Pro_TermData_List</CODE> object.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
   <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-    <CODE>static String</CODE></FONT>
+    <CODE>static <a href="Pro_TermData_List_class_doc.html">Pro_TermData_List</a></CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#make()">make</A></B>(<A HREF="Pro_Term_class_doc.html">Pro_Term</A>[] iniVal, <A HREF="Pro_Term_class_doc.html">Pro_Term</A> tail)
+    <CODE><B><A HREF="#make(Pro_Term[],Pro_Term)">make</A></B>(<A HREF="Pro_Term_class_doc.html">Pro_Term</A>[] iniVal, <A HREF="Pro_Term_class_doc.html">Pro_Term</A> tail)
     </CODE>
 
     <BR>
@@ -193,12 +192,11 @@ Constructs a <CODE>Pro_TermData_List</CODE> object.</TD>
 <B>Field Detail</B></FONT></TH>
 </TR>
 </TABLE>
-typename
 <A NAME="t1"><!-- --></A><H3>t1</H3>
 <PRE>
 public <A HREF="Pro_Term_class_doc.html">Pro_Term</A> <B>t1</B></PRE>
 <DL>
-<DD>Head (i.e. the first element) of the list. Must not be <code>null</code> except in <code>EMPTY</code>.
+<DD>Head (i.e. the first element) of the list. Must not be <code>null</code> (except in the constant <code><A HREF="#EMPTY">EMPTY</A></code>).
 </DL>
 <HR>
 
@@ -206,7 +204,7 @@ public <A HREF="Pro_Term_class_doc.html">Pro_Term</A> <B>t1</B></PRE>
 <PRE>
 public <A HREF="Pro_Term_class_doc.html">Pro_Term</A> <B>t2</B></PRE>
 <DL>
-<DD>Tail (i.e. all but the first element) of the list. Points to <A HREF="Pro_Term_class_doc.html#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> if there are no more elements. Must not be <code>null</code> except in <code>EMPTY</code>.
+<DD>Tail (i.e. all but the first element) of the list. Points to <A HREF="Pro_Term_class_doc.html#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> if there are no more elements. Must not be <code>null</code> (except in the constant <code><A HREF="#EMPTY">EMPTY</A></code>).
 </DL>
 <HR>
 
@@ -223,7 +221,7 @@ public static final Pro_TermData_List <B>EMPTY</B></PRE>
 public String <B>typename</B></PRE>
 <DL>
 <DD>
-The type of this term. This is set in the constructor to <code>Jalog.LIST</code>. <b>Do not change!</b>
+The type of this term. This is set in the constructor to <a href="Jalog_class_doc.html#LIST"><code>Jalog.LIST</code></a>. <b>Do not change!</b>
 </DL>
 
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
@@ -244,13 +242,15 @@ public <B>Pro_TermData_List</B>(<A HREF="Pro_Term_class_doc.html">Pro_Term</A> h
   HREF="Pro_Term_class_doc.html">Pro_Term</A> tail)</PRE>
 <DL>
 <DD>Constructs a <CODE>Pro_TermData_List</CODE> object. 
-<code>head</code> becomes the first element of the new list. <code>tail</code> becomes the rest of the list. If the list contains only one element, <code>Pro_Term.EMPTY_LIST</code> is used as <code>tail</code>. 
+<code>head</code> becomes the first element of the new list. <code>tail</code> becomes the rest of the list. If the list contains only one element, </A> head, <A
+  HREF="Pro_Term_class_doc.html#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> is used as <code>tail</code>. 
 <P>Both <code>head</code> and <code>tail</code> must be non-<code>null</code>.
 <P>
 <DL>
 <DT><B>Parameters:</B>
   <DD><CODE>head</CODE> - the first element of the list.
-  <DD><CODE>tail</CODE> - a list containing the rest of the list. <code>Pro_Term.EMPTY_LIST</code> if no more elements.
+  <DD><CODE>tail</CODE> - a list containing the rest of the list. </A> head, <A
+  HREF="Pro_Term_class_doc.html#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> if no more elements.
 </DL>
 </DL>
 
@@ -273,8 +273,8 @@ public <a href="Pro_TermData_class_doc.html">Pro_TermData</a> <B>copy</B>(Hashta
 <DL>
 <DD>Returns a copy this term data using <code>variable_map</code>. Hashtable is used to map repeated open terms to repeated open terms. Hashtable is updated for new open terms. Used in database asserting and fetching.
 <P>
-This method copies <code>t1</code> (the head) and <code>t2</code> (the tail) using the <a href="Pro_Term_class_doc.html#copy(Hashtable)"><coce>copy</code></a> method of <a href="Pro_Term_class_doc.html"><code>Pro_Term</code></a>.
-The <code>copy</code> method of <code>Pro_Term</code> may return the original object. If this happens for both <code>t1</code> and <code>t2</code> the original <code>Pro_TermData_List</code> object then <code>this</code> is returned. Otherwise a new <code>Pro_TermData_List</code> object is created and returned.
+This method copies <a href="#t1"><code>t1</code></a> (the head) and <a href="#t2"><code>t2</code></a> (the tail) using the <a href="Pro_Term_class_doc.html#copy(Hashtable)"><coce>copy</code></a> method of <a href="Pro_Term_class_doc.html"><code>Pro_Term</code></a>.
+The <code>copy</code> method of <a href="Pro_Term_class_doc.html"><code>Pro_Term</code></a> may return the original object. If this happens for both <a href="#t1"><code>t1</code></a> and <a href="#t2"><code>t2</code></a> the original <code>Pro_TermData_List</code> object then <code>this</code> is returned. Otherwise a new <code>Pro_TermData_List</code> object is created and returned.
 <P>
 <DD>
 <DL>
@@ -298,7 +298,7 @@ public String <B>image</B>()</PRE>
 
 <H3 id="make(Pro_Term[],Pro_Term)">make</H3>
 <PRE>
-public static <a href="Pro_TermData_class_doc.html">Pro_TermData</a> <B>make</B>(<a href="Pro_Term_class_doc.html">Pro_Term</a>[] iniVal, <a href="Pro_Term_class_doc.html">Pro_Term</a> tail)</PRE>
+public static <a href="Pro_TermData_List_class_doc.html">Pro_TermData_List</a> <B>make</B>(<a href="Pro_Term_class_doc.html">Pro_Term</a>[] iniVal, <a href="Pro_Term_class_doc.html">Pro_Term</a> tail)</PRE>
 <DL>
 <DD>Constructs list data from an array of <a href="Pro_Term_class_doc.html"><code>Pro_Term</code></a> objects.
 If the first element is an empty array, data of <code>tail</code> is returned. If <code>tail</code> is <A HREF="Pro_Term_class_doc.html#EMPTY_LIST"><code>Pro_Term.EMPTY_LIST</code></A> then the constructed list contains only the elements of <code>iniVal</code>. Otherwise <code>tail</code> is concatenated to the end of the constructed list.

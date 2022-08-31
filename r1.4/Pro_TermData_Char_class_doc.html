@@ -15,8 +15,7 @@ io.github.JalogTeam.jalog</FONT>
 <BR>
 Class Pro_TermData_Char</H2>
 <PRE>
-<A HREF="Object_class_doc.html" 
-title="class in java.lang">java.lang.Object</A>
+<B>java.lang.Object</B>
   <IMG SRC="inherit.png" ALT="extended by "><A HREF="Pro_TermData_class_doc.html" 
 title="class in java.lang"><B>io.github.JalogTeam.jalog.Pro_TermData</B></A>
     <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pro_TermData_Char</B>
@@ -44,20 +43,20 @@ Character constants are represented as
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#typename">typename</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Type of the term.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>char</CODE></FONT></TD>
 <TD><CODE><B><A HREF="#value">value</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 The character value of this object</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>String</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#typename">typename</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Type of the term. Always <code>Jalog.CHARACTER</code></TD>
 </TR>
 
 </TABLE>
@@ -73,7 +72,7 @@ Type of the term. Always <code>Jalog.CHARACTER</code></TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><B><A HREF="#Pro_TermData_Char(Char)">Pro_TermData_Char</A></B>(char iniVal)</CODE>
+<TD><CODE><B><A HREF="#Pro_TermData_Char(char)">Pro_TermData_Char</A></B>(char iniVal)</CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Constructs a <CODE>Pro_TermData_Char</CODE> object.</TD>
@@ -96,7 +95,7 @@ Constructs a <CODE>Pro_TermData_Char</CODE> object.</TD>
     <CODE>Pro_TermData</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#copy(Hashtable)">copy</A></B>(Hashtable variable_map)
+    <CODE><B><A HREF="Pro_TermData_class_doc.html#copy(Hashtable)">copy</A></B>(Hashtable variable_map)
     </CODE>
 
     <BR>
@@ -153,7 +152,15 @@ Constructs a <CODE>Pro_TermData_Char</CODE> object.</TD>
 <PRE>
 public String <B>typename</B></PRE>
 <DL>
-<DD>The type of this term. Always <code>Jalog.CHARACTER</code>. This is set in the subclass constructor. <b>Do not change!</b>
+<DD>The type of this term. This is set in the constructor to <a href="Jalog_class_doc.html#CHARACTER"><code>Jalog.CHARACTER</code></a>. <b>Do not change!</b>
+</DL>
+<HR>
+
+<A NAME="value"><!-- --></A><H3>value</H3>
+<PRE>
+public char <B>value</B></PRE>
+<DL>
+<DD>The data content of this term. This is set in the constructor. Usually not changed.
 </DL>
 
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
@@ -167,7 +174,7 @@ public String <B>typename</B></PRE>
 </TABLE>
 
 
-<A NAME="Pro_TermData_Char(String)"><!-- --></A><H3>
+<A NAME="Pro_TermData_Char(char)"><!-- --></A><H3>
 Pro_TermData_Char</H3>
 <PRE>
 public <B>Pro_TermData_Char</B>(char iniVal)</PRE>
@@ -190,23 +197,6 @@ public <B>Pro_TermData_Char</B>(char iniVal)</PRE>
 <B>Method Detail</B></FONT></TH>
 </TR>
 </TABLE>
-
-<H3 id="copy(Hashtable)">copy</H3>
-<PRE>
-public Pro_TermData <B>copy</B>(Hashtable variable_map)</PRE>
-<DL>
-<DD>Returns a reference to this object.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>variable_map</CODE> - contains open variable mapping for this term - not used.
-  <DT><B>Returns:</B>
-  <DD>a reference to this object.
-</DL>
-</DD>
-</DL>
-<HR>
 
 <H3 id="image()">image</H3>
 <PRE>

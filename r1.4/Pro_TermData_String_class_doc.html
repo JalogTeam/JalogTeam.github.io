@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pro_TermData_String class</title>
+</head>
+<body>
+<p ALIGN="right"><EM>
+<b>Jalog&nbsp;1.4</b></EM>
+</p>
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+io.github.JalogTeam.jalog</FONT>
+<BR>
+Class Pro_TermData_String</H2>
+<PRE>
+<B>java.lang.Object</B>
+  <IMG SRC="inherit.png" ALT="extended by "><A HREF="Pro_TermData_class_doc.html" 
+title="class in java.lang"><B>io.github.JalogTeam.jalog.Pro_TermData</B></A>
+    <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pro_TermData_String</B>
+</PRE>
+<DL>
+<DT><B>Direct Known Subclasses:</B> 
+  <DD><A HREF="Pro_TermData_String_concat_class_doc.html">Pro_TermData_String_concat</A>,
+  <A HREF="Pro_TermData_String_simple_class_doc.html">Pro_TermData_String_simple</A>,
+  <A HREF="Pro_TermData_String_substring_class_doc.html">Pro_TermData_String_substring</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public abstract class <B>Pro_TermData_String</B>
+</PRE>
+</DT>
+</DL>
+<P>
+<B>Note:</B> Don't use this class unless you need some operations or fields that the class <code>Pro_Term</code> does not provide.</P>
+<P>
+String constants are represented as 
+<code>Pro_TermData_String</code> objects. </P>
+<P>All character indices start from 0.</P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#len">len</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Number of characters</TD>
+</TR>
+
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="Pro_TermData_class_doc.html#typename">typename</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+The type of this term. This is always set to <code>Jalog.STRING</code>. <B>Do not change!</B>  (Inherited from parent.)</TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>static int</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#compare_strings(Pro_TermData_String,Pro_TermData_String)">compare_strings</A></B>(Pro_TermData_String s1, 
+      Pro_TermData_String s2)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Compares the strings.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>static boolean</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#contains_at(Pro_TermData_String, long,Pro_TermData_String)">contains_at</A></B>(Pro_TermData_String s1, long pos, 
+      Pro_TermData_String s2)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns <code>true</code> if the string <code>s1</code> contains at <code>pos</code> a substring that is equal to <code>s2</code>.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>Pro_TermData</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="Pro_TermData_class_doc.html#copy(Hashtable)">copy</A></B>(Hashtable variable_map)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns <code>this</code> object. (Inherited from parent.)
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>abstract String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#image()">image</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns human readable string representation of this term, i.e. the value of <code>this</code> as a Java <code>String</code> object.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#substring(long,long)">substring</A></B>(long start, long len)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns the selected part of the string as a Java <code>String</code>.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#toString()">toString</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns Jalog syntax representation of this term.
+   </TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+<P>
+
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="len"><!-- --></A><H3>len</H3>
+<PRE>
+public long <B>len</B></PRE>
+<DL>
+<DD>Number of characters.
+</DL>
+<HR>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+ <!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="compare_strings(Pro_TermData_String,Pro_TermData_String)">compare_strings</H3>
+<P><code>
+public static int <B>compare_strings</B>(Pro_TermData_String s1, Pro_TermData_String s2)</code></P>
+<DL>
+<DD>Compares the strings.
+<P>
+Strings are compared from the beginning by character codes. If the strings are equal zero is returned. A negative integer is returned if the first string precedes the second string in the character code order. Otherwise a positive integer is returned.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>s1</CODE> - the first string
+  <DD><CODE>s2</CODE> - the second string
+  <DT><B>Returns:</B>
+  <DD>the comparison result
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="contains_at(Pro_TermData_String, long,Pro_TermData_String)">contains_at</H3>
+<P><code>
+public static boolean <B>contains_at</B>(Pro_TermData_String s1, long pos, Pro_TermData_String s2)</code></P>
+<DL>
+<DD>Returns <code>true</code> if the string <code>s1</code> contains at <code>pos</code> a substring that is equal to <code>s2</code>.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>s1</CODE> - possibly containing string
+  <DD><CODE>pos</CODE> - zero based position index
+  <DD><CODE>s2</CODE> - possible substring
+  <DT><B>Returns:</B>
+  <DD><code>true</code> if contains
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="image()">image</H3>
+<PRE>
+public String <B>image</B>()</PRE>
+<DL>
+  <DD>Returns human readable string representation of this term, i.e. the value of this as a Java String object. Used by built-in predicate <code>write</code>. 
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>contents of the string as a Java <code>String</code>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="substring(long,long)">substring</H3>
+<PRE>
+public abstract String <B>substring</B>(long start, long len)</PRE>
+<DL>
+<DD>Returns the selected part of the string as a Java <code>String</code>. If <code>start</code> is negative or <code>len</code> is too large, the result string is shorter than <code>len</code>.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>start</CODE> - zero based index to first character to include
+  <DD><CODE>len</CODE> - number of characters to include
+  <DT><B>Returns:</B>
+  <DD>the specified substring as a Java <code>String</code>.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="toString()">toString</H3>
+<PRE>
+public String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns Jalog syntax representation of this term. The result is enclosed in quotes.
+Non-ASCII and special characters are escaped with the backslash character &#x201F;<code>\</code>&#x201D;.
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>Jalog syntax representation of this term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<!-- ========= END OF CLASS DATA ========= -->
+<font size="-1">Authors: Mikko Levanto, Ari Okkonen</font>
+</body>
+</html>

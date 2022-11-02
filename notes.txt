@@ -1,3 +1,9 @@
+Referenssidokumentti *.html
+---------------------
+
+* Pro_TermData_class_doc.html alityypeissä pitäisikö selittää kentän typename arvot eri luokille linkkien kera?
+
+
 Jalog_animation.html:
 ---------------------
 

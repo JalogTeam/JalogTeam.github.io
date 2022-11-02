@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pro_TermData_String_substring class</title>
+<title>Pro_TermData_String_concat class</title>
 </head>
 <body>
 <p ALIGN="right"><EM>
@@ -13,17 +13,17 @@
 <FONT SIZE="-1">
 io.github.JalogTeam.jalog</FONT>
 <BR>
-Class Pro_TermData_String_substring</H2>
+Class Pro_TermData_String_concat</H2>
 <PRE>
 <B>java.lang.Object</B>
   <IMG SRC="inherit.png" ALT="extended by "/><A HREF="Pro_TermData_class_doc.html"
 ><B>io.github.JalogTeam.jalog.Pro_TermData</B></A>
       <IMG SRC="inherit.png" ALT="extended by "/><A HREF="Pro_TermData_String_class_doc.html"><B>io.github.JalogTeam.jalog.Pro_TermData_String</B></A>
-          <IMG SRC="inherit.png" ALT="extended by "/><B>io.github.JalogTeam.jalog.Pro_TermData_String_substring</B>
+          <IMG SRC="inherit.png" ALT="extended by "/><B>io.github.JalogTeam.jalog.Pro_TermData_String_concat</B>
 </PRE>
 <HR>
 <DL>
-<DT><PRE>public class <B>Pro_TermData_String_substring</B>
+<DT><PRE>public class <B>Pro_TermData_String_concat</B>
 </PRE>
 </DT>
 </DL>
@@ -52,8 +52,8 @@ This class is one of the classes that can represent string constants. </P>
     <CODE>static Pro_TermData_String</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#make(Pro_TermData_String,long,long)">make</A></B>(Pro_TermData_String base_string,
-      long req_start, long req_len)
+    <CODE><B><A HREF="#make(Pro_TermData_String,Pro_TermData_String)">make</A></B>(Pro_TermData_String left, 
+      Pro_TermData_String right)
     </CODE>
 
     <BR>
@@ -81,23 +81,21 @@ This class is one of the classes that can represent string constants. </P>
 </TR>
 </TABLE>
 
-<H3 id="make(Pro_TermData_String,long,long)">make</H3>
+<H3 id="make(Pro_TermData_String,Pro_TermData_String)">make</H3>
 <P><code>
-public static Pro_TermData_String <B>make</B>(Pro_TermData_String base_string, long req_start, long req_len)</code></P>
+public static Pro_TermData_String <B>make</B>(Pro_TermData_String left, Pro_TermData_String right)</code></P>
 <DL>
 <DD>Creates a string constant.
 <P>
-Returns the selected part of the string as a Jalog <code>Pro_TermData_String</code> object. The returned object may be of any subclass of <code>Pro_TermData_String</code>. A new object may be created or an existing object may be returned.</P>
-<P>If <CODE>req_start</CODE> is negative or <CODE>req_len</CODE> is too large, the result string is shorter than <CODE>req_len</CODE>. 
+Returns the concatenation of the argument strings as a Jalog <code>Pro_TermData_String</code> object. The returned object may be of any subclass of <code>Pro_TermData_String</code>. A new object may be created or an existing object may be returned.</P>
 <P>
 <DD>
 <DL>
   <DT><B>Parameters:</B>
-  <DD><CODE>base_string</CODE> - the source string
-  <DD><CODE>req_start</CODE> - requested start position
-  <DD><CODE>req_len</CODE> - requested length
+  <DD><CODE>left</CODE> - the initial part
+  <DD><CODE>right</CODE> - the final part
   <DT><B>Returns:</B>
-  <DD>Jalog object representing the selected substring.
+  <DD>Jalog object representing the concatenation of <CODE>left</CODE> and <CODE>right</CODE>.
 </DL>
 </DD>
 </DL>

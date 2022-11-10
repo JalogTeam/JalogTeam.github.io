@@ -3,6 +3,27 @@ Referenssidokumentti *.html
 
 * Pro_TermData_class_doc.html alityypeiss‰ pit‰isikˆ selitt‰‰ kent‰n typename arvot eri luokille linkkien kera?
 
+* Pro_TermData:n alityypeiss‰ k‰ytet‰‰n sek‰ konstruktoreita ett‰ make-funktioita. Voisiko olla johdonmukaisempi?
+
+
+Selitett‰v‰t kirjastot
+----------------------
+(Parametri- ja muuttujam‰‰rittelyt)
+Pro_TermData_Compound
+Pro_Term
+Pro_Trail
+Pro_TrailMark
+Pred - sekaisin
+Pro_TermData + kaikki alityypit
+
+(Pred-alkuisista pisteet)
+Database
+ConsultedFiles
+Consult
+Database_FactClass
+
+
+
 
 Jalog_animation.html:
 ---------------------

@@ -348,14 +348,24 @@ CELLSPACING="0" SUMMARY="">
 </TABLE>
 
 
-<H3 id="OPEN">
-OPEN</H3>
+<H3 id="body_item">body_item</H3>
 <PRE>
-public static final String <B>OPEN</B> = "open"</PRE>
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>body_item</B></PRE>
 <DL>
-<DD>Code for open variable.</DD>
+<DD>For Prolog system. Not needed in subclasses.</DD>
 </DL>
 <HR>
+
+<H3 id="called_body">called_body</H3>
+<PRE>
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>called_body</B></PRE>
+<DL>
+<DD>Initialized to <code>null</code>. Rarely needed. 
+<P>This field is needed when Jalog code is executed by a built-in predicate. The value to be assigned must be a list that can be interpreted as a predicate body. The list is executed after returning the method that has set the <code>called_body</code>.
+</DD>
+</DL>
+<HR>
+
 
 <H3 id="INTEGER">
 INTEGER</H3>

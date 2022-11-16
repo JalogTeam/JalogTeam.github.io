@@ -147,15 +147,6 @@ should return null.
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></a></FONT></TD>
-<TD><CODE><B><A HREF="#body_item">body_item</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-For Prolog system. Not needed in subclasses.</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></a></FONT></TD>
 <TD><CODE><B><A HREF="#called_body">called_body</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -227,29 +218,11 @@ Set <code>true</code> when right code for this predicate.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>Pred</CODE></FONT></TD>
-<TD><CODE><B><A HREF="#prev">prev</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-For Prolog system. Not needed in subclasses.</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <code>public static </code><a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></a></FONT></TD>
 <TD><CODE><B><A HREF="#trail">trail</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Controls backtracking of unifications.</TD>
-</TR>
-
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<a href="Activation_class_doc.html"><CODE>Activation</CODE></a></FONT></TD>
-<TD><CODE><B><A HREF="#sub_activation">sub_activation</A></B></CODE>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-For Prolog system. Not needed in subclasses.</TD>
 </TR>
 
 
@@ -334,7 +307,6 @@ Constructs a <CODE>Pred</CODE> instance.</TD>
    </TD>
 </TR>
 
-
 </TABLE>
 &nbsp;
 <P>
@@ -348,105 +320,98 @@ CELLSPACING="0" SUMMARY="">
 </TABLE>
 
 
-<H3 id="body_item">body_item</H3>
-<PRE>
-<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>body_item</B></PRE>
-<DL>
-<DD>For Prolog system. Not needed in subclasses.</DD>
-</DL>
-<HR>
-
 <H3 id="called_body">called_body</H3>
 <PRE>
 <a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>called_body</B></PRE>
 <DL>
 <DD>Initialized to <code>null</code>. Rarely needed. 
-<P>This field is needed when Jalog code is executed by a built-in predicate. The value to be assigned must be a list that can be interpreted as a predicate body. The list is executed after returning the method that has set the <code>called_body</code>.
+<P>This field is needed when Jalog code is executed by a built-in predicate. The value to be assigned must be a list that can be interpreted as a predicate body. The list is executed after returning the method that has set the <code>called_body</code>.</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="cut">cut</H3>
+<PRE>
+<CODE>boolean</CODE> <B>cut</B></PRE>
+<DL>
+<DD>Used in <code>cut</code> predicate. Rarely needed otherwise. 
+<P>If cutting effect is needed, <code>cut</code> is set in <code>first_call</code>.
+</DD>
+</DL>
+<HR>
+
+<H3 id="cutting">cutting</H3>
+<PRE>
+<CODE>boolean</CODE> <B>cutting</B></PRE>
+<DL>
+<DD>Used in <code>cut</code> predicate. Rarely needed otherwise.
+<P>If cutting effect is needed, <code>cutting</code> is set in <code>call</code> when <code>forward</code> is <code>false</code>.</P>
+<P>If <code>forward == false</code> and <code>cutting == true</code> on return from <code>first_call</code> or <code>call</code> then the remaining clauses of the calling predicate are not executed.</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="exception">exception</H3>
+<PRE>
+<CODE>boolean</CODE> <B>exception</B></PRE>
+<DL>
+<DD>Set in e.g. <code>exit</code>.
+<P>Transfers execution to the exception handler argument of the latest active <code>trap</code> call, or exits the program if none is active. When <code>exit</code> is set the <A HREF="#exit_value"><code>exit_value</code></A> must be set to desired exit code.
+</DD>
+</DL>
+<HR>
+
+<H3 id="exit_value">exit_value</H3>
+<PRE>
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>exit_value</B></PRE>
+<DL>
+<DD>The desired exit code. Needed when <A HREF="#exception"><code>exception</code></A> is set.
+</DD>
+</DL>
+<HR>
+
+<H3 id="forward">forward</H3>
+<PRE>
+<CODE>boolean</CODE> <B>forward</B></PRE>
+<DL>
+<DD>Value <code>true</code> controls and indicates forward execution.
+
+<P>The value on entry to <code>call</code> or <code>post_call</code> indicates call or recall execution.
+<P>Set value to <code>true</code> if the predicate succeeds or <code>false</code> if the predicate fails.
+</DD>
+</DL>
+<HR>
+
+<H3 id="Mark">Mark</H3>
+<PRE>
+<a href="Pro_TrailMark_class_doc.html"><CODE>Pro_TrailMark</CODE></A> <B>Mark</B></PRE>
+<DL>
+<DD>Controls backtracking of unifications.
+<P>
+</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="op_found">op_found</H3>
+<PRE>
+<CODE>boolean</CODE> <B>op_found</B></PRE>
+<DL>
+<DD>selitys.
+</DD>
+</DL>
+<HR>
+
+<H3 id="trail">trail</H3>
+<PRE>
+<a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> <B>trail</B></PRE>
+<DL>
+<DD>selitys.
 </DD>
 </DL>
 <HR>
 
 
-<H3 id="INTEGER">
-INTEGER</H3>
-<PRE>
-public static final String <B>INTEGER</B> = "integer"</PRE>
-<DL>
-<DD>Code for integer variable.</DD>
-</DL>
-<HR>
-
-<H3 id="SYMBOL">
-SYMBOL</H3>
-<PRE>
-public static final String <B>SYMBOL</B> = "symbol"</PRE>
-<DL>
-<DD>Code for symbol variable.</DD>
-</DL>
-<HR>
-
-<H3 id="REAL">
-REAL</H3>
-<PRE>
-public static final String <B>REAL</B> = "real"</PRE>
-<DL>
-<DD>Code for real variable.</DD>
-</DL>
-<HR>
-
-<H3 id="CHARACTER">
-CHARACTER</H3>
-<PRE>
-public static final String <B>CHARACTER</B> = "character"</PRE>
-<DL>
-<DD>Code for character variable.</DD>
-</DL>
-<HR>
-
-<H3 id="STRING">
-STRING</H3>
-<PRE>
-public static final String <B>STRING</B> = "string"</PRE>
-<DL>
-<DD>Code for string variable.</DD>
-</DL>
-<HR>
-
-<H3 id="LIST">
-LIST</H3>
-<PRE>
-public static final String <B>LIST</B> = "list"</PRE>
-<DL>
-<DD>Code for list variable.</DD>
-</DL>
-<HR>
-
-<H3 id="COMPOUND">
-COMPOUND</H3>
-<PRE>
-public static final String <B>COMPOUND</B> = "compound"</PRE>
-<DL>
-<DD>Code for compound variable.</DD>
-</DL>
-<HR>
-
-<H3 id="out">
-out</H3>
-<PRE>
-public static <A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> <B>out</B> = new Jalog.Output();</PRE>
-<DL>
-<DD>Current output.</DD>
-</DL>
-<HR>
-
-<H3 id="err">
-err</H3>
-<PRE>
-public static <A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> <B>err</B> = new <A HREF="Jalog_OutputErr_class_doc.html">Jalog.OutputErr</A>();</PRE>
-<DL>
-<DD>Current error output.</DD>
-</DL>
-<HR>
 
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 

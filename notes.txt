@@ -9,12 +9,12 @@ Referenssidokumentti *.html
 Selitett‰v‰t kirjastot
 ----------------------
 (Parametri- ja muuttujam‰‰rittelyt)
-Pro_TermData_Compound
 Pro_Term
 Pro_Trail
 Pro_TrailMark
 Pred - sekaisin
 Pro_TermData + kaikki alityypit
+  Pro_TermData_Compound
 
 (Pred-alkuisista pisteet)
 Database

@@ -356,7 +356,7 @@ CELLSPACING="0" SUMMARY="">
 <CODE>boolean</CODE> <B>exception</B></PRE>
 <DL>
 <DD>Set in e.g. <code>exit</code>.
-<P>Transfers execution to the exception handler argument of the latest active <code>trap</code> call, or exits the program if none is active. When <code>exit</code> is set the <A HREF="#exit_value"><code>exit_value</code></A> must be set to desired exit code.
+<P>Transfers execution to the exception handler argument of the latest active <code>trap</code> call, or exits the program if none is active. When set the <A HREF="#exit_value"><code>exit_value</code></A> must be set to desired exit code.
 </DD>
 </DL>
 <HR>
@@ -397,7 +397,7 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <CODE>boolean</CODE> <B>op_found</B></PRE>
 <DL>
-<DD>selitys.
+<DD>Rarely needed. Is <code>true</code> when <A href="#first_call"><code>first_call</code></A> is called. If set to <code>false</code> the predicate is searched from the database after the return from <code>first_call</code>.
 </DD>
 </DL>
 <HR>

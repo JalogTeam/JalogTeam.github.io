@@ -9,9 +9,9 @@ Referenssidokumentti *.html
 Selitett‰v‰t kirjastot
 ----------------------
 (Parametri- ja muuttujam‰‰rittelyt)
-Pro_Term
-Pro_Trail
-Pro_TrailMark
+Pro_Term - ok
+Pro_Trail - ok 
+Pro_TrailMark - ok
 Pred - sekaisin
 Pro_TermData + kaikki alityypit
   Pro_TermData_Compound
@@ -22,7 +22,10 @@ ConsultedFiles
 Consult
 Database_FactClass
 
+Siistitt‰v‰‰ - joskus
+---------------------
 
+Pred: Pit‰isikˆ yhdist‰‰ exception ja exit_value k‰sittelyt yhteem metodiin?
 
 
 Jalog_animation.html:

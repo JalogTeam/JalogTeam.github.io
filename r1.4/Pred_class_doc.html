@@ -229,8 +229,8 @@ Controls backtracking of unifications.</TD>
 </TABLE>
 &nbsp;
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
-
-<A NAME="constructor_summary"><!-- --></A>
+<!--
+<A NAME="constructor_summary"></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
 <TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
@@ -246,6 +246,7 @@ Constructs a <CODE>Pred</CODE> instance.</TD>
 
 </TABLE>
 &nbsp;
+-->
 <!-- ========== METHOD SUMMARY =========== -->
 
 <A NAME="method_summary"><!-- --></A>
@@ -334,8 +335,9 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <CODE>boolean</CODE> <B>cut</B></PRE>
 <DL>
-<DD>Used in <code>cut</code> predicate. Rarely needed otherwise. 
-<P>If cutting effect is needed, <code>cut</code> is set in <code>first_call</code>.
+<DD>Used in <code>cut</code> predicate. Rarely needed otherwise.
+<P>Usually <code>false</code>. If set in <code>first_call</code>, the calling clause is not backtracked behind the call of this predicate.
+</P>
 </DD>
 </DL>
 <HR>
@@ -345,8 +347,7 @@ CELLSPACING="0" SUMMARY="">
 <CODE>boolean</CODE> <B>cutting</B></PRE>
 <DL>
 <DD>Used in <code>cut</code> predicate. Rarely needed otherwise.
-<P>If cutting effect is needed, <code>cutting</code> is set in <code>call</code> when <code>forward</code> is <code>false</code>.</P>
-<P>If <code>forward == false</code> and <code>cutting == true</code> on return from <code>first_call</code> or <code>call</code> then the remaining clauses of the calling predicate are not executed.</P>
+<P>Usually <code>false</code>. If set in <code>call</code> when <code>forward</code> is <code>false</code>, the remaining clauses of the calling predicate are not called. Instead, the predicate fails.</P>
 </DD>
 </DL>
 <HR>
@@ -355,7 +356,7 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <CODE>boolean</CODE> <B>exception</B></PRE>
 <DL>
-<DD>Set in e.g. <code>exit</code>.
+<DD>Set in e.g. <code>exit</code> mainly in error situations.
 <P>Transfers execution to the exception handler argument of the latest active <code>trap</code> call, or exits the program if none is active. When set the <A HREF="#exit_value"><code>exit_value</code></A> must be set to desired exit code.
 </DD>
 </DL>
@@ -365,7 +366,7 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>exit_value</B></PRE>
 <DL>
-<DD>The desired exit code. Needed when <A HREF="#exception"><code>exception</code></A> is set.
+<DD>The desired exit code. Needed when <A HREF="#exception"><code>exception</code></A> is set. If the exception is not handled with a <code>trap</code> the value should be an integer.
 </DD>
 </DL>
 <HR>
@@ -374,10 +375,9 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <CODE>boolean</CODE> <B>forward</B></PRE>
 <DL>
-<DD>Value <code>true</code> controls and indicates forward execution.
-
-<P>The value on entry to <code>call</code> or <code>post_call</code> indicates call or recall execution.
-<P>Set value to <code>true</code> if the predicate succeeds or <code>false</code> if the predicate fails.
+<DD>The value indicates and controls the direction of execution.
+<P>On entry to <code>call</code> or <code>post_call</code> <code>true</code> indicates forward execution and <code>false</code> indicates backtracking.</P>
+<P>On return from <code>call</code> or <code>post_call</code> <code>true</code> causes forward execution and <code>false</code> causes backtracking.</P>
 </DD>
 </DL>
 <HR>
@@ -406,7 +406,7 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> <B>trail</B></PRE>
 <DL>
-<DD>selitys.
+<DD>Used for cancelling unifications on backtracking.
 </DD>
 </DL>
 <HR>
@@ -414,8 +414,8 @@ CELLSPACING="0" SUMMARY="">
 
 
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
-
-<A NAME="constructor_detail"><!-- --></A>
+<!--
+<A NAME="constructor_detail"></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
 <TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
@@ -423,25 +423,13 @@ CELLSPACING="0" SUMMARY="">
 </TR>
 </TABLE>
 
-<H3 id="Jalog">
-Jalog</H3>
-<PRE>public <B>Jalog</B>()
-           throws <a href=
-           "https://docs.oracle.com/javase/6/docs/api/java/lang/Error.html"
-           >Error</a></PRE>
+<H3 id="Pred">
+Pred</H3>
+<PRE>protected <B>Pred</B>()</PRE>
 <DL>
-  <DD>Constructs a <CODE>Jalog</CODE> inference engine. <b>Limitation</b>: Only
-  one engine can exist at any time. After usage it must be disposed of using
-  the dispose method.
-  <P>
-  <DL>
-    <DT><B>Throws:</B>
-    <DD><CODE>Error</CODE> - if a Jalog inference engine already exists.
-    <DT><B>See Also:</B>
-    <DD><A HREF="#dispose"><CODE>dispose()</CODE></A>
-  </DL>
+  <DD>Initializes some fields.
 </DL>
-
+-->
 <!-- ============ METHOD DETAIL ========== -->
 
 <A NAME="method_detail"><!-- --></A>
@@ -456,23 +444,29 @@ Jalog</H3>
 <PRE>
 public static Pred <B>first_call</B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> data)</PRE>
 <DL>
-<DD><p>The method <code>first_call</code> must be implemented for every built-in predicate. System executes <code>first_call</code> 
+<DD><p>The method <code>first_call</code> must be implemented for every built-in predicate.</p> 
+<p>System executes <code>first_call</code> 
 when this predicate is called. The argument <code>data</code>
-contains the arguments of the call in the array <code>subterm</code> .<br/>
-The field <code>forward</code> is  <code>true</code> when <code>first_call</code> 
+contains the arguments of the call in the array <code>subterm</code>.</p>
+<p>The method <code>call</code> can be called from <code>first_call</code> if
+the same algorithm is useful.</p>
+<p>The field <code>forward</code> is  <code>true</code> when <code>first_call</code> 
 is entered.
-The method <code>first_call</code> must set <code>forward</code> to <code>true</code> on success and to 
-<code>false</code> on failure.</p>
+On return <code>forward</code> must indicate succes with <code>true</code> or failure with <code>false</code>.
 <p>If other results are possibly produced on backtrack, <code>first_call</code> must 
-create an object of this class and initialize it with any data that
+create an object of its class and initialize it with any data that
 is needed on backtrack. The created object must be returned as the value
 of this function.</p>
-<p>The method <code>call</code> can be called from <code>first_call</code> if
-the same algorithm is useful.
+<p>If no other results may be produced on backtrack, <code>null</code> must be returned. <code>null</code> must also be returned if <code>forward</code> is <code>false</code></p>
+
 </DD>
 <P>
 <DD>
 <DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>data</CODE> - the calling term with arguments as subterms
+  <DT><B>Returns:</B>
+  <DD><code>null</code> or an object for recall on backtrack
 </DL>
 </DD>
 </DL>
@@ -482,7 +476,23 @@ the same algorithm is useful.
 <PRE>
 public void <B>call</B>()</PRE>
 <DL>
-<DD>System calls this on backtrack. This can be called on <code>first_call</code> also. If the system calls this on backtrack, <code>forward</code> is <code>false</code>. <br/>
+<DD>
+<P>The default implementation does nothing. A subclass may override this.</P>
+<P>System calls this on backtrack. This can be called by <code>first_call</code>, too. If the system calls this on backtrack, <code>forward</code> is <code>false</code>. </P>
+<P>Before returning <code>forward</code> must be set to <code>true</code> for success or to <code>false</code> for failure.</P>
+<P>
+<DD>
+<DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="post_call">post_call</H3>
+<PRE>
+public void <B>post_call</B>()</PRE>
+<DL>
+<DD>System calls this on backtrack. This can be called on <code>first_call</code>, too. If the system calls this on backtrack, <code>forward</code> is <code>false</code>. <br/>
 Before returning <code>forward</code> must be set to <code>true</code> on success or to <code>false</code> on failure.</br>
 The default implementation does nothing. A subclass may override this.<br/>
 <code>forward</code> is usually <code>true</code> if <code>first_call</code>
@@ -495,479 +505,21 @@ calls this.
 </DL>
 <HR>
 
-
-
-
-
-<H3 id="open">open</H3>
+<H3 id="toString">toString</H3>
 <PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
->open</B>()</PRE>
+public String <B>toString</B>()</PRE>
 <DL>
-<DD>Creates a new open variable.
+<DD>System calls this on backtrack. This can be called on <code>first_call</code> also. If the system calls this on backtrack, <code>forward</code> is <code>false</code>. <br/>
+Before returning <code>forward</code> must be set to <code>true</code> on success or to <code>false</code> on failure.</br>
+The default implementation does nothing. A subclass may override this.<br/>
+<code>forward</code> is usually <code>true</code> if <code>first_call</code>
+calls this.
 <P>
 <DD>
 <DL>
-  <DT><B>Returns:</B>
-  <DD>the new open variable.
 </DL>
 </DD>
 </DL>
-<HR>
-
-<H3 id="integer(long)">integer</H3>
-<PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
->integer</B>(long i)</PRE>
-<DL>
-<DD>Creates a new integer term with value i.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>i</CODE> - the value of the new integer.
-  <DT><B>Returns:</B>
-  <DD>an integer term.
-</DL>
-</DD>
-</DL>
-<HR>
-
-
-<H3 id="symbol(String)">symbol</H3>
-<PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
->symbol</B>(String name)</PRE>
-<DL>
-<DD>Creates a new symbol term with value name.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>name</CODE> - the value of the new symbol.
-  <DT><B>Returns:</B>
-  <DD>a symbol term.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="real(double)">real</H3>
-<PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>real</B
->(double r)</PRE>
-<DL>
-<DD>Creates a new real term with value r.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>r</CODE> - the value of the new real.
-  <DT><B>Returns:</B>
-  <DD>a real term.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="character(char)">character</H3>
-<PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
->character</B>(char c)</PRE>
-<DL>
-<DD>Creates a new character term with value c.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>c</CODE> - the value of the new character.
-  <DT><B>Returns:</B>
-  <DD>a character term.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="string(String)">string</H3>
-<PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>string</B
->(String s)</PRE>
-<DL>
-<DD>Creates a new string term with value s.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>s</CODE> - the value of the new string.
-  <DT><B>Returns:</B>
-  <DD>a string term.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="list(Jalog.Term[])">list</H3>
-<PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B>list</B
->(<a href="Jalog_Term_class_doc.html">Jalog.Term</a>[] elements)</PRE>
-<DL>
-<DD>Creates a new list term populated with items from <code>elements</code> 
-array.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>elements</CODE> - the items of the new list.
-  <DT><B>Returns:</B>
-  <DD>a list term.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="compound(String,Jalog.Term[])">compound</H3>
-<PRE>
-public static <a href="Jalog_Term_class_doc.html">Jalog.Term</a> <B
->compound</B>(String name, <a href="Jalog_Term_class_doc.html">Jalog.Term</a
->[] arguments)</PRE>
-<DL>
-<DD>Creates a new compound term with functor name <code>name</code> and
-components from arguments array. If the arguments array is empty, the result
-is of type symbol.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>name</CODE> - the functor of the new compound.</DD>
-  <DD><CODE>arguments</CODE> - the components of the new compound.</DD>
-  <DT><B>Returns:</B>
-  <DD>a compound term.
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="consult_file(String)">consult_file</H3>
-<PRE>
-public static void <B>consult_file</B>(String <A HREF="#filename">filename</A
->)</PRE>
-<DL>
-<DD>Consults (reads and compiles) a Prolog source file.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>filename</CODE> - the name of the Prolog source file.</DD>
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="consult_stringlist(String[],String)">consult_stringlist</H3>
-<PRE>
-public static void <B>consult_stringlist</B
->(String[] lines, String name)</PRE>
-<DL>
-<DD>Consults (compiles) Prolog source from an array of strings.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>lines</CODE> - Prolog source lines.</DD>
-  <DD><CODE>name</CODE> - comment for error messages.</DD>
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="consult_data_file(String,String[])">consult_data_file</H3>
-<PRE>
-public static void <B>consult_data_file</B
->(String <A HREF="#filename">filename</A>, String[] filter)</PRE>
-<DL>
-<DD>Consults (reads) facts from a file. Only facts specified in the filter are
-consulted. Filter is an array of strings, each containing a predicate indicator
-in form <i>name</i><code>/</code><i>arity</i> .
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>filename</CODE> - the name of the Prolog source lines.</DD>
-  <DD><CODE>filter</CODE> - predicate indicators.</DD>
-  <DT><B>Example:</B>
-  <DD>
-  <CODE>consult_data_file("data.pro", new String[]{"cars/4", "houses/2"});
-  </CODE></DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="consult_data_stringlist(String[],String[],String)">
-consult_data_stringlist</H3>
-<PRE>
-public static void <B>consult_data_stringlist</B
->(String[] lines, String[] filter, String name)</PRE>
-<DL>
-<DD>Consults facts from an array of strings. Only facts specified in the filter
-are consulted. Filter is an array of strings, each containing a predicate 
-indicator in form <i>name</i><code>/</code><i>arity</i> .
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>lines</CODE> - the name of the Prolog source lines.</DD>
-  <DD><CODE>filter</CODE> - predicate indicators.</DD>
-  <DD><CODE>name</CODE> - comment for error messages.</DD>
-  <DT><B>Example:</B>
-  <DD><CODE>String[] things = {</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;"cars(\"Volvo\", 17, 88, 36).", </CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;"cars(\"Opel\", 5, 42, 150).", </CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;"houses(\"Home\", 128000)."</CODE></DD>
-  <DD><CODE>};</CODE></DD>
-  <DD><CODE>consult_data_stringlist(things, new String[]{"cars/4", "houses/2"},
-  "things");</CODE></DD>
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="set_consult_dir(String)">set_consult_dir</H3>
-<PRE>
-public static void <B>set_consult_dir</B>(String <A HREF="#dirname">dirname</A
->)</PRE>
-<DL>
-<DD>Sets current consult directory, i.e. default directory for consult 
-operations.
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>dirname</CODE> - the name of the consult directory.</DD>
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="get_consult_dir">get_consult_dir</H3>
-<PRE>
-public static String <B>get_consult_dir</B>()</PRE>
-<DL>
-<DD>Returns current consult directory, i.e. default directory for consult 
-operations. The directory name is absolute and always begins with
-"<code>file:</code>" or "<code>res:</code>". It can be used as an argument to
-<code>set_consult_dir</code> .
-<P>
-<DD>
-<DL>
-  <DT><B>Returns:</B>
-  <DD>the name of the current consult directory.</DD>
-</DL>
-</DD>
-</DL>
-<HR>
-<H3 id="set_comline_arg(String,String)">set_comline_arg</H3>
-<PRE>
-public static void <B>set_comline_arg</B>(String option, String argument)</PRE>
-<DL>
-<DD>Defines a command-line argument.</DD>
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B></DT>
-  <DD><CODE>option</CODE> - the name of the option.</DD>
-  <DD><CODE>argument</CODE> - the value of the option.</DD>
-  <DT><B>Example:</B>
-  <DD>To emulate the following command line arguments<BR/>
-  <CODE>&nbsp;&nbsp;-foo=bar -up report.txt</CODE><BR/>
-  the calls</DD>
-  <DD><CODE>&nbsp;&nbsp;set_comline_arg("foo", "bar");</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;set_comline_arg("up", "");</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;set_comline_arg("", "report.txt");</CODE></DD>
-  <DD>store the following facts to the Jalog database</DD>
-  <DD><CODE>&nbsp;&nbsp;comline_arg(1, "foo", "bar").</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;comline_arg(2, "up", "").</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;comline_arg(3, "", "report.txt").</CODE></DD>
-</DL>
-</DD>
-</DL>
-<HR>
-
-<H3 id="dispose">dispose</H3>
-<PRE>
-public static void <B>dispose</B>()</PRE>
-<DL>
-<DD>Clears the Prolog program, its data and the inference engine from the 
-memory. Allows creating a new inference engine for another purpose.
-<P>
-</DL>
-<HR>
-
-<H3 id="call(String,Jalog.Term...)">call</H3>
-<PRE>
-public static boolean <B>call</B>(String predname, <a
- href="Jalog_Term_class_doc.html">Jalog.Term</a> ... args)
-           throws <A HREF="Jalog_Exit_class_doc.html">Jalog.Exit</A></PRE>
-</PRE>
-<DL>
-<DD>Calls a predicate defined in the consulted file.</DD>
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>predname</CODE> - the name of the predicate to be called.</DD>
-  <DD><CODE>args</CODE> - the arguments for the predicate.</DD>
-  <DT><B>Returns:</B>
-  <DD><code>true</code> if the predicate succeeds, <code>false</code> if the
-    predicate fails.</DD>
-  <DT><B>Throws:</B>
-  <DD><CODE>Jalog.Exit</CODE
-  > - when the program executes an exit predicate.</DD>
- </DL>
-</DD>
-</DL>
-
-<HR></HR>
-<H3 id="getResourceAsStream(String)">getResourceAsStream</H3>
-<PRE>
-public static <a href=
-    "https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"
-    >InputStream</a> <B>getResourceAsStream</B>(String fileName)
-           throws <a href=
-           "https://docs.oracle.com/javase/6/docs/api/java/io/IOException.html"
-           >IOException</a></PRE>
-<DL>
-<DD>Provides a stream for reading a resource file.</DD>
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>filename</CODE> - the name of the resource file.</DD>
-  <DT><B>Returns:</B>
-  <DD>an input stream for reading a resource.</DD>
-  <DT><B>Throws:</B>
-  <DD><CODE>IOException</CODE
-  > - propagated from I/O system.</DD>
- </DL>
-</DD>
-</DL>
-
-<HR></HR>
-<H3 id="setErr(Jalog.Output)">setErr</H3>
-<PRE>
-public static void <B>setErr</B>(<A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> o)</PRE>
-<DL>
-<DD>Redirects error messages.</DD>
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>o</CODE> - output class for error messages.</DD>
- </DL>
-</DD>
-</DL>
-
-<HR></HR>
-<H3 id="setOut(Jalog.Output)">setOut</H3>
-<PRE>
-public static void <B>setOut</B>(<A HREF="Jalog_Output_class_doc.html">Jalog.Output</A> o)</PRE>
-<DL>
-<DD>Redirects output: print and println.</DD>
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>o</CODE> - output class for error messages.</DD>
-  
-  <DT><B>Example:</B>
-  <DD>To add additional processing to the output define subclass of Jalog.Output:
-  </DD>
-  <DD><CODE>&nbsp;&nbsp;public static class TestOutput extends Jalog.Output {</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;public void print(String s) {</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print("|" + s);</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;}</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;}</CODE></DD>
-  <DD><CODE>&nbsp;</CODE></DD>
-  <DD>Before calling the Prolog code redirect the output:</DD>
-  <DD><CODE>&nbsp;</CODE></DD>
-  <DD><CODE>&nbsp;&nbsp;&nbsp;&nbsp;myJalog.setOut(new TestOutput());</CODE></DD>
- 
-
- </DL>
-</DD>
-</DL>
-
-<HR></HR>
-<H3 id="setResourceManager(Jalog.ResourceManager)">setResourceManager</H3>
-<PRE>
-public static void <B>setResourceManager</B>(<a href="Jalog_ResourceManager_class_doc.html">Jalog.ResourceManager</a> rm)</PRE>
-<DL>
-<DD>To consult resource files from a non-standard place (e.g. in Android 
-applications) define a subclass of 
-<code>Jalog.ResourceManager</code>
- and introduce it with this function. </DD>
-<P>
-<DD>
-<DL>
-  <DT><B>Parameters:</B>
-  <DD><CODE>rm</CODE> - new resource manager</DD>
- </DL>
-</DD>
-</DL>
-
-
-<!-- ============ OTHER DETAIL =========== -->
-<TABLE id="other_detail" BORDER="1" WIDTH="100%" CELLPADDING="3" 
-CELLSPACING="0" SUMMARY="">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
-<B>Other Detail</B></FONT></TH>
-</TR>
-</TABLE>
-
-<H3 id="dirname">dirname</H3>
-<DL>
-<DD>
-Directory names can refer to directories either in the file system or in the 
-resource system. In order to specifically refer 
-to the file system prepend the name
-with "<code>file:</code>". In order to refer to a directory in the resource system 
-prepend the name with "<code>res:</code>". If neither is specified and the 
-dirname is an absolute path it refers to the file system. A relative path
-refers to a subdirectory of the current consult directory.
-  <DL>
-  <DT><B>Examples:</B>
-  <DD><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
-  the C disk.</DD>
-  <DD><CODE>"res:lib/routes"</CODE> - refers to a resource directory.</DD>
-  <DD><CODE>"sub"</CODE> - refers to the subdirectory <code>sub</code> of
-  the current directory.</DD>
- </DL>
-</DD>
-</DL>
-
-<H3 id="filename">filename</H3>
-<DL>
-<DD>
-File names can refer either to files in the file system or to 
-resources of the jar package.
-In order to specifically refer 
-to the file system prepend the name
-with "<code>file:</code>". In order to refer to a resource in the resource system 
-prepend the name with "<code>res:</code>". If neither is specified and the 
-filename is an absolute path it refers to the file system. A relative path
-refers to a file or resource in the current consult directory.
-  <DL>
-  <DT><B>Examples:</B>
-  <DD><CODE>"file:C:/data/trees.pro"</CODE> - refers to a file in the file
-  system.
-  <DD><CODE>"res:parameters.pro"</CODE> - refers to a resource in the resource system.
-  <DD><CODE>"rules.pro"</CODE> - refers to a file or a resource in the current
-  directory.
- </DL>
-</DD>
-</DL>
-
-
 
 <!-- ========= END OF CLASS DATA ========= -->
 <HR>

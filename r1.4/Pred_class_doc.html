@@ -2,6 +2,9 @@
 <html>
 <head>
 <title>Pred class</title>
+<style>
+  pre i {font-family: serif; }
+</style>
 </head>
 <body>
 <p ALIGN="right"><EM>
@@ -26,60 +29,69 @@ Class Pred</H2>
   </DT>
 </DL>
 <P>
-Class <code>Pred</code> is the base class for all classes that implement Prolog predicates.
+Class <code>Pred</code> is the base class for all classes that implement Prolog primitive predicates.
 </p>
 <p>
-For each built-in predicate a subclass of <code>Pred</code> is needed.
+For each built-in predicate a subclass of <code>Pred</code> is needed.  Each built in predicate must be introduced in <A href="BuiltIns_class_doc.html"><code>BuiltIns</code></A> class.
 </p>
-<p id="calling_pattern">
-Typical structure of a subclass of <code>Pred</code>:
+<p>Each subclass of <code>Pred</code> must implement the static method <code>first_call</code>.
 </p>
-<pre>
-    // Pred_example.java
-    // example(String, String, String) - (i,i,i) (i,i,o) (i,o,i) (o,i,i)
-
-    package io.github.JalogTeam.jalog;
-
-    import java.io.*;
-    import java.util.*;
-
-    public class Pred_example extends Pred
-    {
-
-/*</pre>
-Each subclass of Pred must implement the static method <code>first_call</code>.
-
-If other results are possibly produced on backtrack, <code>first_call</code> must 
-create an object of this class and initialize it with any data that
+<p>If other results are possibly produced on backtrack, <code>first_call</code> must 
+create an object of this subclass and initialize it with any data that
 is needed on backtrack. The created object must be returned as the value
 of this function.
-
-If backtracking to this predicate does not produce other results, this
-should return null.
+</p>
+<p>Another case where an object of this class must be created and returned
+is when post processing is needed after calling Prolog code (which may be received by a parameter or otherwise). 
+</p>
+<p>If no action is needed after returning from <code>first_call</code> <code>
+null</code> should be returned.
+</p>
+<p>If <code>first_call</code> always returns 
+<code>null</code> no other methods should be implemented.
+</p>
+<p
+<p>Other methods of <code>Pred</code> may be overridden as needed.
+</p>
+<p id="calling_pattern">
+General structure of a subclass of <code>Pred</code>:
+</p>
 <pre>
-*/
-      public static Pred first_call(Pro_TermData_Compound data) {
+    public class Pred_<i>example</i> extends Pred
+    {
+      ... // declarations as needed
 
-        Pred_example result = null;
+      public static Pred first_call(Pro_TermData_Compound params) {
+
+        Pred_<i>example</i> result = null;
     /*
-        Take parameters to local variables:
+        You may want to take parameters to local variables:
     */    
-        Pro_Term left_term = data.subterm[0].getRealNode();
-        Pro_Term right_term = data.subterm[1].getRealNode();
-        Pro_Term result_term = data.subterm[2].getRealNode();
+        Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
+        Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
+        ...
+        Pro_Term <i>result_term</i> = params.subterm[<i>n</i>].getRealNode();
 
-    /*
-        Local variables as needed
-    */
-        long len_left, len_right, len;
-        Pro_TermData_Compound compare_data;
-        Pro_Term right_part, left_part;
+        ... // declarations as needed
 
     /*
         Identify flow pattern and act accordingly.
-        _term.data == null means an open variable.
+        <i>_param</i>.data == null means an open variable.
     */    
-        if (left_term.data != null && right_term.data != null) {
+        if (<i>first_param</i>.data != null) 
+        {  // <i>first_param</i> is bound
+          if (<i>second_param</i>.data != null) 
+          {  // <i>second_param</i> is bound
+            ...
+            // compute <i>result_value</i>
+            Pro_Term <i>result_value</i> = Pro_Term.<i>type</i>(...);
+            
+            
+          } else { // <i>second_param</i> is open
+          
+            
+            
+            
           Pro_Term so = Pro_Term.m_string_concat(
               (Pro_TermData_String)left_term.data, 
               (Pro_TermData_String)right_term.data);
@@ -150,7 +162,7 @@ should return null.
 <TD><CODE><B><A HREF="#called_body">called_body</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Used in <code>trap</code> and <code>not</code>.</TD>
+Used in e.g. <code>not</code>.</TD>
 </TR>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -274,7 +286,7 @@ Constructs a <CODE>Pred</CODE> instance.</TD>
     <CODE>&nbsp;public static Pred</CODE></FONT>
   </TD>
   <TD>
-    <CODE><B><A HREF="#first_call">first_call</A></B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> data)</CODE>
+    <CODE><B><A HREF="#first_call">first_call</A></B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> params)</CODE>
 
     <BR>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -326,7 +338,8 @@ CELLSPACING="0" SUMMARY="">
 <a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>called_body</B></PRE>
 <DL>
 <DD>Initialized to <code>null</code>. Rarely needed. 
-<P>This field is needed when Jalog code is executed by a built-in predicate. The value to be assigned must be a list that can be interpreted as a predicate body. The list is executed after returning the method that has set the <code>called_body</code>.</P>
+<P>This field is needed when Jalog code is executed by a built-in predicate. The value to be assigned must be a list that can be interpreted as a predicate body. The list is executed after returning from the method that has set the <code>called_body</code>.</P>
+<P>Typically <code>called_body</code> is a singlet list containing a subterm of <code>params</code> received in <code>first_call</code>.
 </DD>
 </DL>
 <HR>
@@ -356,8 +369,8 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <CODE>boolean</CODE> <B>exception</B></PRE>
 <DL>
-<DD>Set in e.g. <code>exit</code> mainly in error situations.
-<P>Transfers execution to the exception handler argument of the latest active <code>trap</code> call, or exits the program if none is active. When set the <A HREF="#exit_value"><code>exit_value</code></A> must be set to desired exit code.
+<DD>Set in <code>exit</code>. Otherwise used in error situations.
+<P>Transfers execution to the exception handler argument of the latest active <code>trap</code> call, or exits the program if none is active. When set the <code>exit_value</code> must be set to desired exit code.
 </DD>
 </DL>
 <HR>
@@ -366,7 +379,7 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>exit_value</B></PRE>
 <DL>
-<DD>The desired exit code. Needed when <A HREF="#exception"><code>exception</code></A> is set. If the exception is not handled with a <code>trap</code> the value should be an integer.
+<DD>The desired exit code. Needed when <code>exception</code> is set. Should be an integer.
 </DD>
 </DL>
 <HR>
@@ -377,7 +390,7 @@ CELLSPACING="0" SUMMARY="">
 <DL>
 <DD>The value indicates and controls the direction of execution.
 <P>On entry to <code>call</code> or <code>post_call</code> <code>true</code> indicates forward execution and <code>false</code> indicates backtracking.</P>
-<P>On return from <code>call</code> or <code>post_call</code> <code>true</code> causes forward execution and <code>false</code> causes backtracking.</P>
+<P>On return from <code>call</code> or <code>post_call</code> <code>true</code> indicates success and causes forward execution, and <code>false</code> indicates failure and causes backtracking.</P>
 </DD>
 </DL>
 <HR>
@@ -387,7 +400,7 @@ CELLSPACING="0" SUMMARY="">
 <a href="Pro_TrailMark_class_doc.html"><CODE>Pro_TrailMark</CODE></A> <B>Mark</B></PRE>
 <DL>
 <DD>Controls backtracking of unifications.
-<P>
+<P>See documentation of <a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> for details.
 </P>
 </DD>
 </DL>
@@ -397,7 +410,7 @@ CELLSPACING="0" SUMMARY="">
 <PRE>
 <CODE>boolean</CODE> <B>op_found</B></PRE>
 <DL>
-<DD>Rarely needed. Is <code>true</code> when <A href="#first_call"><code>first_call</code></A> is called. If set to <code>false</code> the predicate is searched from the database after the return from <code>first_call</code>.
+<DD>Rarely needed. Is <code>true</code> when <code>first_call</code> is called. If set to <code>false</code> the predicate is searched from the database after the return from <code>first_call</code>.
 </DD>
 </DL>
 <HR>
@@ -407,6 +420,8 @@ CELLSPACING="0" SUMMARY="">
 <a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> <B>trail</B></PRE>
 <DL>
 <DD>Used for cancelling unifications on backtracking.
+<P>See documentation of <a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> for details.
+</P>
 </DD>
 </DL>
 <HR>
@@ -442,12 +457,12 @@ Pred</H3>
 
 <H3 id="first_call">first_call</H3>
 <PRE>
-public static Pred <B>first_call</B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> data)</PRE>
+public static Pred <B>first_call</B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> params)</PRE>
 <DL>
 <DD><p>The method <code>first_call</code> must be implemented for every built-in predicate.</p> 
 <p>System executes <code>first_call</code> 
-when this predicate is called. The argument <code>data</code>
-contains the arguments of the call in the array <code>subterm</code>.</p>
+when this predicate is called. The argument <code>params</code>
+contains the arguments of the call in the array <code>subterm</code> and the number of arguments in the field <code>arity</code>.</p>
 <p>The method <code>call</code> can be called from <code>first_call</code> if
 the same algorithm is useful.</p>
 <p>The field <code>forward</code> is  <code>true</code> when <code>first_call</code> 
@@ -464,7 +479,7 @@ of this function.</p>
 <DD>
 <DL>
   <DT><B>Parameters:</B>
-  <DD><CODE>data</CODE> - the calling term with arguments as subterms
+  <DD><CODE>params</CODE> - the calling term with arguments as subterms
   <DT><B>Returns:</B>
   <DD><code>null</code> or an object for recall on backtrack
 </DL>
@@ -492,12 +507,12 @@ public void <B>call</B>()</PRE>
 <PRE>
 public void <B>post_call</B>()</PRE>
 <DL>
-<DD>System calls this on backtrack. This can be called on <code>first_call</code>, too. If the system calls this on backtrack, <code>forward</code> is <code>false</code>. <br/>
-Before returning <code>forward</code> must be set to <code>true</code> on success or to <code>false</code> on failure.</br>
-The default implementation does nothing. A subclass may override this.<br/>
-<code>forward</code> is usually <code>true</code> if <code>first_call</code>
-calls this.
-<P>
+<DD><P>
+This is called when <code>called_body</code> is executed or has failed. The field <code>forward</code> is <code>true</code> after success or <code>false</code> after failure.</P>
+<P>Before returning <code>forward</code> must be set to <code>true</code> on success or to <code>false</code> on failure.
+</P>
+<P><code>called_body</code> must be set to <code>null</code> unless an execution of the same or another body is wanted.</P>
+<P>The default implementation does nothing. A subclass may override this.</P>
 <DD>
 <DL>
 </DL>
@@ -509,11 +524,7 @@ calls this.
 <PRE>
 public String <B>toString</B>()</PRE>
 <DL>
-<DD>System calls this on backtrack. This can be called on <code>first_call</code> also. If the system calls this on backtrack, <code>forward</code> is <code>false</code>. <br/>
-Before returning <code>forward</code> must be set to <code>true</code> on success or to <code>false</code> on failure.</br>
-The default implementation does nothing. A subclass may override this.<br/>
-<code>forward</code> is usually <code>true</code> if <code>first_call</code>
-calls this.
+<DD>For debugging. Prints some data of the predicate instance.
 <P>
 <DD>
 <DL>

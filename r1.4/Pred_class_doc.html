@@ -53,9 +53,175 @@ null</code> should be returned.
 <p
 <p>Other methods of <code>Pred</code> may be overridden as needed.
 </p>
-<p id="calling_pattern">
-General structure of a subclass of <code>Pred</code>:
+<p>
+The structure depends on the overall behavior of the predicate.
+<ul>
+<li>The simplest case is fully deterministic predicate. Only the method <code>first_call</code> is needed.</li>
+<li>If backtracking may produce other results or other processing is needed then the method <code>call</code> is needed. So, the <code>first_call</code> must create and return an object that can act on backtracking.</li>
+<li>If code defined by a parameter is needed to run and some processing is needed after its execution then the method <code>post_call</code> is needed to handle it.
+</ul>
 </p>
+<span id="calling_pattern" ></span>
+<p>
+In the simplest case the general structure of a subclass of <code>Pred</code>:
+</p>
+<pre>
+    public class Pred_<i>example</i> extends Pred
+    {
+      Pro_Term <i>param_1</i>;
+      Pro_Term <i>param_2</i>;     
+      ... // more declarations as needed
+      
+      public static Pred first_call(Pro_TermData_Compound params) {
+
+    /*
+        You may want to take parameters to local variables:
+    */    
+        Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
+        Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
+        ... // more parameters as needed
+
+        ... // other declarations as needed
+
+    /*
+        Identify flow pattern and act accordingly.
+        <i>_param</i>.data == null means an open variable.
+    */    
+        if (<i>first_param</i>.data != null) {
+          // <i>first_param</i> is bound
+          
+          // compute <i>result_value</i> for <i>second_param</i>
+          ... // computations as needed
+          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+          
+          // Unify <i>result_value</i> and <i>second_param</i>
+          forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
+
+        } else if (<i>second_param</i>.data != null) {
+          // <i>first_param</i> is open and <i>second_param</i> is bound
+          
+          // compute <i>result_value</i> for <i>first_param</i>
+          ... // computations as needed
+          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+          
+          // Unify <i>result_value</i> and <i>first_param</i>
+          forward = <i>result_value</i>.unify(<i>first_param</i>, trail);
+        
+        } else { 
+          // both <i>first_param</i>and <i>second_param</i> are open
+          
+          // In this example, both open parameters -> invalid call
+          forward = false; 
+           
+          // op_found = false; // if an error message wanted
+          
+          // exception = true; // if an exception is wanted
+          // exit_value = Pro_Term.m_integer(<i>error_code</i>);
+           
+        }
+        
+        return null;
+        
+      }
+ 
+    }
+</pre>
+<HR>
+<p>
+If backtracking may produce other results or other processing is needed then the method <code>call</code> is needed.</p>
+<pre>
+    public class Pred_<i>example</i> extends Pred
+    {
+      Pro_Term <i>param_1</i>;
+      Pro_Term <i>param_2</i>;     
+      ... // more declarations as needed
+      
+      public static Pred first_call(Pro_TermData_Compound params) {
+
+        Pred_<i>example</i> state = null;
+    /*
+        You may want to take parameters to local variables:
+    */    
+        Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
+        Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
+        ... // more parameters as needed
+
+        ... // other declarations as needed
+
+    /*
+        Identify flow pattern and act accordingly.
+        <i>_param</i>.data == null means an open variable.
+    */    
+        if (<i>first_param</i>.data != null) 
+        {  // <i>first_param</i> is bound
+          // compute <i>result_value</i>
+          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+          
+          // Unify <i>result_value</i> and <i>second_param</i>
+          forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
+
+        } else if (<i>second_param</i>.data != null) {
+          Pro_TrailMark newMark;
+          // compute <i>result_value</i> for <i>first_param</i>
+          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+          
+          // Unify <i>result_value</i> and <i>first_param</i>
+          forward = <i>result_value</i>.unify(<i>first_param</i>, trail, newMark);
+        
+          if (forward) { 
+            // this is needed if backtracking can produce more results
+            state = new Pred_<i>example</i>();
+            state.Mark = newMark;
+            state.<i>param_1</i> = <i>first_param</i>;
+            state.<i>param_2</i> = <i>second_param</i>;
+            ... // Set other state fields as needed.
+          }
+          
+        } else { 
+          // In this example, both open parameters -> invalid call
+          forward = false; 
+           
+          // op_found = false; // if an error message wanted
+          
+          // exception = true; // if an exception is wanted
+          // exit_value = Pro_Term.m_integer(<i>error_code</i>);
+           
+        }
+        
+        return state;
+        
+      }
+ 
+      public void call()
+      {
+        // This is called on backtrack
+
+
+        if(!forward){
+          trail.backtrack(Mark); // cancels unifications
+        }
+        forward = false;
+            
+        // Compute another result 
+        Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+        
+        // Unify <i>result_value</i> and <i>param_1</i>
+        forward = <i>result_value</i>.unify(<i>param_1</i>, trail, Mark);
+
+      }
+
+      // post_call is needed, if Prolog code is executed within the predicate
+      public void post_call()
+      {
+
+        called_body = null;
+      }
+
+    }
+</pre>
+<HR>
+<p>
+If code defined by a parameter is needed to run and some processing is needed after its execution then the method <code>post_call</code> is needed</p>:
 <pre>
     public class Pred_<i>example</i> extends Pred
     {

@@ -3,7 +3,7 @@
 <head>
 <title>Pred class</title>
 <style>
-  pre i {font-family: serif; }
+  pre i {font-family: serif; font-size:10pt; }
 </style>
 </head>
 <body>
@@ -68,10 +68,6 @@ In the simplest case the general structure of a subclass of <code>Pred</code>:
 <pre>
     public class Pred_<i>example</i> extends Pred
     {
-      Pro_Term <i>param_1</i>;
-      Pro_Term <i>param_2</i>;     
-      ... // more declarations as needed
-      
       public static Pred first_call(Pro_TermData_Compound params) {
 
     /*
@@ -83,43 +79,48 @@ In the simplest case the general structure of a subclass of <code>Pred</code>:
 
         ... // other declarations as needed
 
+        forward = false; // default fail
     /*
         Identify flow pattern and act accordingly.
         <i>_param</i>.data == null means an open variable.
     */    
         if (<i>first_param</i>.data != null) {
           // <i>first_param</i> is bound
-          
-          // compute <i>result_value</i> for <i>second_param</i>
-          ... // computations as needed
-          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-          
-          // Unify <i>result_value</i> and <i>second_param</i>
-          forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
+
+          // check type
+          if (<i>first_param</i>.data.typename == Jalog.<i>DATATYPE1</i>) {
+            Pro_TermData_<i>Datatype1</i> <i>first</i> = (Pro_TermData_<i>Datatype1</i>)<i>first_param</i>.data;
+
+            // compute <i>result_value</i> for <i>second_param</i>
+            ... // computations as needed
+            Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+            
+            // Unify <i>result_value</i> and <i>second_param</i>
+            forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
+          }
 
         } else if (<i>second_param</i>.data != null) {
           // <i>first_param</i> is open and <i>second_param</i> is bound
+
+          // check type
+          if (<i>second_param</i>.data.typename == Jalog.<i>DATATYPE2</i>) {
+            Pro_TermData_<i>Datatype2</i> <i>second</i> = (Pro_TermData_<i>Datatype2</i>)<i>second_param</i>.data;
           
-          // compute <i>result_value</i> for <i>first_param</i>
-          ... // computations as needed
-          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-          
-          // Unify <i>result_value</i> and <i>first_param</i>
-          forward = <i>result_value</i>.unify(<i>first_param</i>, trail);
+            // compute <i>result_value</i> for <i>first_param</i>
+            ... // computations as needed
+            Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+            
+            // Unify <i>result_value</i> and <i>first_param</i>
+            forward = <i>result_value</i>.unify(<i>first_param</i>, trail);
+          }
         
-        } else { 
-          // both <i>first_param</i>and <i>second_param</i> are open
-          
-          // In this example, both open parameters -> invalid call
-          forward = false; 
-           
-          // op_found = false; // if an error message wanted
-          
-          // exception = true; // if an exception is wanted
-          // exit_value = Pro_Term.m_integer(<i>error_code</i>);
-           
-        }
+        }  // fails if both parameters are open
         
+        // op_found = false; // if an error message wanted
+        // // if an exception is wanted
+        //     exception = true;
+        //     exit_value = Pro_Term.m_integer(<i>error_code</i>);
+          
         return null;
         
       }

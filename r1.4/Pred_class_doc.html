@@ -133,6 +133,9 @@ If backtracking may produce other results or other processing is needed then the
 <pre>
     public class Pred_<i>example</i> extends Pred
     {
+    /*
+      This data is used when backtracking to enable finding the next solution.
+    */
       Pro_Term <i>param_1</i>;
       Pro_Term <i>param_2</i>;     
       ... // more declarations as needed
@@ -148,11 +151,40 @@ If backtracking may produce other results or other processing is needed then the
         ... // more parameters as needed
 
         ... // other declarations as needed
+        
+        forward = false; // default fail may be useful
 
     /*
-        Identify flow pattern and act accordingly.
+        Identify flow pattern and data types and act accordingly.
         <i>_param</i>.data == null means an open variable.
     */    
+        if (<i>second_param</i>.data == null) { // (i,o)(o,o)
+
+          ... // declarations as needed
+        
+          ... // computations as needed
+          Pro_Term second_value = Pro_Term.m_<i>type</i>(...);
+          forward = second_value.unify(<i>second_param</i>, trail);
+        } else { // (i,i) (o,i)
+          if (<i>second_param</i>.data.typename == Jalog.<i>DATATYPE2</i>) {
+            ... // declarations as needed
+            forward = true; // no backtrack in first call
+            
+            Pro_TermData <i>second_data</i> = (Pro_TermData_List)<i>second_param</i>.getData();
+          
+            ... // computations as needed
+            state = new Pred_member();
+            state.current_data = <i>second_data</i>;
+            state.elem = <i>first_param</i>;
+            state.clause_number = 1;
+
+            trail.mark(state.Mark);
+            
+            state.call();
+          }
+        }
+
+<!--
         if (<i>first_param</i>.data != null) 
         {  // <i>first_param</i> is bound
           // compute <i>result_value</i>
@@ -188,7 +220,7 @@ If backtracking may produce other results or other processing is needed then the
           // exit_value = Pro_Term.m_integer(<i>error_code</i>);
            
         }
-        
+-->        
         return state;
         
       }

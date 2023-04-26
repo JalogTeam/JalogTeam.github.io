@@ -70,9 +70,7 @@ In the simplest case the general structure of a subclass of <code>Pred</code>:
     {
       public static Pred first_call(Pro_TermData_Compound params) {
 
-    /*
-        You may want to take parameters to local variables:
-    */    
+        // You may want to take parameters to local variables:
         Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
         Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
         ... // more parameters as needed
@@ -80,15 +78,16 @@ In the simplest case the general structure of a subclass of <code>Pred</code>:
         ... // other declarations as needed
 
         forward = false; // default fail
-    /*
-        Identify flow pattern and act accordingly.
-        <i>_param</i>.data == null means an open variable.
-    */    
-        if (<i>first_param</i>.data != null) {
+
+        // Identify flow pattern and data types, and act accordingly.
+
+        String <i>first_type</i> = <i>first_param</i>.getType();
+        String <i>second_type</i> = <i>second_param</i>.getType();
+        if (<i>first_type</i> != Jalog.OPEN) {
           // <i>first_param</i> is bound
 
           // check type
-          if (<i>first_param</i>.data.typename == Jalog.<i>DATATYPE1</i>) {
+          if (<i>first_type</i> == Jalog.<i>DATATYPE1</i>) {
             Pro_TermData_<i>Datatype1</i> <i>first</i> = (Pro_TermData_<i>Datatype1</i>)<i>first_param</i>.data;
 
             // compute <i>result_value</i> for <i>second_param</i>
@@ -99,11 +98,11 @@ In the simplest case the general structure of a subclass of <code>Pred</code>:
             forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
           }
 
-        } else if (<i>second_param</i>.data != null) {
+        } else if (<i>second_type</i> != Jalog.OPEN) {
           // <i>first_param</i> is open and <i>second_param</i> is bound
 
           // check type
-          if (<i>second_param</i>.data.typename == Jalog.<i>DATATYPE2</i>) {
+          if (<i>second_type</i> == Jalog.<i>DATATYPE2</i>) {
             Pro_TermData_<i>Datatype2</i> <i>second</i> = (Pro_TermData_<i>Datatype2</i>)<i>second_param</i>.data;
           
             // compute <i>result_value</i> for <i>first_param</i>
@@ -112,14 +111,22 @@ In the simplest case the general structure of a subclass of <code>Pred</code>:
             
             // Unify <i>result_value</i> and <i>first_param</i>
             forward = <i>result_value</i>.unify(<i>first_param</i>, trail);
+          } else if (<i>second_type</i> == Jalog.<i>DATATYPE3</i>) {
+            Pro_TermData_<i>Datatype3</i> <i>second</i> = (Pro_TermData_<i>Datatype3</i>)<i>second_param</i>.data;
+            ...
           }
         
-        }  // fails if both parameters are open
+        }
+        // fails if both parameters are open
         
-        // op_found = false; // if an error message wanted
-        // // if an exception is wanted
-        //     exception = true;
-        //     exit_value = Pro_Term.m_integer(<i>error_code</i>);
+        /*
+          // if an error message wanted
+          op_found = false; 
+          
+          // if an exception is wanted
+          exception = true;
+          exit_value = Pro_Term.m_integer(<i>error_code</i>);
+        */
           
         return null;
         
@@ -133,19 +140,17 @@ If backtracking may produce other results or other processing is needed then the
 <pre>
     public class Pred_<i>example</i> extends Pred
     {
-    /*
-      This data is used when backtracking to enable finding the next solution.
-    */
+      // This data is used when backtracking to enable finding the next solution.
       Pro_Term <i>param_1</i>;
       Pro_Term <i>param_2</i>;     
       ... // more declarations as needed
+      int clause_number; // for example
       
       public static Pred first_call(Pro_TermData_Compound params) {
 
         Pred_<i>example</i> state = null;
-    /*
-        You may want to take parameters to local variables:
-    */    
+
+        // You may want to take parameters to local variables:
         Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
         Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
         ... // more parameters as needed
@@ -154,73 +159,44 @@ If backtracking may produce other results or other processing is needed then the
         
         forward = false; // default fail may be useful
 
-    /*
-        Identify flow pattern and data types and act accordingly.
-        <i>_param</i>.data == null means an open variable.
-    */    
-        if (<i>second_param</i>.data == null) { // (i,o)(o,o)
+        // Identify flow pattern and data types and act accordingly.
+
+        String <i>second_type</i> = <i>second_param</i>.getType();
+        if (<i>second_type</i> == Jalog.OPEN) { // (i,o)(o,o)
+          // Backtrack cannot produce another result, state = null
 
           ... // declarations as needed
         
           ... // computations as needed
-          Pro_Term second_value = Pro_Term.m_<i>type</i>(...);
-          forward = second_value.unify(<i>second_param</i>, trail);
+          
+          Pro_Term <i>second_value</i> = Pro_Term.m_<i>type</i>(...);
+
+          // unify result data to parameter if needed
+          forward = <i>second_value</i>.unify(<i>second_param</i>, trail);
         } else { // (i,i) (o,i)
-          if (<i>second_param</i>.data.typename == Jalog.<i>DATATYPE2</i>) {
+          if (<i>second_type</i> == Jalog.<i>DATATYPE2</i>) {
             ... // declarations as needed
-            forward = true; // no backtrack in first call
             
-            Pro_TermData <i>second_data</i> = (Pro_TermData_List)<i>second_param</i>.getData();
+            // If the data block of a term is needed:
+            Pro_TermData_<i>Datatype2</i> <i>second_data</i> = 
+                (Pro_TermData_<i>Datatype2</i>) <i>second_param</i>.getData();
           
             ... // computations as needed
-            state = new Pred_member();
-            state.current_data = <i>second_data</i>;
-            state.elem = <i>first_param</i>;
-            state.clause_number = 1;
-
-            trail.mark(state.Mark);
             
-            state.call();
-          }
-        }
-
-<!--
-        if (<i>first_param</i>.data != null) 
-        {  // <i>first_param</i> is bound
-          // compute <i>result_value</i>
-          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-          
-          // Unify <i>result_value</i> and <i>second_param</i>
-          forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
-
-        } else if (<i>second_param</i>.data != null) {
-          Pro_TrailMark newMark;
-          // compute <i>result_value</i> for <i>first_param</i>
-          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-          
-          // Unify <i>result_value</i> and <i>first_param</i>
-          forward = <i>result_value</i>.unify(<i>first_param</i>, trail, newMark);
-        
-          if (forward) { 
-            // this is needed if backtracking can produce more results
+            // Backtrack may produce another result, state = new object
             state = new Pred_<i>example</i>();
-            state.Mark = newMark;
             state.<i>param_1</i> = <i>first_param</i>;
             state.<i>param_2</i> = <i>second_param</i>;
-            ... // Set other state fields as needed.
+            // initialize other state fields
+            state.clause_number = 1; // for example
+
+            trail.mark(state.Mark); // set backtrack point
+            
+            state.call(); // if the first result is computed the same way as
+                          // other results, otherwise compute it here
           }
-          
-        } else { 
-          // In this example, both open parameters -> invalid call
-          forward = false; 
-           
-          // op_found = false; // if an error message wanted
-          
-          // exception = true; // if an exception is wanted
-          // exit_value = Pro_Term.m_integer(<i>error_code</i>);
-           
         }
--->        
+
         return state;
         
       }
@@ -229,27 +205,22 @@ If backtracking may produce other results or other processing is needed then the
       {
         // This is called on backtrack
 
-
-        if(!forward){
-          trail.backtrack(Mark); // cancels unifications
-        }
-        forward = false;
+        ... // declarations as needed
+        
+        // Variable bindings must be retracted on backtrack!
+        trail.backtrack(Mark);
+        forward = false; // default fail
             
         // Compute another result 
         Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
         
         // Unify <i>result_value</i> and <i>param_1</i>
         forward = <i>result_value</i>.unify(<i>param_1</i>, trail, Mark);
-
+        // unify other results as needed:
+        if (forward) forward = ... .unify(..., trail, Mark);
+        ...
+        
       }
-
-      // post_call is needed, if Prolog code is executed within the predicate
-      public void post_call()
-      {
-
-        called_body = null;
-      }
-
     }
 </pre>
 <HR>

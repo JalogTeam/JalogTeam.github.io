@@ -32,7 +32,7 @@ Class Pred</H2>
 Class <code>Pred</code> is the base class for all classes that implement Prolog primitive predicates.
 </p>
 <p>
-For each built-in predicate a subclass of <code>Pred</code> is needed.  Each built in predicate must be introduced in <A href="BuiltIns_class_doc.html"><code>BuiltIns</code></A> class.
+For each built-in predicate a subclass of <code>Pred</code> is needed.  Each built-in predicate must be introduced in <A href="BuiltIns_class_doc.html"><code>BuiltIns</code></A> class.
 </p>
 <p>Each subclass of <code>Pred</code> must implement the static method <code>first_call</code>.
 </p>
@@ -42,7 +42,7 @@ is needed on backtrack. The created object must be returned as the value
 of this function.
 </p>
 <p>Another case where an object of this class must be created and returned
-is when post processing is needed after calling Prolog code (which may be received by a parameter or otherwise). 
+is when some Prolog code (which may be received by a parameter or otherwise) needs to be executed. 
 </p>
 <p>If no action is needed after returning from <code>first_call</code> <code>
 null</code> should be returned.
@@ -210,110 +210,58 @@ If backtracking may produce other results or other processing is needed then the
         // Variable bindings must be retracted on backtrack!
         trail.backtrack(Mark);
         forward = false; // default fail
+
+        while((!forward) && <i>another result is possible</i>) {
+          // This loop can be omitted if not needed.
+          
+          // Compute another result 
+          if ( <i>another result found</i> ) {
+
+            Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
             
-        // Compute another result 
-        Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-        
-        // Unify <i>result_value</i> and <i>param_1</i>
-        forward = <i>result_value</i>.unify(<i>param_1</i>, trail, Mark);
-        // unify other results as needed:
-        if (forward) forward = ... .unify(..., trail, Mark);
-        ...
-        
+            // Unify <i>result_value</i> and <i>param_1</i>
+            forward = <i>result_value</i>.unify(<i>param_1</i>, trail, Mark);
+            // unify other results as needed:
+            if (forward) forward = ... .unify(..., trail, Mark);
+            ...
+
+          }
+        }
       }
     }
 </pre>
 <HR>
 <p>
-If code defined by a parameter is needed to run and some processing is needed after its execution then the method <code>post_call</code> is needed</p>:
+If a build-in predicate needs to execute some code (e.g. a parameter) then the code to be executed must be assigned to the field <code>called_body</code> as a list.
+If some processing is needed after the execution of the <code>called_body</code>, it is done in the method <code>post_call</code>.</p>
+
+<p>A simple example of <code>post_call</code> is in the predicate <code>not</code>:</p>
 <pre>
-    public class Pred_<i>example</i> extends Pred
+    // Pred_not.java
+
+    package io.github.JalogTeam.jalog;
+
+    import java.io.*;
+
+    public class Pred_not extends Pred
     {
-      Pro_Term <i>param_1</i>;
-      Pro_Term <i>param_2</i>;     
-      ... // more declarations as needed
-      
-      public static Pred first_call(Pro_TermData_Compound params) {
+      public static Pred first_call(Pro_TermData_Compound data) {
 
-        Pred_<i>example</i> state = null;
-    /*
-        You may want to take parameters to local variables:
-    */    
-        Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
-        Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
-        ... // more parameters as needed
+        Pro_Term[] items = {data.subterm[0]};
+        Pred_not state = new Pred_not();
+        state.called_body = Pro_Term.m_list(items); 
+          // called_body will be executed after the return
 
-        ... // other declarations as needed
-
-    /*
-        Identify flow pattern and act accordingly.
-        <i>_param</i>.data == null means an open variable.
-    */    
-        if (<i>first_param</i>.data != null) 
-        {  // <i>first_param</i> is bound
-          // compute <i>result_value</i>
-          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-          
-          // Unify <i>result_value</i> and <i>second_param</i>
-          forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
-
-        } else if (<i>second_param</i>.data != null) {
-          Pro_TrailMark newMark;
-          // compute <i>result_value</i> for <i>first_param</i>
-          Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-          
-          // Unify <i>result_value</i> and <i>first_param</i>
-          forward = <i>result_value</i>.unify(<i>first_param</i>, trail, newMark);
-        
-          if (forward) { 
-            // this is needed if backtracking can produce more results
-            state = new Pred_<i>example</i>();
-            state.Mark = newMark;
-            state.<i>param_1</i> = <i>first_param</i>;
-            state.<i>param_2</i> = <i>second_param</i>;
-            ... // Set other state fields as needed.
-          }
-          
-        } else { 
-          // In this example, both open parameters -> invalid call
-          forward = false; 
-           
-          // op_found = false; // if an error message wanted
-          
-          // exception = true; // if an exception is wanted
-          // exit_value = Pro_Term.m_integer(<i>error_code</i>);
-           
-        }
-        
         return state;
-        
-      }
- 
-      public void call()
-      {
-        // This is called on backtrack
-
-
-        if(!forward){
-          trail.backtrack(Mark); // cancels unifications
-        }
-        forward = false;
-            
-        // Compute another result 
-        Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
-        
-        // Unify <i>result_value</i> and <i>param_1</i>
-        forward = <i>result_value</i>.unify(<i>param_1</i>, trail, Mark);
-
       }
 
-      // post_call is needed, if Prolog code is executed within the predicate
       public void post_call()
       {
-
-        called_body = null;
+        // now called_body has been executed
+        forward = !forward;    // This inverts the result
+        sub_activation = null; // no recall to called_body
+        called_body = null;    // no recall to called_body 
       }
-
     }
 </pre>
 <HR>
@@ -403,7 +351,16 @@ Set <code>true</code> when right code for this predicate.</TD>
 
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<code>public static </code><a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></a></FONT></TD>
+<CODE>Activation</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#sub_activation">sub_activation</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For the inference engine.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<code>static </code><a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></a></FONT></TD>
 <TD><CODE><B><A HREF="#trail">trail</A></B></CODE>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -512,6 +469,7 @@ CELLSPACING="0" SUMMARY="">
 <DL>
 <DD>Initialized to <code>null</code>. Rarely needed. 
 <P>This field is needed when Jalog code is executed by a built-in predicate. The value to be assigned must be a list that can be interpreted as a predicate body. The list is executed after returning from the method that has set the <code>called_body</code>.</P>
+<P>Set <code>called_body</code> and <code>sub_activation</code> to <code>null</code> in <code>call</code> and <code>post_call</code> if no more execution is needed.</P>
 <P>Typically <code>called_body</code> is a singlet list containing a subterm of <code>params</code> received in <code>first_call</code>.
 </DD>
 </DL>
@@ -588,6 +546,16 @@ CELLSPACING="0" SUMMARY="">
 </DL>
 <HR>
 
+<H3 id="sub_activation">sub_activation</H3>
+<PRE>
+<CODE>Activation</CODE> <B>sub_activation</B></PRE>
+<DL>
+<DD>Must be set to <code>null</code> in <code>post_call</code> when called body is set to <code>null</code>.
+</P>
+</DD>
+</DL>
+<HR>
+
 <H3 id="trail">trail</H3>
 <PRE>
 <a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> <B>trail</B></PRE>
@@ -641,11 +609,11 @@ the same algorithm is useful.</p>
 <p>The field <code>forward</code> is  <code>true</code> when <code>first_call</code> 
 is entered.
 On return <code>forward</code> must indicate succes with <code>true</code> or failure with <code>false</code>.
-<p>If other results are possibly produced on backtrack, <code>first_call</code> must 
+<p>If other results are possibly produced on backtrack, or if <code>called_body</code> is used, <code>first_call</code> must 
 create an object of its class and initialize it with any data that
-is needed on backtrack. The created object must be returned as the value
+is needed on backtrack or <code>post_call</code>. The created object must be returned as the value
 of this function.</p>
-<p>If no other results may be produced on backtrack, <code>null</code> must be returned. <code>null</code> must also be returned if <code>forward</code> is <code>false</code></p>
+<p>If no other results may be produced on backtrack, and <code>post_call</code> is not used, <code>null</code> must be returned. <code>null</code> must also be returned if <code>forward</code> is <code>false</code></p>
 
 </DD>
 <P>
@@ -654,7 +622,7 @@ of this function.</p>
   <DT><B>Parameters:</B>
   <DD><CODE>params</CODE> - the calling term with arguments as subterms
   <DT><B>Returns:</B>
-  <DD><code>null</code> or an object for recall on backtrack
+  <DD><code>null</code> or an object for recall on backtrack or for <code>post_call</code>
 </DL>
 </DD>
 </DL>
@@ -684,7 +652,8 @@ public void <B>post_call</B>()</PRE>
 This is called when <code>called_body</code> is executed or has failed. The field <code>forward</code> is <code>true</code> after success or <code>false</code> after failure.</P>
 <P>Before returning <code>forward</code> must be set to <code>true</code> on success or to <code>false</code> on failure.
 </P>
-<P><code>called_body</code> must be set to <code>null</code> unless an execution of the same or another body is wanted.</P>
+<P><code>called_body</code> and <code>sub_activation</code> must be set to <code>null</code> unless an execution of the same or another body is wanted. Otherwise,
+<code>called_body</code> is executed and <code>post_call</code> called again.</P>
 <P>The default implementation does nothing. A subclass may override this.</P>
 <DD>
 <DL>
@@ -697,7 +666,8 @@ This is called when <code>called_body</code> is executed or has failed. The fiel
 <PRE>
 public String <B>toString</B>()</PRE>
 <DL>
-<DD>For debugging. Prints some data of the predicate instance.
+<DD>For debugging. Prints some data of the predicate instance. Usually, not necessary
+to override in subclasses
 <P>
 <DD>
 <DL>

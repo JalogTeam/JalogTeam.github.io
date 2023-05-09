@@ -2,8 +2,25 @@
 <body>
 <h1>Developer Info</h1>
 <h2>Built-In predicates</h2>
-<a href="BuiltIns_class_doc.html">Built-In Predicates</a><br/>
-<a href="Pred_class_doc.html">Pred class documentation</a><br/>
+<p>
+For each built-in predicate a subclass of <a href="Pred_class_doc.html"><code>Pred</code></a> is needed. Each
+built-in predicate must be introduced in <a href="BuiltIns_class_doc.html"><code>BuiltIns</code></a> class.<br/></p>
+<p>
+<h2>Program data</h2>
+<p>All data and programs are represented as <a href="Pro_Term_class_doc.html"><code>Pro_Term</code></a> objects. Every 
+<code>Pro_Term</code> object has a pointer to a <A HREF="Pro_TermData_class_doc.html"><code>Pro_TermData</code></A> object
+that contains the associated data.</P>
+<h2>Jalog sources</h2>
+<p>
+If the only purpose is to add new built-in predicates the only source files
+needed are <code>BuiltIns.java</code> and <code>Version.java</code>.
+These source files can be extracted from the jar file <code>jalog.jar</code>:
+<pre>    jar -xf jalog.jar src/io/github/JalogTeam/jalog/BuiltIns.java
+    jar -xf jalog.jar src/io/github/JalogTeam/jalog/Version.java
+</pre>
 
+<p>
+The complete source package can be found at <a href="https://github.com/JalogTeam/Jalog"><code>https://github.com/JalogTeam/Jalog</code></a>.
+</p>
 </body>
 </html>

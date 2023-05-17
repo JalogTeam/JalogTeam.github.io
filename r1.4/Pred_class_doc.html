@@ -264,6 +264,16 @@ If some processing is needed after the execution of the <code>called_body</code>
       }
     }
 </pre>
+<p>
+If the called body throws an exception (calls <a href="Pred_exit_doc.html"><code>exit</code></a>)
+then <code>post_call</code> is not called. However, in order to catch the 
+exception here this class must exted <code>Pred_trap</code> instead of 
+<code>Pred</code>. On entry to <code>post_call</code> the variable <code>
+<A HREF="#exception">exception</A></code> is <code>true</code> if an exception was thrown and <code>
+false</code> otherwise. The exit code is in the variable 
+<code><A HREF="#exit_value">exit_value</A></code>.
+
+</p>
 <HR>
 
 <P>

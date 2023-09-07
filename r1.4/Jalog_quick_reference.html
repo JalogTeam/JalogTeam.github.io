@@ -67,20 +67,24 @@ str_repeat(N, Si, So) /* (i,i,o), (i,i,i) */
 
 char_code(C, I) /* (i,o), (o,i), (i,i) */ - 16 bit int
 
-is_high_surrogate(C) /* (i) C on char tai int */
-is_low_surrogate(C) /* (i) C on char tai int */
-
-str_term(S, T) /* (i,i), (i,o), (o,i) */
-// Tulevaisuudessa myös:
-//   term_str(Domain,Term,String) /* (i,i,o),(i,_,i) */
-
----------
 
 </pre>
 
 
-    <h3>Old ones of 1.3</h3>
+<!--    <h3>Old ones of 1.3</h3> -->
     <dl>
+      <dt><font size="+1"><b><code>assert(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd><p>Stores the fact <i>Fact</i> to the end of the database. Same as <code>assertz</code>.</p>
+      <p>Example:</p>
+      <p><code>assert(connection(7588, 9032))</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>asserta(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd><p>Stores the fact <i>Fact</i> to the beginning of the database.</p>
+      <p>Example:</p>
+      <p><code>asserta(address("Sqrt", $082A))</code></p>
+      </dd>
+
       <dt><font size="+1"><b><code>assertz(</code><i>Fact</i><code>)</code></b></font></dt>
       <dd><p>Stores the fact <i>Fact</i> to the end of the database.</p>
       <p>Example:</p>
@@ -109,6 +113,12 @@ str_term(S, T) /* (i,i), (i,o), (o,i) */
 comline_arg(1, "foo", "bar").
 comline_arg(2, "up", "").
 comline_arg(3, "", "report.txt").</pre>
+      </dd>
+
+      <dt><font size="+1"><b><code>concat(</code><i>String1</i>, <i>String2</i>, <i>Longstring</i><code>)</code></b></font></dt>
+      <dd><p>Obtains <i>Longstring</i> by concatenating <i>String1</i> and <i>String2</i></p>
+      <p>Example:</p>
+      <p><code>concat(S, ".pro", Filename)</code></p>
       </dd>
 
       <dt><font size="+1"><b><code>consult(</code><i>Filename</i><code>)</code></b></font></dt>
@@ -178,6 +188,14 @@ comline_arg(3, "", "report.txt").</pre>
         <p>This call fails always.</p>
       </dd>
 
+      <dt><font size="+1"><b><code>findall(</code><i>Variable</i>, <i>Atom</i>, <i>ListVariable</i><code>)</code></b></font></dt>
+      <dd><p>Collects the values from backtracking into a list. Thus, if <i>Atom</i> is a predicate with its arguments represented by valid variable names, and <i>Variable</i> is the name of one of the variables in the predicate, <i>ListVariable</i> will be bound to the list of values for that variable that was obtained from instances when the predicate can succeed due to backtracking.</p>
+      <p>Example:</p>
+      <p><code>findall(P, substring("a, b, c, d", P, _, ","), L) </code><br/>
+      <code>L</code> will contain the positions of commas: 
+      <code>[1, 4, 7]</p>
+      </dd>
+
       <dt><font size="+1"><b><code>foreach_(</code><i>Var</i><code>, </code><i>List</i>
           <code>)</code></b></font></dt>
       <dd>
@@ -193,6 +211,18 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Succeeds, if the parameter <i>Var</i> is open, otherwise fails.</p>
       </dd>
 
+      <dt><font size="+1"><b><code>frontchar(</code><i>String</i>, <i>FrontChar</i>, <i>RestString</i><code>)</code></b></font></dt>
+      <dd><p>Isolates the first character of <i>String</i>.</p>
+      </dd>
+      
+      <dt><font size="+1"><b><code>frontstr(</code><i>NumberOfChars</i>, <i>String1</i>, <i>StartStr</i>, <i>String2</i><code>)</code></b></font></dt>
+      <dd><p>Splits <i>String1</i> into two parts. <i>StartStr</i> will contain the first <i>NumberOfChars</i> characters in <i>String1</i> and <i>String2</i> will contain the rest.</p>
+      </dd>
+      
+      <dt><font size="+1"><b><code>fronttoken(</code><i>String</i>, <i>Token</i>, <i>RestString</i><code>)</code></b></font></dt>
+      <dd><p>Isolates the first token of <i>String</i>. Whitespace in front of the token is skipped.</p>
+      </dd>
+      
       <dt><font size="+1"><b><code>is_char(</code><i>Var</i><code>)</code></b></font></dt>
       <dd>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a character value.</p>
@@ -213,6 +243,11 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a list structure.</p>
       </dd>
 
+      <dt><font size="+1"><b><code>isname(</code><i>StringParam</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if <i>StringParam</i> is a name.</p>
+      </dd>
+
       <dt><font size="+1"><b><code>is_real(</code><i>Var</i><code>)</code></b></font></dt>
       <dd>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a real value.</p>
@@ -221,6 +256,15 @@ comline_arg(3, "", "report.txt").</pre>
       <dt><font size="+1"><b><code>is_string(</code><i>Var</i><code>)</code></b></font></dt>
       <dd>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a string value.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>is_string(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound to a string value.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>member(</code><i>Elem</i>, <i>List</i><code>)</code></b></font></dt>
+      <dd><p>If <code>Elem</code> is bound, succeeds if <code>Elem</code>is a member of <code>List</code>. If <code>Elem</code> is free, picks one element of <code>List</code> and on backtracking next elements one by one, and fails at the end of <code>List</code>. </p>
       </dd>
 
       <dt><font size="+1"><b><code>nl</code></b></font></dt>
@@ -237,6 +281,8 @@ comline_arg(3, "", "report.txt").</pre>
         connection(7588, 9032)</code> is found from the database, otherwise 
         succeeds.</p>
       </dd>
+
+<!-- tästä jatkuu -->
 
       <dt id="trap"><font size="+1"><b><code>trap(</code><i>Predicate_call</i><code>, </code>
         <i>Var_exit</i><code>, </code><i>Exception_handler</i><code>)</code></b></font></dt>

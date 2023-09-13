@@ -10,6 +10,15 @@ th, td {
   padding: 5px;
   text-align: left;
 }
+dd code {
+  font-size: 15px;
+}
+dd pre {
+  font-size: 15px;
+}
+dt code {
+  font-size: 18px;
+}
 </style>
 </head>
 <body>
@@ -19,59 +28,7 @@ th, td {
 <HR>
   <h1>Jalog Quick Reference</h1>
     <h2>Built-in Predicates</h2>
-    <h3>New ones for 1.4</h3>
     
-    <b>Aloitetaan <code><big>substring</big></code> ja <code><big>concat</big></code> predikaateilla.</b>
-
-    <dl>
-      <dt><font size="+1"><b><code>string_chlist(</code><i>String</i>  
-      <code>, </code><i>Charlist</i><code>)</code></b></font></dt>
-      <dd><p>Converts between <i>String</i> and <i>Charlist</i>, or
-      checks that they have the same sequence of characters.</p>
-      <p>If <i>String</i> is not bound, <i>Charlist</i> must be bound and
-      all its items must be bound in order to success.</p>      
-      </dd>
-
-
-      <!-- Template for additional stuff
-      <dt><font size="+1"><b>__</b></font></dt>
-      <dd>
-      </dd>
-      -->
-
-    </dl>
-
-
-<pre>
-join(Sl, Dl, S) /* (i,i,o), (o,i,i), (i,i,i) */
-
-frontchar(S,H,S1)  - sisäinen substring-esitystapa?
-
-fronttoken(String1, Token, Rest) - mites olisi arity4, jossa re
-
-frontstr(NumberOfChars, String1, StartStr, EndStr) /* (i,i,o,o) */
-
-concat(String1, String2, String3) /* (i,i,o), (i,o,i), (o,i,i), (i,i,i) */
-
-str_len(StringArg, Length) /* (i,o), (i,i), (o,i) */
-
-isname(String) - tai jotain sen tapaista
-
-charAt(S, Pos, C) - toisella flowpatternilla etsii merkin, bäkträkätessä seuraavan.
-
-substring(Str_in,Pos,Len,Str_out) /* (i,i,i,o) */ - toisella flowpatternilla etsii substringin, bäkträkätessä seuraavan. 
-
-upper_lower(S1, S2) /* (i,i), (i,o), (o,i) */
-
-str_repeat(N, Si, So) /* (i,i,o), (i,i,i) */
-
-char_code(C, I) /* (i,o), (o,i), (i,i) */ - 16 bit int
-
-
-</pre>
-
-
-<!--    <h3>Old ones of 1.3</h3> -->
     <dl>
       <dt><font size="+1"><b><code>assert(</code><i>Fact</i><code>)</code></b></font></dt>
       <dd><p>Stores the fact <i>Fact</i> to the end of the database. Same as <code>assertz</code>.</p>
@@ -115,8 +72,8 @@ comline_arg(2, "up", "").
 comline_arg(3, "", "report.txt").</pre>
       </dd>
 
-      <dt><font size="+1"><b><code>concat(</code><i>String1</i>, <i>String2</i>, <i>Longstring</i><code>)</code></b></font></dt>
-      <dd><p>Obtains <i>Longstring</i> by concatenating <i>String1</i> and <i>String2</i></p>
+      <dt><font size="+1"><b><code>concat(</code><i>String1</i>, <i>String2</i>, <i>LongString</i><code>)</code></b></font></dt>
+      <dd><p>Obtains <i>LongString</i> by concatenating <i>String1</i> and <i>String2</i></p>
       <p>Example:</p>
       <p><code>concat(S, ".pro", Filename)</code></p>
       </dd>
@@ -193,11 +150,10 @@ comline_arg(3, "", "report.txt").</pre>
       <p>Example:</p>
       <p><code>findall(P, substring("a, b, c, d", P, _, ","), L) </code><br/>
       <code>L</code> will contain the positions of commas: 
-      <code>[1, 4, 7]</p>
+      <code>[1, 4, 7]</code></p>
       </dd>
 
-      <dt><font size="+1"><b><code>foreach_(</code><i>Var</i><code>, </code><i>List</i>
-          <code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>foreach_(</code><i>Var</i><code>, </code><i>List</i><code>)</code></b></font></dt>
       <dd>
         <p>Binds the first variable <i>Var</i> in the first call to 
         the first item of the list <i>List</i> in the second variable, and in recalls
@@ -243,11 +199,6 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a list structure.</p>
       </dd>
 
-      <dt><font size="+1"><b><code>isname(</code><i>StringParam</i><code>)</code></b></font></dt>
-      <dd>
-        <p>Succeeds, if <i>StringParam</i> is a name.</p>
-      </dd>
-
       <dt><font size="+1"><b><code>is_real(</code><i>Var</i><code>)</code></b></font></dt>
       <dd>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a real value.</p>
@@ -258,9 +209,9 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a string value.</p>
       </dd>
 
-      <dt><font size="+1"><b><code>is_string(</code><i>Var</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>isname(</code><i>StringParam</i><code>)</code></b></font></dt>
       <dd>
-        <p>Succeeds, if the parameter <i>Var</i> is bound to a string value.</p>
+        <p>Succeeds, if <i>StringParam</i> is a name.</p>
       </dd>
 
       <dt><font size="+1"><b><code>member(</code><i>Elem</i>, <i>List</i><code>)</code></b></font></dt>
@@ -282,7 +233,89 @@ comline_arg(3, "", "report.txt").</pre>
         succeeds.</p>
       </dd>
 
-<!-- tästä jatkuu -->
+      <dt id="retract"><font size="+1"><b><code>retract(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Deletes the first fact in the database that matches the given <i>Fact</i>. The argument cannot be open. It must be a compound that can have open arguments.
+        <p>Example:</p>
+        <pre>retract(route("Moscow", _))
+        </pre>
+      </dd>
+
+      <dt id="retractall"><font size="+1"><b><code>retractall(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Deletes all facts in the database that match the given <i>Fact</i>. The argument cannot be open. It must be a compound that can have open arguments.
+        <p>Example:</p>
+        <pre>retractall(route("Moscow", _))
+        </pre>
+      </dd>
+
+      <dt id="searchchar"><font size="+1"><b><code>searchchar(</code><i>Text</i><code>, </code>
+        <i>Character</i><code>, </code><i>Position</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Searches <i>Character</i> in <i>Text</i>. The first call finds the first <i>Position</i>. Each recall finds the next <i>Position</i> as long as there are any. Fails when no more found.
+        </p>
+        <p>Example:</p>
+        <p>
+        <code>searchchar("A-B+C-D", '-', P).</code><br/>
+        Returns <code>P</code> = 1 on first call. If backtracked returns <code>P</code> = 5. If backtracked again fails.
+        </p>
+      </dd>
+
+      <dt id="searchstring"><font size="+1"><b><code>searchstring(</code><i>Text</i><code>, </code>
+        <i>String</i><code>, </code><i>Position</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Searches <i>String</i> in <i>Text</i>. The first call finds the first <i>Position</i>. Each recall finds the next <i>Position</i> as long as there are any. Fails when no more found.
+        </p>
+        <p>Example:</p>
+        <p>
+        <code>searchstring("Apple,, Banana, Orange", ",,", P).</code><br/>
+        Returns <code>P</code> = 5 on first call. If backtracked fails.
+        </p>
+      </dd>
+
+      <dt id="str_char"><font size="+1"><b><code>str_char(</code><i>StringParam</i><code>, </code>
+        <i>CharParam</i><code>)</code></b></font></dt>
+      <dd>
+        <p>One of the parameters must be bound. Converts the bound parameter to other type. If both parameters are bound succeeds if both parameters are equivalent.</p>
+        <p>Example:</p>
+        <p><code>str_char("A", 'A').</code><br/>Succeeds
+        </p>
+      </dd>
+
+      <dt id="str_int"><font size="+1"><b><code>str_int(</code><i>StringParam</i><code>, </code>
+        <i>IntParam</i><code>)</code></b></font></dt>
+      <dd>
+        <p>One of the parameters must be bound. If <i>StringParam</i> is bound it must be a decimal integer (possibly preceded by a minus sign).
+        Converts the bound parameter to other type. If both parameters are bound succeeds if both parameters are equivalent.</p>
+        <p>Example:</p>
+        <p><code>str_int("-32768", -32768).</code><br/>Succeeds
+        </p>
+      </dd>
+
+      <dt id="str_len"><font size="+1"><b><code>str_len(</code><i>String</i><code>, </code>
+        <i>Length</i><code>)</code></b></font></dt>
+      <dd>
+        <p><i>Length</i> is set to number of characters in the <i>String</i>.</p>
+        <p>Example:</p>
+        <p>
+        <code>str_len("Very long string", Len).</code><br/>
+        Sets <code>Len</code> to 16.
+        </p>
+      </dd>
+
+      <dt id="substring"><font size="+1"><b><code>substring(</code><i>LongString</i><code>, </code>
+        <i>Pos</i><code>, </code><i>Len</i><code>, </code><i>SubString</i><code>)</code></b></font></dt>
+      <dd>
+        <p>The parameter <i>LongString</i> must be bound to a string.</p>
+        <p>If <i>Pos</i> and <i>Len</i> are bound then <i>Substring</i> is bound to part of <i>LongString</i> that starts at <i>Pos</i> and is <i>Len</i> characters long.</p>
+        <p>if <i>Pos</i> is bound and <i>Substring</i> is bound and <i>Len</i> is open or bound to the length of <i>Substring</i> then <i>SubString</i> is searched in <i>LongString</i>. The first call finds the first <i>Pos</i>. Each recall finds the next <i>Pos</i> as long as there are any. The predicate fails when no more found.
+        </p>
+        <p>Example:</p>
+        <p>
+        <code>substring("Programs/Games/Chess.exe", 9, 5, S).</code><br/>
+        Returns <code>S</code> = <code>"Games"</code>.
+        </p>
+      </dd>
 
       <dt id="trap"><font size="+1"><b><code>trap(</code><i>Predicate_call</i><code>, </code>
         <i>Var_exit</i><code>, </code><i>Exception_handler</i><code>)</code></b></font></dt>
@@ -296,11 +329,23 @@ comline_arg(3, "", "report.txt").</pre>
         </pre>
       </dd>
 
+      <dt id="upper_lower"><font size="+1"><b><code>upper_lower(</code><i>StringInUpperCase</i><code>, </code>
+        <i>StringInLowerCase</i><code>)</code></b></font></dt>
+      <dd>
+        <p>One of the parameters must be bound.</p>
+        <p>If only <i>StringInUpperCase</i> is bound then converts the string to lower case and binds it to <i>StringInLowerCase</i>.</p>
+        <p>If only <i>StringInLowerCase</i> is bound then converts the string to upper case and binds it to <i>StringInupperCase</i>.</p>
+        <p>If both parameters are bound compares parameters ignoring the case, and fails if they are not equivalent.</p>
+        <p>Example:</p>
+        <p><code>upper_lower("String", A).</code><br/>Returns <code>A</code> = <code>"string"</code></p>
+      </dd>
+
       <dt><font size="+1"><b><code>write(</code><i>parameters</i><code>)</code></b></font></dt>
       <dd>
         <p>Prints the values of the parameters without punctuation or whitespace
         in between.</p>
-        <p><code>write('a', "bc", 3.142)</code> prints <code>abc3.142</code></p>
+        <p>Example:</p>
+        <p><code>write('a', "bc", 3.142)</code><br/>prints <code>abc3.142</code></p>
       </dd>
 
       <dt><font size="+1"><b><code>writeln(</code><i>parameters</i><code>)</code></b></font></dt>
@@ -313,9 +358,10 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Prints the values of the parameters in lexical notation so that they
         can be read back. Strings are enclosed in double quotes and characters
         are enclosed in single quotes.</p>
-        <p><code>writeq('a', "bc", 3.142)</code> prints <code>'a'"bc"3.142</code>
+        <p>Examples:</p>
+        <p><code>writeq('a', "bc", 3.142)</code></br>prints <code>'a'"bc"3.142</code>
         </p>
-        <p><code>writeq(a('b', 'c'))</code> prints <code>a('b','c')</code>
+        <p><code>writeq(a('b', 'c'))</code></br>prints <code>a('b','c')</code>
         </p>
       </dd>
       

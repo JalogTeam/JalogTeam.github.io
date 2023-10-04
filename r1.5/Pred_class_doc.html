@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pred class</title>
+<style>
+  pre i {font-family: serif; font-size:10pt; }
+</style>
+</head>
+<body>
+<p ALIGN="right"><EM>
+<b>Pred&nbsp;1.4</b></EM>
+</p>
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+io.github.JalogTeam.jalog</FONT>
+<BR>
+Class Pred</H2>
+<PRE>
+<B>java.lang.Object</B>
+  <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pred</B>
+</PRE>
+<HR>
+<DL>
+  <DT>
+    <PRE>public class <B>Pred</B>
+    </PRE>
+  </DT>
+</DL>
+<P>
+Class <code>Pred</code> is the base class for all classes that implement Prolog primitive predicates.
+</p>
+<p>
+For each built-in predicate a subclass of <code>Pred</code> is needed.  Each built-in predicate must be introduced in <A href="BuiltIns_class_doc.html"><code>BuiltIns</code></A> class.
+</p>
+<p>Each subclass of <code>Pred</code> must implement the static method <code>first_call</code>.
+</p>
+<p>If other results are possibly produced on backtrack, <code>first_call</code> must 
+create an object of this subclass and initialize it with any data that
+is needed on backtrack. The created object must be returned as the value
+of this function.
+</p>
+<p>Another case where an object of this class must be created and returned
+is when some Prolog code (which may be received by a parameter or otherwise) needs to be executed. 
+</p>
+<p>If no action is needed after returning from <code>first_call</code> <code>
+null</code> should be returned.
+</p>
+<p>If <code>first_call</code> always returns 
+<code>null</code> no other methods should be implemented.
+</p>
+<p
+<p>Other methods of <code>Pred</code> may be overridden as needed.
+</p>
+<p>
+The structure depends on the overall behavior of the predicate.
+<ul>
+<li>The simplest case is fully deterministic predicate. Only the method <code>first_call</code> is needed.</li>
+<li>If backtracking may produce other results or other processing is needed then the method <code>call</code> is needed. So, the <code>first_call</code> must create and return an object that can act on backtracking.</li>
+<li>If code defined by a parameter is needed to run and some processing is needed after its execution then the method <code>post_call</code> is needed to handle it.
+</ul>
+</p>
+<span id="calling_pattern" ></span>
+<p>
+In the simplest case the general structure of a subclass of <code>Pred</code>:
+</p>
+<pre>
+    public class Pred_<i>example</i> extends Pred
+    {
+      public static Pred first_call(Pro_TermData_Compound params) {
+
+        // You may want to take parameters to local variables:
+        Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
+        Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
+        ... // more parameters as needed
+
+        ... // other declarations as needed
+
+        forward = false; // default fail
+
+        // Identify flow pattern and data types, and act accordingly.
+
+        String <i>first_type</i> = <i>first_param</i>.getType();
+        String <i>second_type</i> = <i>second_param</i>.getType();
+        if (<i>first_type</i> != Jalog.OPEN) {
+          // <i>first_param</i> is bound
+
+          // check type
+          if (<i>first_type</i> == Jalog.<i>DATATYPE1</i>) {
+            Pro_TermData_<i>Datatype1</i> <i>first</i> = (Pro_TermData_<i>Datatype1</i>)<i>first_param</i>.data;
+
+            // compute <i>result_value</i> for <i>second_param</i>
+            ... // computations as needed
+            Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+            
+            // Unify <i>result_value</i> and <i>second_param</i>
+            forward = <i>result_value</i>.unify(<i>second_param</i>, trail);
+          }
+
+        } else if (<i>second_type</i> != Jalog.OPEN) {
+          // <i>first_param</i> is open and <i>second_param</i> is bound
+
+          // check type
+          if (<i>second_type</i> == Jalog.<i>DATATYPE2</i>) {
+            Pro_TermData_<i>Datatype2</i> <i>second</i> = (Pro_TermData_<i>Datatype2</i>)<i>second_param</i>.data;
+          
+            // compute <i>result_value</i> for <i>first_param</i>
+            ... // computations as needed
+            Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+            
+            // Unify <i>result_value</i> and <i>first_param</i>
+            forward = <i>result_value</i>.unify(<i>first_param</i>, trail);
+          } else if (<i>second_type</i> == Jalog.<i>DATATYPE3</i>) {
+            Pro_TermData_<i>Datatype3</i> <i>second</i> = (Pro_TermData_<i>Datatype3</i>)<i>second_param</i>.data;
+            ...
+          }
+        
+        }
+        // fails if both parameters are open
+        
+        /*
+          // if an error message wanted
+          op_found = false; 
+          
+          // if an exception is wanted
+          exception = true;
+          exit_value = Pro_Term.m_integer(<i>error_code</i>);
+        */
+          
+        return null;
+        
+      }
+ 
+    }
+</pre>
+<HR>
+<p>
+If backtracking may produce other results or other processing is needed then the method <code>call</code> is needed.</p>
+<pre>
+    public class Pred_<i>example</i> extends Pred
+    {
+      // This data is used when backtracking to enable finding the next solution.
+      Pro_Term <i>param_1</i>;
+      Pro_Term <i>param_2</i>;     
+      ... // more declarations as needed
+      int clause_number; // for example
+      
+      public static Pred first_call(Pro_TermData_Compound params) {
+
+        Pred_<i>example</i> state = null;
+
+        // You may want to take parameters to local variables:
+        Pro_Term <i>first_param</i> = params.subterm[0].getRealNode();
+        Pro_Term <i>second_param</i> = params.subterm[1].getRealNode();
+        ... // more parameters as needed
+
+        ... // other declarations as needed
+        
+        forward = false; // default fail may be useful
+
+        // Identify flow pattern and data types and act accordingly.
+
+        String <i>second_type</i> = <i>second_param</i>.getType();
+        if (<i>second_type</i> == Jalog.OPEN) { // (i,o)(o,o)
+          // Backtrack cannot produce another result, state = null
+
+          ... // declarations as needed
+        
+          ... // computations as needed
+          
+          Pro_Term <i>second_value</i> = Pro_Term.m_<i>type</i>(...);
+
+          // unify result data to parameter if needed
+          forward = <i>second_value</i>.unify(<i>second_param</i>, trail);
+        } else { // (i,i) (o,i)
+          if (<i>second_type</i> == Jalog.<i>DATATYPE2</i>) {
+            ... // declarations as needed
+            
+            // If the data block of a term is needed:
+            Pro_TermData_<i>Datatype2</i> <i>second_data</i> = 
+                (Pro_TermData_<i>Datatype2</i>) <i>second_param</i>.getData();
+          
+            ... // computations as needed
+            
+            // Backtrack may produce another result, state = new object
+            state = new Pred_<i>example</i>();
+            state.<i>param_1</i> = <i>first_param</i>;
+            state.<i>param_2</i> = <i>second_param</i>;
+            // initialize other state fields
+            state.clause_number = 1; // for example
+
+            trail.mark(state.Mark); // set backtrack point
+            
+            state.call(); // if the first result is computed the same way as
+                          // other results, otherwise compute it here
+          }
+        }
+
+        return state;
+        
+      }
+ 
+      public void call()
+      {
+        // This is called on backtrack
+
+        ... // declarations as needed
+        
+        // Variable bindings must be retracted on backtrack!
+        trail.backtrack(Mark);
+        forward = false; // default fail
+
+        while((!forward) && <i>another result is possible</i>) {
+          // This loop can be omitted if not needed.
+          
+          // Compute another result 
+          if ( <i>another result found</i> ) {
+
+            Pro_Term <i>result_value</i> = Pro_Term.m_<i>type</i>(...);
+            
+            // Unify <i>result_value</i> and <i>param_1</i>
+            forward = <i>result_value</i>.unify(<i>param_1</i>, trail, Mark);
+            // unify other results as needed:
+            if (forward) forward = ... .unify(..., trail, Mark);
+            ...
+
+          }
+        }
+      }
+    }
+</pre>
+<HR>
+<p>
+If a build-in predicate needs to execute some code (e.g. a parameter) then the code to be executed must be assigned to the field <code>called_body</code> as a list.
+If some processing is needed after the execution of the <code>called_body</code>, it is done in the method <code>post_call</code>.</p>
+
+<p>A simple example of <code>post_call</code> is in the predicate <code>not</code>:</p>
+<pre>
+    // Pred_not.java
+
+    package io.github.JalogTeam.jalog;
+
+    import java.io.*;
+
+    public class Pred_not extends Pred
+    {
+      public static Pred first_call(Pro_TermData_Compound data) {
+
+        Pro_Term[] items = {data.subterm[0]};
+        Pred_not state = new Pred_not();
+        state.called_body = Pro_Term.m_list(items); 
+          // called_body will be executed after the return
+
+        return state;
+      }
+
+      public void post_call()
+      {
+        // now called_body has been executed
+        forward = !forward;    // This inverts the result
+        sub_activation = null; // no recall to called_body
+        called_body = null;    // no recall to called_body 
+      }
+    }
+</pre>
+<p>
+If the called body throws an exception (calls <a href="Pred_exit_doc.html"><code>exit</code></a>)
+then <code>post_call</code> is not called. However, in order to catch the 
+exception here this class must exted <code>Pred_trap</code> instead of 
+<code>Pred</code>. On entry to <code>post_call</code> the variable <code>
+<A HREF="#exception">exception</A></code> is <code>true</code> if an exception was thrown and <code>
+false</code> otherwise. The exit code is in the variable 
+<code><A HREF="#exit_value">exit_value</A></code>.
+
+</p>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#called_body">called_body</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Used in e.g. <code>not</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#cut">cut</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Used in <code>cut</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#cutting">cutting</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Used in <code>cut</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#exception">exception</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set in e.g. <code>exit</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static <a href="Pro_Term_class_doc.html">Pro_Term</a></CODE></FONT></TD>
+<TD><CODE><B><A HREF="#exit_value">exit_value</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set in e.g. <code>exit</code>.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#forward">forward</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Value <code>true</code> controls and indicates forward execution.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<a href="Pro_TrailMark_class_doc.html"><CODE>Pro_TrailMark</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#Mark">Mark</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Controls backtracking of unifications.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#op_found">op_found</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set <code>true</code> when right code for this predicate.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>Activation</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#sub_activation">sub_activation</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For the inference engine.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<code>static </code><a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></a></FONT></TD>
+<TD><CODE><B><A HREF="#trail">trail</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Controls backtracking of unifications.</TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<!--
+<A NAME="constructor_summary"></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="#Pred">Pred</A></B>()</CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Constructs a <CODE>Pred</CODE> instance.</TD>
+</TR>
+
+</TABLE>
+&nbsp;
+-->
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public void</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#call">call</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Called in backtrack.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public static Pred</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#first_call">first_call</A></B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> params)</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Called when the predicate is executed first time.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public void</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#post_call">post_call</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Called e.g. in <code>not</code> after sub predicates are executed.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>&nbsp;public String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#toString">toString</A></B>()</CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Converts predicate status to string for debugging.
+   </TD>
+</TR>
+
+</TABLE>
+&nbsp;
+<P>
+<!-- ============ FIELD DETAIL =========== -->
+<TABLE id="field_detail" BORDER="1" WIDTH="100%" CELLPADDING="3" 
+CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+
+<H3 id="called_body">called_body</H3>
+<PRE>
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>called_body</B></PRE>
+<DL>
+<DD>Initialized to <code>null</code>. Rarely needed. 
+<P>This field is needed when Jalog code is executed by a built-in predicate. The value to be assigned must be a list that can be interpreted as a predicate body. The list is executed after returning from the method that has set the <code>called_body</code>.</P>
+<P>Set <code>called_body</code> and <code>sub_activation</code> to <code>null</code> in <code>call</code> and <code>post_call</code> if no more execution is needed.</P>
+<P>Typically <code>called_body</code> is a singlet list containing a subterm of <code>params</code> received in <code>first_call</code>.
+</DD>
+</DL>
+<HR>
+
+<H3 id="cut">cut</H3>
+<PRE>
+<CODE>boolean</CODE> <B>cut</B></PRE>
+<DL>
+<DD>Used in <code>cut</code> predicate. Rarely needed otherwise.
+<P>Usually <code>false</code>. If set in <code>first_call</code>, the calling clause is not backtracked behind the call of this predicate.
+</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="cutting">cutting</H3>
+<PRE>
+<CODE>boolean</CODE> <B>cutting</B></PRE>
+<DL>
+<DD>Used in <code>cut</code> predicate. Rarely needed otherwise.
+<P>Usually <code>false</code>. If set in <code>call</code> when <code>forward</code> is <code>false</code>, the remaining clauses of the calling predicate are not called. Instead, the predicate fails.</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="exception">exception</H3>
+<PRE>
+<CODE>boolean</CODE> <B>exception</B></PRE>
+<DL>
+<DD>Set in <code>exit</code>. Otherwise used in error situations.
+<P>Transfers execution to the exception handler argument of the latest active <code>trap</code> call, or exits the program if none is active. When set the <code>exit_value</code> must be set to desired exit code.
+</DD>
+</DL>
+<HR>
+
+<H3 id="exit_value">exit_value</H3>
+<PRE>
+<a href="Pro_Term_class_doc.html"><CODE>Pro_Term</CODE></A> <B>exit_value</B></PRE>
+<DL>
+<DD>The desired exit code. Needed when <code>exception</code> is set. Should be an integer.
+</DD>
+</DL>
+<HR>
+
+<H3 id="forward">forward</H3>
+<PRE>
+<CODE>boolean</CODE> <B>forward</B></PRE>
+<DL>
+<DD>The value indicates and controls the direction of execution.
+<P>On entry to <code>call</code> or <code>post_call</code> <code>true</code> indicates forward execution and <code>false</code> indicates backtracking.</P>
+<P>On return from <code>call</code> or <code>post_call</code> <code>true</code> indicates success and causes forward execution, and <code>false</code> indicates failure and causes backtracking.</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="Mark">Mark</H3>
+<PRE>
+<a href="Pro_TrailMark_class_doc.html"><CODE>Pro_TrailMark</CODE></A> <B>Mark</B></PRE>
+<DL>
+<DD>Controls backtracking of unifications.
+<P>See documentation of <a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> for details.
+</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="op_found">op_found</H3>
+<PRE>
+<CODE>boolean</CODE> <B>op_found</B></PRE>
+<DL>
+<DD>Rarely needed. Is <code>true</code> when <code>first_call</code> is called. If set to <code>false</code> the predicate is searched from the database after the return from <code>first_call</code>.
+</DD>
+</DL>
+<HR>
+
+<H3 id="sub_activation">sub_activation</H3>
+<PRE>
+<CODE>Activation</CODE> <B>sub_activation</B></PRE>
+<DL>
+<DD>Must be set to <code>null</code> in <code>post_call</code> when called body is set to <code>null</code>.
+</P>
+</DD>
+</DL>
+<HR>
+
+<H3 id="trail">trail</H3>
+<PRE>
+<a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> <B>trail</B></PRE>
+<DL>
+<DD>Used for cancelling unifications on backtracking.
+<P>See documentation of <a href="Pro_Trail_class_doc.html"><CODE>Pro_Trail</CODE></A> for details.
+</P>
+</DD>
+</DL>
+<HR>
+
+
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<!--
+<A NAME="constructor_detail"></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="Pred">
+Pred</H3>
+<PRE>protected <B>Pred</B>()</PRE>
+<DL>
+  <DD>Initializes some fields.
+</DL>
+-->
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="first_call">first_call</H3>
+<PRE>
+public static Pred <B>first_call</B>(<a href="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</a> params)</PRE>
+<DL>
+<DD><p>The method <code>first_call</code> must be implemented for every built-in predicate.</p> 
+<p>System executes <code>first_call</code> 
+when this predicate is called. The argument <code>params</code>
+contains the arguments of the call in the array <code>subterm</code> and the number of arguments in the field <code>arity</code>.</p>
+<p>The method <code>call</code> can be called from <code>first_call</code> if
+the same algorithm is useful.</p>
+<p>The field <code>forward</code> is  <code>true</code> when <code>first_call</code> 
+is entered.
+On return <code>forward</code> must indicate succes with <code>true</code> or failure with <code>false</code>.
+<p>If other results are possibly produced on backtrack, or if <code>called_body</code> is used, <code>first_call</code> must 
+create an object of its class and initialize it with any data that
+is needed on backtrack or <code>post_call</code>. The created object must be returned as the value
+of this function.</p>
+<p>If no other results may be produced on backtrack, and <code>post_call</code> is not used, <code>null</code> must be returned. <code>null</code> must also be returned if <code>forward</code> is <code>false</code></p>
+
+</DD>
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>params</CODE> - the calling term with arguments as subterms
+  <DT><B>Returns:</B>
+  <DD><code>null</code> or an object for recall on backtrack or for <code>post_call</code>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="call">call</H3>
+<PRE>
+public void <B>call</B>()</PRE>
+<DL>
+<DD>
+<P>The default implementation does nothing. A subclass may override this.</P>
+<P>System calls this on backtrack. This can be called by <code>first_call</code>, too. If the system calls this on backtrack, <code>forward</code> is <code>false</code>. </P>
+<P>Before returning <code>forward</code> must be set to <code>true</code> for success or to <code>false</code> for failure.</P>
+<P>
+<DD>
+<DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="post_call">post_call</H3>
+<PRE>
+public void <B>post_call</B>()</PRE>
+<DL>
+<DD><P>
+This is called when <code>called_body</code> is executed or has failed. The field <code>forward</code> is <code>true</code> after success or <code>false</code> after failure.</P>
+<P>Before returning <code>forward</code> must be set to <code>true</code> on success or to <code>false</code> on failure.
+</P>
+<P><code>called_body</code> and <code>sub_activation</code> must be set to <code>null</code> unless an execution of the same or another body is wanted. Otherwise,
+<code>called_body</code> is executed and <code>post_call</code> called again.</P>
+<P>The default implementation does nothing. A subclass may override this.</P>
+<DD>
+<DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="toString">toString</H3>
+<PRE>
+public String <B>toString</B>()</PRE>
+<DL>
+<DD>For debugging. Prints some data of the predicate instance. Usually, not necessary
+to override in subclasses
+<P>
+<DD>
+<DL>
+</DL>
+</DD>
+</DL>
+
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+<font size="-1">Authors: Mikko Levanto, Ari Okkonen</font>
+</body>
+</html>

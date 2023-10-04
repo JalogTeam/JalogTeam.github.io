@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pro_TermData_Compound class</title>
+</head>
+<body>
+<p ALIGN="right"><EM>
+<b>Jalog&nbsp;1.4</b></EM>
+</p>
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+io.github.JalogTeam.jalog</FONT>
+<BR>
+Class Pro_TermData_Compound</H2>
+<PRE>
+<B>java.lang.Object</B>
+  <IMG SRC="inherit.png" ALT="extended by "><A HREF="Pro_TermData_class_doc.html" 
+title="class in java.lang"><B>io.github.JalogTeam.jalog.Pro_TermData</B></A>
+    <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pro_TermData_Compound</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>Pro_TermData_Compound</B>
+</PRE>
+</DT>
+</DL>
+<P>
+Rules, mathematical operations, compound objects and symbols are represented as 
+<code>Pro_TermData_Compound</code> objects. </P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>byte</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#arity">arity</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Number of subterms. 0 for symbols</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#name">name</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Functor</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>Pro_Term[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#subterm">subterm</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Array of subterms</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#typename">typename</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Type of the term</TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="#Pro_TermData_Compound(String)">Pro_TermData_Compound</A></B>(String iniName)</CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Constructs a <CODE>Pro_TermData_Compound</CODE> object without subterms (a symbol).</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="#Pro_TermData_Compound(String,Pro_Term[])">Pro_TermData_Compound</A></B>(String iniName,
+  <a href="Pro_Term_class_doc.html">Pro_Term</a>[] iniSubterm)</CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Constructs a <CODE>Pro_TermData_Compound</CODE> object.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="#Pro_TermData_Compound(String,Pro_Term)">Pro_TermData_Compound</A></B>(String iniName,
+  <a href="Pro_Term_class_doc.html">Pro_Term</a> sub)</CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Constructs a <CODE>Pro_TermData_Compound</CODE> object.</TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="#Pro_TermData_Compound(String,Pro_Term,Pro_Term)">Pro_TermData_Compound</A></B>(String iniName,
+  <a href="Pro_Term_class_doc.html">Pro_Term</a> left, <a href="Pro_Term_class_doc.html">Pro_Term</a> right)</CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Constructs a <CODE>Pro_TermData_Compound</CODE> object.</TD>
+</TR>
+
+</TABLE>
+&nbsp;
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>Pro_TermData</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#copy(Hashtable)">copy</A></B>(Hashtable variable_map)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns an independent copy this of term using <code>variable_map</code>.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#image()">image</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns human readable string representation of this term.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#toString()">toString</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns Jalog syntax representation of this term.
+   </TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+<P>
+
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="arity"><!-- --></A><H3>arity</H3>
+<PRE>
+public byte <B>arity</B></PRE>
+<DL>
+<DD>Number of subterms. 0 for symbols. Set in constructor. Usually no need to change.
+Must equal to the length of <a href="#subterm"><code>subterm</code></a> array.
+</DL>
+<HR>
+
+<A NAME="name"><!-- --></A><H3>name</H3>
+<PRE>
+public String <B>name</B></PRE>
+<DL>
+<DD>Functor of the term. Set in constructor. Usually no need to change.
+</DL>
+<HR>
+
+<A NAME="subterm"><!-- --></A><H3>subterm</H3>
+<PRE>
+public String <B>subterm</B></PRE>
+<DL>
+<DD>Array for subterms. Set in constructor. Usually no need to change. Length of the array must match <a href="#arity"><code>arity</code></a>
+</DL>
+<HR>
+
+<A NAME="typename"><!-- --></A><H3>typename</H3>
+<PRE>
+public String <B>typename</B></PRE>
+<DL>
+<DD>The type of this term. Type is one of the fields of the class <a href="Jalog_class_doc.html#field_summary"><code>Jalog</code></a>:
+<a href="Jalog_class_doc.html#SYMBOL"><code>Jalog.SYMBOL</code></A> if there are no subterms or <a href="Jalog_class_doc.html#COMPOUND"><code>Jalog.COMPOUND</code></A> otherwise. This is set in the subclass constructor. <b>Do not change!</b>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+
+<A NAME="Pro_TermData_Compound(String)"><!-- --></A><H3>
+Pro_TermData_Compound</H3>
+<PRE>
+public <B>Pro_TermData_Compound</B>(String iniName)</PRE>
+<DL>
+<DD>Constructs a <CODE>Pro_TermData_Compound</CODE> object representing the symbol <code>iniName</code>.
+<P>
+<DL>
+<DT><B>Parameters:</B>
+  <DD><CODE>iniName</CODE> - the functor.
+</DL>
+</DL>
+
+<HR>
+
+<A NAME="Pro_TermData_Compound(String,Pro_Term[])"><!-- --></A><H3>
+Pro_TermData_Compound</H3>
+<PRE>
+public <B>Pro_TermData_Compound</B>(String iniName, <a href="Pro_Term_class_doc.html">Pro_Term[]</a> iniSubterm)</PRE>
+<DL>
+<DD>Constructs a <CODE>Pro_TermData_Compound</CODE> object with subterms from <code>iniSubterm</code> array. If <code>iniSubterm</code> is <code>null</code> or an empty array then a <code>SYMBOL</code> with <code>iniName</code> is constructed.
+<P>
+<DL>
+<DT><B>Parameters:</B>
+  <DD><CODE>iniName</CODE> - the functor.
+  <DD><CODE>iniSubterm</CODE> - array of subterms or <code>null</code>.
+</DL>
+</DL>
+
+<HR>
+
+<A NAME="Pro_TermData_Compound(String,Pro_Term)"><!-- --></A><H3>
+Pro_TermData_Compound</H3>
+<PRE>
+public <B>Pro_TermData_Compound</B>(String iniName, <a href="Pro_Term_class_doc.html">Pro_Term</a> sub)</PRE>
+<DL>
+<DD>Constructs a <CODE>Pro_TermData_Compound</CODE> object with subterm <code>sub</code>.
+<P>
+<DL>
+<DT><B>Parameters:</B>
+  <DD><CODE>iniName</CODE> - the functor.
+  <DD><CODE>sub</CODE> - the subterm. Must not be <code>null</code>.
+</DL>
+</DL>
+
+<HR>
+
+<A NAME="Pro_TermData_Compound(String,Pro_Term,Pro_Term)"><!-- --></A><H3>
+Pro_TermData_Compound</H3>
+<PRE>
+public <B>Pro_TermData_Compound</B>(String iniName, <a href="Pro_Term_class_doc.html">Pro_Term</a> left, <a href="Pro_Term_class_doc.html">Pro_Term</a> right)</PRE>
+<DL>
+<DD>Constructs a <CODE>Pro_TermData_Compound</CODE> object with subterms <code>left</code> and <code>right</code>.
+<P>
+<DL>
+<DT><B>Parameters:</B>
+  <DD><CODE>iniName</CODE> - the functor.
+  <DD><CODE>left</CODE> - the first subterm. Must not be <code>null</code>.
+  <DD><CODE>right</CODE> - the the second subterm. Must not be <code>null</code>.
+ 
+</DL>
+</DL>
+
+ <!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="copy(Hashtable)">copy</H3>
+<PRE>
+public Pro_TermData <B>copy</B>(Hashtable variable_map)</PRE>
+<DL>
+<DD>Returns a copy this term data using <code>variable_map</code>. Hashtable is used to map repeated open terms to repeated open terms. Hashtable is updated for new open terms. Used in database asserting and fetching.
+<P>
+This method copies all subterms using the <a href="Pro_Term_class_doc.html#copy(Hashtable)"><coce>copy</code></a> method of <a href="Pro_Term_class_doc.html"><code>Pro_Term</code></a>.
+The <code>copy</code> method of <code>Pro_Term</code> may return the original object. If this happens for all subterms the original <code>Pro_TermData_Compound</code> object then <code>this</code> is returned. Otherwise a new <code>Pro_TermData_Compound</code> object is created and returned.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>variable_map</CODE> - contains open variable mapping for this term.
+  <DT><B>Returns:</B>
+  <DD>a copy this term data using <code>variable_map</code>.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="image()">image</H3>
+<PRE>
+public String <B>image</B>()</PRE>
+<DL>
+  <DD>Returns human readable string representation of this term. Used by built-in predicate <code>write</code>.
+  <P>
+</DL>
+<HR>
+
+<H3 id="toString()">toString</H3>
+<PRE>
+public String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns Jalog syntax representation of this term.
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>Jalog syntax representation of this term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<!-- ========= END OF CLASS DATA ========= -->
+<font size="-1">Authors: Mikko Levanto, Ari Okkonen</font>
+</body>
+</html>

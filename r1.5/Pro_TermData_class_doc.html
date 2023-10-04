@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pro_TermData class</title>
+</head>
+<body>
+<p ALIGN="right"><EM>
+<b>Jalog&nbsp;1.4</b></EM>
+</p>
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+io.github.JalogTeam.jalog</FONT>
+<BR>
+Class Pro_TermData</H2>
+<PRE>
+<B>java.lang.Object</B>
+  <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.Pro_TermData</B>
+</PRE>
+<DL>
+<DT><B>Direct Known Subclasses:</B> 
+  <DD><A HREF="Pro_TermData_Char_class_doc.html">Pro_TermData_Char</A>,
+  <A HREF="Pro_TermData_Compound_class_doc.html">Pro_TermData_Compound</A>,
+  <A HREF="Pro_TermData_Integer_class_doc.html">Pro_TermData_Integer</A>,
+  <A HREF="Pro_TermData_List_class_doc.html">Pro_TermData_List</A>,
+  <A HREF="Pro_TermData_Real_class_doc.html">Pro_TermData_Real</A>,
+  <A HREF="Pro_TermData_String_class_doc.html">Pro_TermData_String</A>,
+  <A HREF="Pro_TermData_Unified_class_doc.html">Pro_TermData_Unified</A></DD>
+  
+  
+  
+  
+  
+</DL>
+<HR>
+<DL>
+<DT><PRE>public abstract class <B>Pro_TermData</B>
+</PRE>
+</DT>
+</DL>
+<P>
+All data and programs are represented as <code>Pro_Term</code> objects. Every 
+<code>Pro_Term</code> object has a pointer to a <A HREF="Pro_TermData_class_doc.html"><code>Pro_TermData</code></A> object
+that contains the associated data.</P>
+<P>For each data type there is a subclass of this class. In addition there is the subclass <A HREF="Pro_TermData_Unified_class_doc.html"><code>Pro_TermData_Unified</code></A> to indicate that the data is the same as in another term.</P>
+<HR>
+
+<P>
+&nbsp;
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="#typename">typename</A></B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Type of the term</TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>Pro_TermData</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#copy(Hashtable)">copy</A></B>(Hashtable variable_map)
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns an independent copy this of term using <code>variable_map</code>.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#image()">image</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns human readable string representation of this term.
+   </TD>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+  <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+    <CODE>abstract String</CODE></FONT>
+  </TD>
+  <TD>
+    <CODE><B><A HREF="#toString()">toString</A></B>()
+    </CODE>
+
+    <BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Returns Jalog syntax representation of this term.
+   </TD>
+</TR>
+
+
+</TABLE>
+&nbsp;
+<P>
+
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="typename"><!-- --></A><H3>
+typename</H3>
+<PRE>
+public String <B>typename</B></PRE>
+<DL>
+<DD>The type of this term. Type is one of the fields of the class <a href="Jalog_class_doc.html#field_summary"><code>Jalog</code></a>. This is set in the subclass constructor. <b>Do not change!</b>
+
+<P>
+<!-- <DL>
+<DT><B>See Also:</B><DD><A HREF="../../constant-values.html#java.lang.Integer.MIN_VALUE">Constant Field Values</A></DL> -->
+</DL>
+<HR>
+
+
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3 id="copy(Hashtable)">copy</H3>
+<PRE>
+public static Pro_Term <B>copy</B>(Hashtable variable_map)</PRE>
+<DL>
+<DD>Returns a copy this term data using <code>variable_map</code>. Hashtable is used to map repeated open terms to repeated open terms. Hashtable is updated for new open terms. Used in database asserting and fetching.
+<P>
+This must be overridden in subclass if the data value may contain subterms. In the overridden method the possible subterms must be copied using the parameter <code>variable_map</code>, e.g.<br/>
+<pre>
+    if (t1 != null) {
+      new_t1 = t1.copy(variable_map);
+    }
+</pre>
+The <code>copy</code> method of <code>Pro_Term</code> may return the original object. If this happens for all subterms the original <code>Pro_TermData</code> object <code>this</code> should be returned. Otherwise a new <code>Pro_TermData</code> object must be created and returned.
+<P>
+<DD>
+<DL>
+  <DT><B>Parameters:</B>
+  <DD><CODE>variable_map</CODE> - contains open variable mapping for this term.
+  <DT><B>Returns:</B>
+  <DD>a copy this term data using <code>variable_map</code>.
+</DL>
+</DD>
+</DL>
+<HR>
+
+<H3 id="image()">image</H3>
+<PRE>
+public String <B>image</B>()</PRE>
+<DL>
+  <DD>A subclass may override this method to return a human readable string 
+  representation of this term. By default the Jalog syntax representation returned
+  by <code>toString</code> is used.
+  Used by built-in predicate <code>write</code>.
+  <P>
+</DL>
+<HR>
+
+<H3 id="toString()">toString</H3>
+<PRE>
+public abstract String <B>toString</B>()</PRE>
+<DL>
+<DD>
+Every subclass must override this method to return the Jalog syntax representation of this term.
+<P>
+<DD>
+<DL>
+  <DT><B>Returns:</B>
+  <DD>Jalog syntax representation of this term.
+</DL>
+</DD>
+</DL>
+<HR>
+
+
+
+<!-- ========= END OF CLASS DATA ========= -->
+<font size="-1">Authors: Mikko Levanto, Ari Okkonen</font>
+</body>
+</html>

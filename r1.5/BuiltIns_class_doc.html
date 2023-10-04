@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BuiltIns class</title>
+</head>
+<body>
+<p ALIGN="right"><EM>
+<b>Jalog&nbsp;1.4</b></EM>
+</p>
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+io.github.JalogTeam.jalog</FONT>
+<BR>
+Class BuiltIns</H2>
+<PRE>
+<B>java.lang.Object</B>
+  <IMG SRC="inherit.png" ALT="extended by "><B>io.github.JalogTeam.jalog.BuiltIns</B>
+</PRE>
+<HR>
+<DL>
+  <DT>
+    <PRE>public class <B>BuiltIns</B>
+    </PRE>
+  </DT>
+</DL>
+<P>
+Class <code>BuiltIns</code> enumerates all classes that implement built-in
+predicates.
+Subclasses and instances of this class should not be made. When built-in
+predicates are added or removed, this class must be modified.</P>
+<P>
+Each built-in predicate must be presented on a separate row in the table
+<code>list</code>.
+</p>
+<p id="calling_pattern">
+A typical row of the table:
+<pre style="text-indent: 20px;">
+new ClassInfo("exit", Pred_exit.class, 0, 1),
+</pre>
+where
+<dl style="text-indent: 20px;">
+<dt><code>"exit"</code></dt><dd>Name of a built-in predicate as a 
+<code>String</code>. Must differ from 
+other predicate names in the table.</dd>
+<dt><code>Pred_exit</code></dt><dd>Class that implements the predicate. Must always be
+followed by <code>.class</code> .</dd>
+<dt><code>0</code></dt><dd>(optional) The minimum number of arguments of the predicate.</dd>
+<dt><code>1</code></dt><dd>(optional) The maximum number of the arguments of the predicate.</dd>
+</dl>
+If only one nuber is given it is the only permitted number of arguments.
+<br/>
+If no numbers are given the predicate accepts any number of arguments.
+<br/>
+It is not possible to specify that some numbers between the minimum and maximum
+numbers are not permitted.
+</p>
+<p>Every class that implements a built-in predicate must be a subclass of 
+<a href="Pred_class_doc.html"><code>Pred</code></a>.
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;ClassInfo[]</CODE></FONT></TD>
+<!--
+<TD><CODE><B><A HREF="#list">list</_A></B></CODE>
+-->
+<TD><CODE><B>list</B></CODE>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+List of built-in predicates.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+<!-- ============ FIELD DETAIL =========== -->
+<!--
+<TABLE id="field_detail" BORDER="1" WIDTH="100%" CELLPADDING="3" 
+CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+
+<H3 id="OPEN">
+OPEN</H3>
+<PRE>
+public static final String <B>OPEN</B> = "open"</PRE>
+<DL>
+<DD>Code for open variable.</DD>
+</DL>
+<HR>
+-->
+
+
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+<font size="-1">Authors: Mikko Levanto, Ari Okkonen</font>
+</body>
+</html>

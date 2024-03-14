@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<head>
+<title>Jalog Quick Reference</title>
+<style>
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+dd code {
+  font-size: 15px;
+}
+dd pre {
+  font-size: 15px;
+}
+dt code {
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+<p ALIGN="right"><EM>
+<b>Jalog&nbsp;1.4.1</b></EM>
+</p>
+<HR>
+  <h1>Jalog Quick Reference</h1>
+    <h2>Built-in Predicates</h2>
+    
+    <dl>
+      <dt><font size="+1"><b><code>assert(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd><p>Stores the fact <i>Fact</i> to the end of the database. Same as <code>assertz</code>.</p>
+      <p>Example:</p>
+      <p><code>assert(connection(7588, 9032))</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>asserta(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd><p>Stores the fact <i>Fact</i> to the beginning of the database.</p>
+      <p>Example:</p>
+      <p><code>asserta(address("Sqrt", $082A))</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>assertz(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd><p>Stores the fact <i>Fact</i> to the end of the database.</p>
+      <p>Example:</p>
+      <p><code>assertz(connection(7588, 9032))</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>bound(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound, otherwise fails.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>comline_arg(</code><i>Number</i><code>, 
+          </code><i>Option</i><code>, </code><i>Argument</i><code>)</code></b></font></dt>
+      <dd>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<i>Not implemented like other built-in
+        predicates. Instead, each command line argument is stored to the
+        database as a separate fact.</i> </p>
+        <p>Returns information about one command line argument, if one can
+        be found.</p>
+        <p>A command line example:</p>
+        <code>> java -jar jalog.jar myprogram.pro -foo=bar -up report.txt</code>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<i><b>Note</b> the equal sign separating an option and its argument.</i></p>
+        <p>Parameters of this command line are stored to the database prior to starting 
+        <code>myprogram.pro</code> as following facts:</p>
+        <pre>
+comline_arg(1, "foo", "bar").
+comline_arg(2, "up", "").
+comline_arg(3, "", "report.txt").</pre>
+      </dd>
+
+      <dt><font size="+1"><b><code>concat(</code><i>String1</i>, <i>String2</i>, <i>LongString</i><code>)</code></b></font></dt>
+      <dd><p>Obtains <i>LongString</i> by concatenating <i>String1</i> and <i>String2</i></p>
+      <p>Example:</p>
+      <p><code>concat(S, ".pro", Filename)</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>consult(</code><i>Filename</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Reads the facts and rules to the database and executes the goals from the file <a href="#filename"
+        ><i>Filename</i></a>.</p>
+        <p>Example:</p>
+        <p><code>consult("route_data.pro")</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>consult_data(</code><i>Filename</i><code>, </code><i>Filter</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Reads the facts to the database from the file <a
+        href="#filename"
+        ><i>Filename</i></a>. Only facts specified in the <i>Filter</i> are consulted. <i>Filter</i> is a list of strings, each containing a predicate indicator in form <i>name</i>/<i>arity</i> .</p>
+        <p>Example:</p>
+        <p><code>consult_data("data.pro", ["cars/4", "houses/2"])</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>consult_dir(</code><i>Dirname</i><code>)</code></b></font></dt>
+      <dd>
+        <p>If <a href="#filename"
+        ><i>Dirname</i></a> is bound to a string sets current consult directory.</p>
+        <p>If <i>Dirname</i> is open it will be bound to the current
+        consult directory name. The directory name is absolute and always begins with
+"<code>file:</code>" or "<code>res:</code>". It can be used as an argument to
+<code>set_consult_dir</code> .</p>
+        <p>Examples:</p>
+        <p><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
+        the C disk.</p>
+        <p><CODE>"res:lib/routes"</CODE> - refers to a resource directory.</p>
+        <p><CODE>"sub"</CODE> - refers to the subdirectory <code>sub</code> of
+        the current directory.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>dynamic(</code><i>PredicateIndicator</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Prevents an error message, if no clause matching PredicateIndicator
+        is found in the database. This is intended for predicates that can
+        be asserted and retracted in runtime. This is intended to be used
+        as a directive.</p>
+        <p>A <i>PredicateIndicator</i> must be a string of form 
+        <i>Functor</i><code>/</code><i>Arity</i> .
+        </p>
+        <p>Example:</p>
+        <p><code>:- dynamic("route/3").</code></p>
+      </dd>
+
+      <dt id="exit"><font size="+1"><b><code>exit</code></b></font></dt>
+      <dd>
+        <p>Terminates the program with exit code <code>0</code>.</p>
+        <p>However, if exit is called (typically very indirectly) in
+        execution of the first argument of <code>trap</code> then control
+        is transferred to the <a href="#trap"><code>trap</code></a> predicate.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>exit(</code><i>Int_value</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Terminates the program with exit code <i>Int_value</i>.</p>
+        <p>However, if exit is called (typically very indirectly) in
+        execution of the first argument of <code>trap</code> then control
+        is transferred to the <a href="#trap"><code>trap</code></a> predicate.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>fail</code></b></font></dt>
+      <dd>
+        <p>This call fails always.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>findall(</code><i>Variable</i>, <i>Atom</i>, <i>ListVariable</i><code>)</code></b></font></dt>
+      <dd><p>Collects the values from backtracking into a list. Thus, if <i>Atom</i> is a predicate with its arguments represented by valid variable names, and <i>Variable</i> is the name of one of the variables in the predicate, <i>ListVariable</i> will be bound to the list of values for that variable that was obtained from instances when the predicate can succeed due to backtracking.</p>
+      <p>Example:</p>
+      <p><code>findall(P, substring("a, b, c, d", P, _, ","), L) </code><br/>
+      <code>L</code> will contain the positions of commas: 
+      <code>[2, 5, 8]</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>foreach_(</code><i>Var</i><code>, </code><i>List</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Binds the first variable <i>Var</i> in the first call to 
+        the first item of the list <i>List</i> in the second variable, and in recalls
+        to the succeeding items.</p>
+        <p><code>foreach_(X, [1, 2, 3]), write(' ', X), fail.</code> prints
+        <code> 1 2 3</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>free(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is open, otherwise fails.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>frontchar(</code><i>String</i>, <i>FrontChar</i>, <i>RestString</i><code>)</code></b></font></dt>
+      <dd><p>Isolates the first character of <i>String</i>.</p>
+      </dd>
+      
+      <dt><font size="+1"><b><code>frontstr(</code><i>NumberOfChars</i>, <i>String1</i>, <i>StartStr</i>, <i>String2</i><code>)</code></b></font></dt>
+      <dd><p>Splits <i>String1</i> into two parts. <i>StartStr</i> will contain the first <i>NumberOfChars</i> characters in <i>String1</i> and <i>String2</i> will contain the rest.</p>
+      </dd>
+      
+      <dt><font size="+1"><b><code>fronttoken(</code><i>String</i>, <i>Token</i>, <i>RestString</i><code>)</code></b></font></dt>
+      <dd><p>Isolates the first <a href="Jalog_language_reference.html#tokens">token</a> of <i>String</i>. <a href="Jalog_language_reference.html#whitespace">Whitespace</a> in front of the token is skipped.</p>
+      </dd>
+      
+      <dt><font size="+1"><b><code>is_char(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound to a character value.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>is_compound(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound to a compound structure.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>is_integer(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound to an integer value.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>is_list(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound to a list structure.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>is_real(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound to a real value.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>is_string(</code><i>Var</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if the parameter <i>Var</i> is bound to a string value.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>isname(</code><i>StringParam</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Succeeds, if <i>StringParam</i> is a name.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>member(</code><i>Elem</i>, <i>List</i><code>)</code></b></font></dt>
+      <dd><p>If <code>Elem</code> is bound, succeeds if <code>Elem</code>is a member of <code>List</code>. If <code>Elem</code> is free, picks one element of <code>List</code> and on backtracking next elements one by one, and fails at the end of <code>List</code>. </p>
+      </dd>
+
+      <dt><font size="+1"><b><code>nl</code></b></font></dt>
+      <dd>
+        <p>Prints a newline character.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>not(</code><i>Predicate_call</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Fails, if <i>Predicate_call</i> succeeds, succeeds, if <i>Predicate_call
+        </i> fails.</p>
+        <p>Example:</p>
+        <p><code>not(connection(7588, 9032))</code> fails, if <code>
+        connection(7588, 9032)</code> is found from the database, otherwise 
+        succeeds.</p>
+      </dd>
+
+      <dt id="retract"><font size="+1"><b><code>retract(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Deletes the first fact in the database that matches the given <i>Fact</i>. The argument cannot be open. It must be a compound that can have open arguments.
+        <p>Example:</p>
+        <pre>retract(route("Moscow", _))
+        </pre>
+      </dd>
+
+      <dt id="retractall"><font size="+1"><b><code>retractall(</code><i>Fact</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Deletes all facts in the database that match the given <i>Fact</i>. The argument cannot be open. It must be a compound that can have open arguments.
+        <p>Example:</p>
+        <pre>retractall(route("Moscow", _))
+        </pre>
+      </dd>
+
+      <dt id="searchchar"><font size="+1"><b><code>searchchar(</code><i>Text</i><code>, </code>
+        <i>Character</i><code>, </code><i>Position</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Searches <i>Character</i> in <i>Text</i>. The first call finds the first <i>Position</i>. Each recall finds the next <i>Position</i> as long as there are any. Fails when no more found.
+        </p>
+        <p>Example:</p>
+        <p>
+        <code>searchchar("A-B+C-D", '-', P).</code><br/>
+        Returns <code>P</code> = 2 on first call. If backtracked returns <code>P</code> = 6. If backtracked again fails.
+        </p>
+      </dd>
+
+      <dt id="searchstring"><font size="+1"><b><code>searchstring(</code><i>Text</i><code>, </code>
+        <i>String</i><code>, </code><i>Position</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Searches <i>String</i> in <i>Text</i>. The first call finds the first <i>Position</i>. Each recall finds the next <i>Position</i> as long as there are any. Fails when no more found.
+        </p>
+        <p>Example:</p>
+        <p>
+        <code>searchstring("Apple,, Banana, Orange", ",,", P).</code><br/>
+        Returns <code>P</code> = 6 on first call. If backtracked fails.
+        </p>
+      </dd>
+
+      <dt id="str_char"><font size="+1"><b><code>str_char(</code><i>StringParam</i><code>, </code>
+        <i>CharParam</i><code>)</code></b></font></dt>
+      <dd>
+        <p>One of the parameters must be bound. Converts the bound parameter to other type. If both parameters are bound succeeds if both parameters are equivalent.</p>
+        <p>Example:</p>
+        <p><code>str_char("A", 'A').</code><br/>Succeeds
+        </p>
+      </dd>
+
+      <dt id="str_int"><font size="+1"><b><code>str_int(</code><i>StringParam</i><code>, </code>
+        <i>IntParam</i><code>)</code></b></font></dt>
+      <dd>
+        <p>One of the parameters must be bound. If <i>StringParam</i> is bound it must be a decimal integer (possibly preceded by a minus sign).
+        Converts the bound parameter to other type. If both parameters are bound succeeds if both parameters are equivalent.</p>
+        <p>Example:</p>
+        <p><code>str_int("-32768", -32768).</code><br/>Succeeds
+        </p>
+      </dd>
+
+      <dt id="str_len"><font size="+1"><b><code>str_len(</code><i>String</i><code>, </code>
+        <i>Length</i><code>)</code></b></font></dt>
+      <dd>
+        <p><i>Length</i> is set to number of characters in the <i>String</i>.</p>
+        <p>Example:</p>
+        <p>
+        <code>str_len("Very long string", Len).</code><br/>
+        Sets <code>Len</code> to 16.
+        </p>
+      </dd>
+
+      <dt id="substring"><font size="+1"><b><code>substring(</code><i>LongString</i><code>, </code>
+        <i>Pos</i><code>, </code><i>Len</i><code>, </code><i>SubString</i><code>)</code></b></font></dt>
+      <dd>
+        <p>The parameter <i>LongString</i> must be bound to a string.</p>
+        <p>If <i>Pos</i> and <i>Len</i> are bound then <i>Substring</i> is bound to part of <i>LongString</i> that starts at <i>Pos</i> and is <i>Len</i> characters long.</p>
+        <p>if <i>Pos</i> is bound and <i>Substring</i> is bound and <i>Len</i> is open or bound to the length of <i>Substring</i> then <i>SubString</i> is searched in <i>LongString</i>. The first call finds the first <i>Pos</i>. Each recall finds the next <i>Pos</i> as long as there are any. The predicate fails when no more found.
+        </p>
+        <p>Example:</p>
+        <p>
+        <code>substring("Programs/Games/Chess.exe", 10, 5, S).</code><br/>
+        Returns <code>S</code> = <code>"Games"</code>.
+        </p>
+      </dd>
+
+      <dt id="trap"><font size="+1"><b><code>trap(</code><i>Predicate_call</i><code>, </code>
+        <i>Var_exit</i><code>, </code><i>Exception_handler</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Executes <i>Predicate_call</i>. If an exception happens or <a href="#exit"><code>exit</code></a> is called
+        within the call, the exit code is bound to <i>Var_exit</i>, 
+        <i>Exception_handler</i> is called, and finally the whole <code>trap</code>
+        predicate fails.</p>
+        <p>Example:</p>
+        <pre>trap(analyze(Situation, Results), X, write("*** Exception ", X, '!'))
+        </pre>
+      </dd>
+
+      <dt id="upper_lower"><font size="+1"><b><code>upper_lower(</code><i>StringInUpperCase</i><code>, </code>
+        <i>StringInLowerCase</i><code>)</code></b></font></dt>
+      <dd>
+        <p>One of the parameters must be bound.</p>
+        <p>If only <i>StringInUpperCase</i> is bound then converts the string to lower case and binds it to <i>StringInLowerCase</i>.</p>
+        <p>If only <i>StringInLowerCase</i> is bound then converts the string to upper case and binds it to <i>StringInupperCase</i>.</p>
+        <p>If both parameters are bound compares parameters ignoring the case, and fails if they are not equivalent.</p>
+        <p>Example:</p>
+        <p><code>upper_lower("String", A).</code><br/>Returns <code>A</code> = <code>"string"</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>write(</code><i>parameters</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Prints the values of the parameters without punctuation or whitespace
+        in between.</p>
+        <p>Example:</p>
+        <p><code>write('a', "bc", 3.142)</code><br/>prints <code>abc3.142</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>writeln(</code><i>parameters</i><code>)</code></b></font></dt>
+      <dd>
+        <p>As <code>write</code> but followed by <i>nl</i></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>writeq(</code><i>parameters</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Prints the values of the parameters in lexical notation so that they
+        can be read back. Strings are enclosed in double quotes and characters
+        are enclosed in single quotes.</p>
+        <p>Examples:</p>
+        <p><code>writeq('a', "bc", 3.142)</code></br>prints <code>'a'"bc"3.142</code>
+        </p>
+        <p><code>writeq(a('b', 'c'))</code></br>prints <code>a('b','c')</code>
+        </p>
+      </dd>
+      
+      <dt><font size="+1"><b><i>Left</i> <code>=</code> 
+      <i>Right</i></b></font></dt>
+      <dd>
+        <p>Tries to unify <i>Left</i> and <i>Right</i>.</p>
+      </dd>
+
+      <dt><font size="+1"><b>
+      <i>Left</i> <code>&gt;</code> <i>Right</i><br/>
+      <i>Left</i> <code>&gt;=</code> <i>Right</i><br/>
+      <i>Left</i> <code>&lt;</code> <i>Right</i><br/>
+      <i>Left</i> <code>&lt;=</code> <i>Right</i><br/>
+      <i>Left</i> <code>!=</code> <i>Right</i><br/>
+      </b></font></dt>
+      <dd>
+        <p>
+        Compares arithmetically or lexicographically <i>Left</i> and <i>Right</i>.
+        </p>
+      </dd>
+
+      <!-- Template for additional stuff
+      <dt><font size="+1"><b>__</b></font></dt>
+      <dd>
+      </dd>
+      -->
+      
+      
+    </dl>
+    <h2>Arithmetic Expressions</h2>
+    <h3>Operators</h3>
+    <h4>Operator Precedence</h4>
+    
+    <p>Arithmetic operators have their normal precedences. Expressions in 
+    parenthesis <code>()</code> are evaluated first. Operators multiplication, 
+    division, <code>mod</code>, and <code>div</code> have the same precedence 
+    and are evaluated from left to right.</p>
+    <h4>Operators and Data Types</h4>
+    <table>
+      <tr style="border-bottom: 1px solid">
+        <th>Symbol</th>
+        <th>Operation</th>
+        <th>Left Type</th>
+        <th>Right Type</th>
+        <th>Result Type</th>
+        <th>Example</th>
+        <th>Example Value</th>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>2 * 3</code></td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2 * 3.2</code></td>
+        <td>6.4</td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>2.2 * 3</code></td>
+        <td>6.6</td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>multiplication</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2.2 * 3.2</code></td>
+        <td>7.04</td>
+      </tr>
+
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>3 / 2</code></td>
+        <td>1.5</td>
+      </tr>
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>4 / 2.5</code></td>
+        <td>1.6</td>
+      </tr>
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>6.8 / 4</code></td>
+        <td>1.7</td>
+      </tr>
+      <tr>
+        <td><code>/</code></td>
+        <td>division</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>14.7 / 4.2</code></td>
+        <td>3.5</td>
+      </tr>
+
+      <tr>
+        <td><code>div</code></td>
+        <td>integer division</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>5 div 3</code></td>
+        <td>1</td>
+      </tr>
+      <tr style="border-bottom: 1px solid">
+        <td><code>mod</code></td>
+        <td>remainder</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>5 mod 3</code></td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>2 + 3</code></td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2 + 3.2</code></td>
+        <td>5.2</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>2.2 + 3</code></td>
+        <td>5.2</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>addition</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>2.2 + 3.2</code></td>
+        <td>5.4</td>
+      </tr>
+
+
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>3 - 2</code></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>integer</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>3 - 2.2</code></td>
+        <td>0.8</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>real</td>
+        <td>integer</td>
+        <td>real</td>
+        <td><code>3.2 - 2</code></td>
+        <td>1.2</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>subtraction</td>
+        <td>real</td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>3.2 - 2.2</code></td>
+        <td>1.0</td>
+      </tr>
+
+      <tr>
+        <td><code>+</code></td>
+        <td>identity function</td>
+        <td></td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>+ 3</code></td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>identity function</td>
+        <td></td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>+ 3.2</code></td>
+        <td>3.2</td>
+      </tr>
+
+
+      <tr>
+        <td><code>-</code></td>
+        <td>negation</td>
+        <td></td>
+        <td>integer</td>
+        <td>integer</td>
+        <td><code>- 2</code></td>
+        <td>-2</td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>negation</td>
+        <td></td>
+        <td>real</td>
+        <td>real</td>
+        <td><code>- 2.2</code></td>
+        <td>-2.2</td>
+      </tr>
+
+
+    </table>
+<!--  
+    <p></p>
+      <dt><font size="+1"><b><code>sin(</code><i>Expression</i><code>)</code></b></font></dt>
+      <dd><p>Calculates sine of the value of <i>Expression</i>.</p>
+      <p>Example:</p>
+      <p><code>sin(Alpha*K)</code></p>
+      </dd>
+    <p>
+    unary + ja -
+    binary + - * , integer tai real. real, jos toinen on real, muuten integer
+    / - tulos aina real
+    mod div vain integereille
+    </p>
+    <dl>
+      <dt><font size="+1"><b><code>sin(</code><i>Expression</i><code>)</code></b></font></dt>
+      <dd><p>Calculates sine of the value of <i>Expression</i>.</p>
+      <p>Example:</p>
+      <p><code>sin(Alpha*K)</code></p>
+      </dd>
+    </dl>
+    <h2>Built-in Functions</h2>
+    <dl>
+      <dt><font size="+1"><b><code>sin(</code><i>Expression</i><code>)</code></b></font></dt>
+      <dd><p>Calculates sine of the value of <i>Expression</i>.</p>
+      <p>Example:</p>
+      <p><code>sin(Alpha*K)</code></p>
+      </dd>
+    </dl>
+-->
+    <h2>Other Details</h2>
+<H3 id="dirname">dirname</H3>
+<DL>
+<DD>
+Directory names can refer to directories either in the file system or in the 
+resource system. In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a directory in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+dirname is an absolute path it refers to the file system. A relative path
+refers to a subdirectory of the current consult directory.
+  <DL>
+  <DT><B>Examples:</B>
+  <DD><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
+  the C disk.</DD>
+  <DD><CODE>"res:lib/routes"</CODE> - refers to a resource directory.</DD>
+  <DD><CODE>"sub"</CODE> - refers to the subdirectory <code>sub</code> of
+  the current directory.</DD>
+ </DL>
+</DD>
+</DL>
+
+<H3 id="filename">filename</H3>
+<DL>
+<DD>
+File names can refer either to files in the file system or to 
+resources of the jar package.
+In order to specifically refer 
+to the file system prepend the name
+with "<code>file:</code>". In order to refer to a resource in the resource system 
+prepend the name with "<code>res:</code>". If neither is specified and the 
+filename is an absolute path it refers to the file system. A relative path
+refers to a file or resource in the current consult directory.
+  <DL>
+  <DT><B>Examples:</B>
+  <DD><CODE>"file:C:/data/trees.pro"</CODE> - refers to a file in the file
+  system.
+  <DD><CODE>"res:parameters.pro"</CODE> - refers to a resource in the resource system.
+  <DD><CODE>"rules.pro"</CODE> - refers to a file or a resource in the current
+  directory.
+ </DL>
+</DD>
+</DL>
+
+
+</body>
+</html>

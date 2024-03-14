@@ -5,12 +5,8 @@
 </head>
 <body>
 <p ALIGN="right"><EM>
-<b>Jalog&nbsp;1.4</b></EM>
-<p><EM>
-<span style="color:red"><b>NOTE: </b></span>Version 1.4 has <a href="#err">erroneous character 
-indexing</a> in strings. Use <a href="../r1.4.1/index.html">version 1.4.1
-</a> instead
-</EM></p>
+<b>Jalog&nbsp;1.4.1</b></EM>
+</p>
 <HR>
 <h1>Jalog</h1>
 <div>
@@ -23,7 +19,7 @@ and computational linguistics.
 </blockquote>
 <p>Jalog makes traditional artificial intelligence techniques available to a 
 wide variety of devices and applications.</p>
-<p><strong>Version</strong> 1.4 2023-09-07</p>
+<p><strong>Version</strong> 1.4.1 2024-03-13</p>
 <p><a href="../versions.html">Other versions</a></p>
 <h3>Authors</h3>
 <p>Mikko Levanto<br>
@@ -47,10 +43,10 @@ X:><b>java -jar jalog.jar</b> <i>Parameters</i>
 <h3>Integrated Jalog</h3>
 <p>A Jalog program can be called from a Java program. The purpose of this arrangement is to facilitate using Java for the input and output including the 
 user interface, and the Prolog like language for problem solving and planning purposes.</p>
-<p><a href="Jalog_class_doc.html">Interface documentation</a></p>
+<p><a href="../r1.4/Jalog_class_doc.html">Interface documentation</a></p>
 <p>Demo example with Java main program and called Jalog program:
 </p>
-<p><a href="sudoku_demo/sudoku_example.html">Jalog Sudoku Example</a></p>
+<p><a href="../r1.4/sudoku_demo/sudoku_example.html">Jalog Sudoku Example</a></p>
 <p>Demo examples about Android integration:</p>
 <p><a href="https://github.com/JalogTeam/Jalog_Android_MinimalDemo">Simple interfacing example</a><br/>
 <a href="https://github.com/JalogTeam/Jalog_Android_SudokuSolver">Android integration of the Sudoku example</a>
@@ -64,10 +60,10 @@ Prolog</a> style reasoning whereever <a href="https://en.wikipedia.org/wiki/Java
 <p>See examples in <a href="https://github.com/JalogTeam/Jalog/tree/master/test"><code>test</code></a> directory for implemented features.</p>
 
 <h2>Jalog language</h2>
-<p><a href="Jalog_animation.html">Annotated animated execution example</a> -
+<p><a href="../r1.4/Jalog_animation.html">Annotated animated execution example</a> -
 This shows step by step what happens when a Prolog program runs.</p>
 <p><a href="Jalog_quick_reference.html">Jalog Quick Reference</a> - Built in predicates explained.</p>
-<p><a href="Jalog_language_reference.html">Jalog Language Reference</a> - Lays out the elements and the syntax of the language.</p>
+<p><a href="../r1.4/Jalog_language_reference.html">Jalog Language Reference</a> - Lays out the elements and the syntax of the language.</p>
 
 <h2>Other resources</h2>
 <a href="https://cseweb.ucsd.edu/~goguen/courses/130w04/prolog.html">Prolog
@@ -105,6 +101,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </pre>
 <hr />
 <h3>Version history</h3>
+<p><strong>1.4.1</strong> 2024-03-13 Character indexing in strings corrected</p>
 <p><strong>1.4</strong> 2023-09-07 More built-in predicates</p>
 <p><strong>1.3</strong> 2021-08-17 Integration to Android supported.</p>
 <p><strong>1.1.0</strong> 2021-02-02 More options for consult.</p>
@@ -113,12 +110,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p><strong>0.3</strong> 2019-07-24 Interface test completed and integrated to regression test.</p>
 <p><strong>0.2</strong> 2012-04-20 Minor corrections. Debug timing disabled.</p>
 <p><strong>0.1</strong> 2012-03-13 Initial version. Capable of solving Sudoku.</p>
-<hr />
-<h3 id="err"><em>Error in character indexing</em></h3>
-<p>
-In this r1.4 version the index of the first character of the string is 
-erroneously <code>0</code>.
-In the r1.4.1 version the first character is found correctly by index <code>1</code>.
 </div>
 </body>
 </html>

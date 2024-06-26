@@ -28,16 +28,42 @@ dt code {
 <HR>
   <h1>Jalog Quick Reference</h1>
     <h2>Built-in Predicates</h2>
-    
     <dl>
 <!-- Uutta 1.5:een -->
-      <dt><font size="+1"><b><code>closefile(<i>SymbolicFileName</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>closefile(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
       <dd><p>Closes the named file. <code>closefile</code> succeeds even if the file has not been opened.</p>
       <p>Example:</p>
       <p><code>closefile(report)</code></p>
       </dd>
 
-      <dt><font size="+1"><b><code>existfile(<i>FileName</i>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>deletefile(</code><i>FileName</i><code>)</code></b></font></dt>
+      <dd><p>Deletes the file <i>FileName</i>.</p>
+      <p>Example:</p>
+      <p><code>deletefile("temp.dat")</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>existfile(</code><i>FileName</i>)</code></b></font></dt>
+      <dd><p>Opens the disk file <i>FileName</i> for reading and attaches the <i>SymbolicFileName</i> to that file.
+      <i>SymbolicFileName</i> cannot be <code>keyboard</code>.
+      <p>Example:</p>
+      <p><code>openead(parameters, "motor/params.txt")</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>file_str(</code><i>FileName</i><code>, </code><i>StringVariable</i><code>)</code></b></font></dt>
+      <dd><p>The contents of </code><i>FileName</i> is read into <i>StringVariable</i>.
+      The file must be an ASCII or UTF-8 coded text file.</p>
+      <p>Example:</p>
+      <p><code>file_str("data.dat", String1)</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>openappend(</code><i>SymbolicFileName</i><code>, <i>FileName</i>)</code></b></font></dt>
+      <dd><p>Opens the disk file <i>FileName</i> for appending and attaches the symbolic <i>FileName</i> to that file.
+      The <i>FileName</i> must not begin with <code>res:</code> . <i>SymbolicFileName</i> cannot be <code>screen</code>.
+      <p>Example:</p>
+      <p><code>openappend(datafile, "data.dat")</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>openread(</code><i>SymbolicFileName</i><code>, <i>FileName</i>)</code></b></font></dt>
       <dd><p>Opens the disk file <i>FileName</i> for reading and attaches the <i>SymbolicFileName</i> to that file.
       <i>SymbolicFileName</i> cannot be <code>keyboard</code>.
       <p>Example:</p>
@@ -51,13 +77,6 @@ dt code {
       <p><code>openwrite(report, "summary.txt")</code></p>
       </dd>
 
-      <dt><font size="+1"><b><code>openread(</code><i>SymbolicFileName</i><code>, <i>FileName</i>)</code></b></font></dt>
-      <dd><p>Opens the disk file <i>FileName</i> for reading and attaches the <i>SymbolicFileName</i> to that file.
-      <i>SymbolicFileName</i> cannot be <code>keyboard</code>.
-      <p>Example:</p>
-      <p><code>openead(parameters, "motor/params.txt")</code></p>
-      </dd>
-
       <dt><font size="+1"><b><code>readdevice(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
       <dd><p>If <i>SymbolicFileName</i> is bound, then reassigns the current read device to the file opened with the given <i>SymbolicFileName</i>. If the symbol is <code>keyboard</code>, then assigns the current read device to the standard input.</p>
       <p>If <i>SymbolicFileName</i> is free, then binds <i>SymbolicFileName</i> to the current read device.</p>
@@ -66,13 +85,6 @@ dt code {
       <p><code>readdevice(parameters),</code></p>
       </dd>
 
-      <dt><font size="+1"><b><code>writedevice(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
-      <dd><p>If <i>SymbolicFileName</i> is bound, then reassigns the current write device to the file opened with the given <i>SymbolicFileName</i>. If the symbol is <code>screen</code>, then assigns the current write device to the standard output.</p>
-      <p>If <i>SymbolicFileName</i> is free, then binds <i>SymbolicFileName</i> to the current write device.</p>
-      <p>Example:</p>
-      <p><code>writedevice(Temp),</code></p>
-      <p><code>writedevice(report),</code></p>
-
       <dt><font size="+1"><b><code>readln(</code><i>string_variable</i><code>)</code></b></font></dt>
       <dd>
         <p>Reads the characters from the current read device (the <code>keyboard</code> until the devce is changed with <code>readdevice</code>) to the <i>string_variable</i> until the end of the line</p>
@@ -80,6 +92,33 @@ dt code {
         <p><code>readln(Line)</code></p>
       </dd>
 
+      <dt><font size="+1"><b><code>save(</code><i>FileName</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>save(</code><i>FileName</i><code>, </code><i>DatabaseName</i><code>)</code></b></font></dt>
+      <dd><p>Saves all facts of a given database to a file <i>FileName</i>. If <code>save</code> is called with only one argument (no <i>DatabaseName</i>) it will save facts of the default <code>dbasedom</code> database to the file <i>FileName</i>. If <code>save</code> is called with two arguments (<i>FileName</i> and <i>DatabaseName</i>), it will save facts of the <i>DatabaseName</i> to the file <i>FileName</i>.</p>
+      <p>Example:</p>
+      <p><code>save("main_data.dat"), % </code>all facts of <code>dbasedom</code>.</p>
+      <p><code>save("settings.dat", settings), % </code>all facts of <code>settings</code>.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>subchar(</code><i>String</i><code>, </code><i>Position</i><code>, </code><i>Char</i><code>)</code></b></font></dt>
+      <dd><p><code>subchar</code> returns the character at a given position in a string. The first character has position 1.</p>
+      <p>Example:</p>
+      <p><code>subchar("ABC", 2, Char) % Char </code> is bound to <code>'B'</code>.</p>
+      </dd>
+
+      <dt><font size="+1"><b><code>term_str(</code><i>Domain</i><code>, </code><i>Term</i><code>, </code><i>String</i><code>)</code></b></font></dt>
+      <dd><p>Converts between terms and their string representations.</p>
+      <p>Example:</p>
+      <p><code>term_str(struct, a(3,"k"), S), %</code> binds <code>S</code> to the string <code>"a(3,\"k\")"</code>.</p>
+      <p><code>term_str(real, R, "3.141"), %</code> binds <code>R</code> to the number 3.141.
+      </dd>
+
+      <dt><font size="+1"><b><code>writedevice(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
+      <dd><p>If <i>SymbolicFileName</i> is bound, then reassigns the current write device to the file opened with the given <i>SymbolicFileName</i>. If the symbol is <code>screen</code>, then assigns the current write device to the standard output.</p>
+      <p>If <i>SymbolicFileName</i> is free, then binds <i>SymbolicFileName</i> to the current write device.</p>
+      <p>Example:</p>
+      <p><code>writedevice(Temp),</code></p>
+      <p><code>writedevice(report),</code></p>
 
       <dt><font size="+1"><b><code>writeln(</code><i>parameters</i><code>)</code></b></font></dt>
       <dd>
@@ -149,26 +188,38 @@ comline_arg(3, "", "report.txt").</pre>
 
       <dt><font size="+1"><b><code>consult(</code><i>Filename</i><code>)</code></b></font></dt>
       <dd>
-        <p>Reads the facts and rules to the database and executes the goals from the file <a href="#filename"
+        <p>Reads the rules and facts to the database and executes the goals from the file <a href="#filename"
         ><i>Filename</i></a>.</p>
+        <p>If <i>Filename</i> does not specify full path, then the consult directory
+        is used. Initially the consult directory is the directory containing
+        the main program. The consult directory can be changed by the <code>consult_dir</code>
+        predicate.</p>
         <p>Example:</p>
-        <p><code>consult("route_data.pro")</code></p>
+        <p><code>consult("game_library.pro")</code></p>
       </dd>
 
+      <dt><font size="+1"><b><code>consult_data(</code><i>Filename</i><code>, </code><i>DatabaseName</i><code>)</code></b></font></dt>
       <dt><font size="+1"><b><code>consult_data(</code><i>Filename</i><code>, </code><i>Filter</i><code>)</code></b></font></dt>
       <dd>
-        <p>Reads the facts to the database from the file <a
-        href="#filename"
-        ><i>Filename</i></a>. Only facts specified in the <i>Filter</i> are consulted. <i>Filter</i> is a list of strings, each containing a predicate indicator in form <i>name</i>/<i>arity</i> .</p>
-        <p>Example:</p>
-        <p><code>consult_data("data.pro", ["cars/4", "houses/2"])</code></p>
+        <p>Reads the facts from the <a href="#filename"><i>Filename</i></a> to the end of the database.</p>
+        <p>If the second parameter is a symbol it is interpreted as a database name. In this case only facts that belong to this database is read.</p>
+        <p>If the second parameter is a list of strings it is interpreted as a filter. 
+        Each string of the filter must contain a predicate indicator in form <i>name</i>/<i>arity</i> .
+        In this case only facts specified in the <code>Filter</code> are read.</p>
+        
+        <p>Examples:</p>
+        <p><code>consult_data("samples.dat", samples)</code></p>
+        <p><code>consult_data("data.dat", ["cars/4", "houses/2"])</code></p>
       </dd>
 
-      <dt><font size="+1"><b><code>consult_dir(</code><i>Dirname</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>consult_dir(</code><i>ConsultDirname</i><code>)</code></b></font></dt>
       <dd>
-        <p>If <a href="#filename"
-        ><i>Dirname</i></a> is bound to a string sets current consult directory.</p>
-        <p>If <i>Dirname</i> is open it will be bound to the current
+        <p>The current consult directory is used by the <code>consult</code>
+        predicate to locate files when no full path is specified. It is not used
+        by <code>consult_data</code> or any other predicate.</p>
+        <p>If <a href="#ConsultDirname"
+        ><i>ConsultDirname</i></a> is bound to a string sets current consult directory.</p>
+        <p>If <i>ConsultDirname</i> is open it will be bound to the current
         consult directory name. The directory name is absolute and always begins with
 "<code>file:</code>" or "<code>res:</code>". It can be used as an argument to
 <code>set_consult_dir</code> .</p>
@@ -181,6 +232,7 @@ comline_arg(3, "", "report.txt").</pre>
       </dd>
 
       <dt><font size="+1"><b><code>dynamic(</code><i>PredicateIndicator</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>dynamic(</code><i>PredicateIndicator</i>, <i>DatabaseName</i><code>)</code></b></font></dt>
       <dd>
         <p>Prevents an error message, if no clause matching PredicateIndicator
         is found in the database. This is intended for predicates that can
@@ -189,8 +241,13 @@ comline_arg(3, "", "report.txt").</pre>
         <p>A <i>PredicateIndicator</i> must be a string of form 
         <i>Functor</i><code>/</code><i>Arity</i> .
         </p>
-        <p>Example:</p>
+        <p>A <i>DatabaseName</i>, if present, specifies in which database these
+        facts are stored. If absent default database <code>dbasedom</code> is
+        used.        
+        </p>
+        <p>Examples:</p>
         <p><code>:- dynamic("route/3").</code></p>
+        <p><code>:- dynamic("path/3", paths).</code></p>
       </dd>
 
       <dt id="exit"><font size="+1"><b><code>exit</code></b></font></dt>
@@ -718,7 +775,7 @@ comline_arg(3, "", "report.txt").</pre>
     </dl>
 -->
     <h2>Other Details</h2>
-<H3 id="dirname">dirname</H3>
+<H3 id="ConsultDirname">ConsultDirname</H3>
 <DL>
 <DD>
 Directory names can refer to directories either in the file system or in the 
@@ -726,15 +783,15 @@ resource system. In order to specifically refer
 to the file system prepend the name
 with "<code>file:</code>". In order to refer to a directory in the resource system 
 prepend the name with "<code>res:</code>". If neither is specified and the 
-dirname is an absolute path it refers to the file system. A relative path
-refers to a subdirectory of the current consult directory.
+ConsultDirname is an absolute path it refers to the file system. A relative path
+refers to a subdirectory of the current work directory except in  consult directory.
   <DL>
   <DT><B>Examples:</B>
   <DD><CODE>"file:C:/data"</CODE> - refers to the data directory at the root of
   the C disk.</DD>
   <DD><CODE>"res:lib/routes"</CODE> - refers to a resource directory.</DD>
   <DD><CODE>"sub"</CODE> - refers to the subdirectory <code>sub</code> of
-  the current directory.</DD>
+  the current consult directory.</DD>
  </DL>
 </DD>
 </DL>
@@ -749,7 +806,8 @@ to the file system prepend the name
 with "<code>file:</code>". In order to refer to a resource in the resource system 
 prepend the name with "<code>res:</code>". If neither is specified and the 
 filename is an absolute path it refers to the file system. A relative path
-refers to a file or resource in the current consult directory.
+refers to a file or resource in the current directory except that the predicate
+<code>consult</code> uses current consult directory instead.
   <DL>
   <DT><B>Examples:</B>
   <DD><CODE>"file:C:/data/trees.pro"</CODE> - refers to a file in the file

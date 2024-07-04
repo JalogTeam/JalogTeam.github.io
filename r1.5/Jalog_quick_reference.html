@@ -28,116 +28,9 @@ dt code {
 <HR>
   <h1>Jalog Quick Reference</h1>
     <h2>Built-in Predicates</h2>
+    
     <dl>
-<!-- Uutta 1.5:een -->
-      <dt><font size="+1"><b><code>closefile(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
-      <dd><p>Closes the named file. <code>closefile</code> succeeds even if the file has not been opened.</p>
-      <p>Example:</p>
-      <p><code>closefile(report)</code></p>
-      </dd>
 
-      <dt><font size="+1"><b><code>deletefile(</code><i>FileName</i><code>)</code></b></font></dt>
-      <dd><p>Deletes the file <i>FileName</i>.</p>
-      <p>Example:</p>
-      <p><code>deletefile("temp.dat")</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>existfile(</code><i>FileName</i>)</code></b></font></dt>
-      <dd><p>Opens the disk file <i>FileName</i> for reading and attaches the <i>SymbolicFileName</i> to that file.
-      <i>SymbolicFileName</i> cannot be <code>keyboard</code>.
-      <p>Example:</p>
-      <p><code>openead(parameters, "motor/params.txt")</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>file_str(</code><i>FileName</i><code>, </code><i>StringVariable</i><code>)</code></b></font></dt>
-      <dd><p>The contents of </code><i>FileName</i> is read into <i>StringVariable</i>.
-      The file must be an ASCII or UTF-8 coded text file.</p>
-      <p>Example:</p>
-      <p><code>file_str("data.dat", String1)</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>openappend(</code><i>SymbolicFileName</i><code>, <i>FileName</i>)</code></b></font></dt>
-      <dd><p>Opens the disk file <i>FileName</i> for appending and attaches the symbolic <i>FileName</i> to that file.
-      The <i>FileName</i> must not begin with <code>res:</code> . <i>SymbolicFileName</i> cannot be <code>screen</code>.
-      <p>Example:</p>
-      <p><code>openappend(datafile, "data.dat")</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>openread(</code><i>SymbolicFileName</i><code>, <i>FileName</i>)</code></b></font></dt>
-      <dd><p>Opens the disk file <i>FileName</i> for reading and attaches the <i>SymbolicFileName</i> to that file.
-      <i>SymbolicFileName</i> cannot be <code>keyboard</code>.
-      <p>Example:</p>
-      <p><code>openead(parameters, "motor/params.txt")</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>openwrite(</code><i>SymbolicFileName</i><code>, <i>FileName</i>)</code></b></font></dt>
-      <dd><p>Opens the disk file <i>FileName</i> for writing and attaches the symbolic <i>FileName</i> to that file.
-      If the file <i>FileName</i> alredy exists on the disk, it is deleted. The <i>FileName</i> must not begin with <code>res:</code> . <i>SymbolicFileName</i> cannot be <code>screen</code>.
-      <p>Example:</p>
-      <p><code>openwrite(report, "summary.txt")</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>readdevice(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
-      <dd><p>If <i>SymbolicFileName</i> is bound, then reassigns the current read device to the file opened with the given <i>SymbolicFileName</i>. If the symbol is <code>keyboard</code>, then assigns the current read device to the standard input.</p>
-      <p>If <i>SymbolicFileName</i> is free, then binds <i>SymbolicFileName</i> to the current read device.</p>
-      <p>Example:</p>
-      <p><code>readdevice(Temp),</code></p>
-      <p><code>readdevice(parameters),</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>readln(</code><i>string_variable</i><code>)</code></b></font></dt>
-      <dd>
-        <p>Reads the characters from the current read device (the <code>keyboard</code> until the devce is changed with <code>readdevice</code>) to the <i>string_variable</i> until the end of the line</p>
-        <p>Example:</p>
-        <p><code>readln(Line)</code></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>save(</code><i>FileName</i><code>)</code></b></font></dt>
-      <dt><font size="+1"><b><code>save(</code><i>FileName</i><code>, </code><i>DatabaseName</i><code>)</code></b></font></dt>
-      <dd><p>Saves all facts of a given database to a file <i>FileName</i>. If <code>save</code> is called with only one argument (no <i>DatabaseName</i>) it will save facts of the default <code>dbasedom</code> database to the file <i>FileName</i>. If <code>save</code> is called with two arguments (<i>FileName</i> and <i>DatabaseName</i>), it will save facts of the <i>DatabaseName</i> to the file <i>FileName</i>.</p>
-      <p>Example:</p>
-      <p><code>save("main_data.dat"), % </code>all facts of <code>dbasedom</code>.</p>
-      <p><code>save("settings.dat", settings), % </code>all facts of <code>settings</code>.</p>
-      </dd>
-
-      <dt><font size="+1"><b><code>subchar(</code><i>String</i><code>, </code><i>Position</i><code>, </code><i>Char</i><code>)</code></b></font></dt>
-      <dd><p><code>subchar</code> returns the character at a given position in a string. The first character has position 1.</p>
-      <p>Example:</p>
-      <p><code>subchar("ABC", 2, Char) % Char </code> is bound to <code>'B'</code>.</p>
-      </dd>
-
-      <dt><font size="+1"><b><code>term_str(</code><i>Domain</i><code>, </code><i>Term</i><code>, </code><i>String</i><code>)</code></b></font></dt>
-      <dd><p>Converts between terms and their string representations.</p>
-      <p>Example:</p>
-      <p><code>term_str(struct, a(3,"k"), S), %</code> binds <code>S</code> to the string <code>"a(3,\"k\")"</code>.</p>
-      <p><code>term_str(real, R, "3.141"), %</code> binds <code>R</code> to the number 3.141.
-      </dd>
-
-      <dt><font size="+1"><b><code>writedevice(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
-      <dd><p>If <i>SymbolicFileName</i> is bound, then reassigns the current write device to the file opened with the given <i>SymbolicFileName</i>. If the symbol is <code>screen</code>, then assigns the current write device to the standard output.</p>
-      <p>If <i>SymbolicFileName</i> is free, then binds <i>SymbolicFileName</i> to the current write device.</p>
-      <p>Example:</p>
-      <p><code>writedevice(Temp),</code></p>
-      <p><code>writedevice(report),</code></p>
-
-      <dt><font size="+1"><b><code>writeln(</code><i>parameters</i><code>)</code></b></font></dt>
-      <dd>
-        <p>As <code>write</code> but followed by <i>nl</i></p>
-      </dd>
-
-      <dt><font size="+1"><b><code>writeq(</code><i>parameters</i><code>)</code></b></font></dt>
-      <dd>
-        <p>Prints the values of the parameters in lexical notation so that they
-        can be read back. Strings are enclosed in double quotes and characters
-        are enclosed in single quotes.</p>
-        <p>Examples:</p>
-        <p><code>writeq('a', "bc", 3.142)</code></br>prints <code>'a'"bc"3.142</code>
-        </p>
-        <p><code>writeq(a('b', 'c'))</code></br>prints <code>a('b','c')</code>
-        </p>
-      </dd>
-
-<!-- Uutta end -->    
       <dt><font size="+1"><b><code>assert(</code><i>Fact</i><code>)</code></b></font></dt>
       <dd><p>Stores the fact <i>Fact</i> to the end of the database. Same as <code>assertz</code>.</p>
       <p>Example:</p>
@@ -161,6 +54,13 @@ dt code {
         <p>Succeeds, if the parameter <i>Var</i> is bound, otherwise fails.</p>
       </dd>
 
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>closefile(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
+      <dd><p>Closes the named file. <code>closefile</code> succeeds even if the file has not been opened.</p>
+      <p>Example:</p>
+      <p><code>closefile(report)</code></p>
+      </dd>
+
       <dt><font size="+1"><b><code>comline_arg(</code><i>Number</i><code>, 
           </code><i>Option</i><code>, </code><i>Argument</i><code>)</code></b></font></dt>
       <dd>
@@ -180,12 +80,13 @@ comline_arg(2, "up", "").
 comline_arg(3, "", "report.txt").</pre>
       </dd>
 
-      <dt><font size="+1"><b><code>concat(</code><i>String1</i>, <i>String2</i>, <i>LongString</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>concat(</code><i>String1</i><code>, </code><i>String2</i><code>, </code><i>LongString</i><code>)</code></b></font></dt>
       <dd><p>Obtains <i>LongString</i> by concatenating <i>String1</i> and <i>String2</i></p>
       <p>Example:</p>
       <p><code>concat(S, ".pro", Filename)</code></p>
       </dd>
 
+      <!-- 1.5 updated -->
       <dt><font size="+1"><b><code>consult(</code><i>Filename</i><code>)</code></b></font></dt>
       <dd>
         <p>Reads the rules and facts to the database and executes the goals from the file <a href="#filename"
@@ -196,8 +97,11 @@ comline_arg(3, "", "report.txt").</pre>
         predicate.</p>
         <p>Example:</p>
         <p><code>consult("game_library.pro")</code></p>
+        <p>The predicate name <code>consult</code> in another name of the predicate <code>include</code>.</p>
+
       </dd>
 
+      <!-- 1.5 updated -->
       <dt><font size="+1"><b><code>consult_data(</code><i>Filename</i><code>, </code><i>DatabaseName</i><code>)</code></b></font></dt>
       <dt><font size="+1"><b><code>consult_data(</code><i>Filename</i><code>, </code><i>Filter</i><code>)</code></b></font></dt>
       <dd>
@@ -212,6 +116,7 @@ comline_arg(3, "", "report.txt").</pre>
         <p><code>consult_data("data.dat", ["cars/4", "houses/2"])</code></p>
       </dd>
 
+      <!-- 1.5 updated -->
       <dt><font size="+1"><b><code>consult_dir(</code><i>ConsultDirname</i><code>)</code></b></font></dt>
       <dd>
         <p>The current consult directory is used by the <code>consult</code>
@@ -231,8 +136,16 @@ comline_arg(3, "", "report.txt").</pre>
         the current directory.</p>
       </dd>
 
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>deletefile(</code><i>FileName</i><code>)</code></b></font></dt>
+      <dd><p>Deletes the file <i>FileName</i>.</p>
+      <p>Example:</p>
+      <p><code>deletefile("temp.dat")</code></p>
+      </dd>
+
+      <!-- 1.5 updated -->
       <dt><font size="+1"><b><code>dynamic(</code><i>PredicateIndicator</i><code>)</code></b></font></dt>
-      <dt><font size="+1"><b><code>dynamic(</code><i>PredicateIndicator</i>, <i>DatabaseName</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>dynamic(</code><i>PredicateIndicator</i><code>, </code><i>DatabaseName</i><code>)</code></b></font></dt>
       <dd>
         <p>Prevents an error message, if no clause matching PredicateIndicator
         is found in the database. This is intended for predicates that can
@@ -248,6 +161,13 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Examples:</p>
         <p><code>:- dynamic("route/3").</code></p>
         <p><code>:- dynamic("path/3", paths).</code></p>
+      </dd>
+
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>existfile(</code><i>FileName</i><code>)</code></b></font></dt>
+      <dd><p>Succeeds if the file <i>FileName</i> exists.</p>
+      <p>Example:</p>
+      <p><code>existfile("motor/params.txt")</code></p>
       </dd>
 
       <dt id="exit"><font size="+1"><b><code>exit</code></b></font></dt>
@@ -271,12 +191,20 @@ comline_arg(3, "", "report.txt").</pre>
         <p>This call fails always.</p>
       </dd>
 
-      <dt><font size="+1"><b><code>findall(</code><i>Variable</i>, <i>Atom</i>, <i>ListVariable</i><code>)</code></b></font></dt>
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>file_str(</code><i>FileName</i><code>, </code><i>StringVariable</i><code>)</code></b></font></dt>
+      <dd><p>The contents of </code><i>FileName</i> is read into <i>StringVariable</i>.
+      The file must be an ASCII or UTF-8 coded text file.</p>
+      <p>Example:</p>
+      <p><code>file_str("data.dat", String1)</code></p>
+      </dd>
+
+      <dt><font size="+1"><b><code>findall(</code><i>Variable</i><code>, </code><i>Atom</i><code>, </code><i>ListVariable</i><code>)</code></b></font></dt>
       <dd><p>Collects the values from backtracking into a list. Thus, if <i>Atom</i> is a predicate with its arguments represented by valid variable names, and <i>Variable</i> is the name of one of the variables in the predicate, <i>ListVariable</i> will be bound to the list of values for that variable that was obtained from instances when the predicate can succeed due to backtracking.</p>
       <p>Example:</p>
       <p><code>findall(P, substring("a, b, c, d", P, _, ","), L) </code><br/>
       <code>L</code> will contain the positions of commas: 
-      <code>[1, 4, 7]</code></p>
+      <code>[2, 5, 8]</code></p>
       </dd>
 
       <dt><font size="+1"><b><code>foreach_(</code><i>Var</i><code>, </code><i>List</i><code>)</code></b></font></dt>
@@ -293,18 +221,31 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Succeeds, if the parameter <i>Var</i> is open, otherwise fails.</p>
       </dd>
 
-      <dt><font size="+1"><b><code>frontchar(</code><i>String</i>, <i>FrontChar</i>, <i>RestString</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>frontchar(</code><i>String</i><code>, </code><i>FrontChar</i><code>, </code><i>RestString</i><code>)</code></b></font></dt>
       <dd><p>Isolates the first character of <i>String</i>.</p>
       </dd>
       
-      <dt><font size="+1"><b><code>frontstr(</code><i>NumberOfChars</i>, <i>String1</i>, <i>StartStr</i>, <i>String2</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>frontstr(</code><i>NumberOfChars</i><code>, </code><i>String1</i><code>, </code><i>StartStr</i><code>, </code><i>String2</i><code>)</code></b></font></dt>
       <dd><p>Splits <i>String1</i> into two parts. <i>StartStr</i> will contain the first <i>NumberOfChars</i> characters in <i>String1</i> and <i>String2</i> will contain the rest.</p>
       </dd>
       
-      <dt><font size="+1"><b><code>fronttoken(</code><i>String</i>, <i>Token</i>, <i>RestString</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>fronttoken(</code><i>String</i><code>, </code><i>Token</i><code>, </code><i>RestString</i><code>)</code></b></font></dt>
       <dd><p>Isolates the first <a href="Jalog_language_reference.html#tokens">token</a> of <i>String</i>. <a href="Jalog_language_reference.html#whitespace">Whitespace</a> in front of the token is skipped.</p>
       </dd>
       
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>include(</code><i>Filename</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Reads the rules and facts to the database and executes the goals from the file <a href="#filename"
+        ><i>Filename</i></a>.</p>
+        <p>If <i>Filename</i> does not specify full path, then the consult directory
+        is used. Initially the consult directory is the directory containing
+        the main program. The consult directory can be changed by the <code>consult_dir</code>
+        predicate.</p>
+        <p>Example:</p>
+        <p><code>include("game_library.pro")</code></p>
+      </dd>
+
       <dt><font size="+1"><b><code>is_char(</code><i>Var</i><code>)</code></b></font></dt>
       <dd>
         <p>Succeeds, if the parameter <i>Var</i> is bound to a character value.</p>
@@ -340,7 +281,7 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Succeeds, if <i>StringParam</i> is a name.</p>
       </dd>
 
-      <dt><font size="+1"><b><code>member(</code><i>Elem</i>, <i>List</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>member(</code><i>Elem</i><code>, </code><i>List</i><code>)</code></b></font></dt>
       <dd><p>If <code>Elem</code> is bound, succeeds if <code>Elem</code>is a member of <code>List</code>. If <code>Elem</code> is free, picks one element of <code>List</code> and on backtracking next elements one by one, and fails at the end of <code>List</code>. </p>
       </dd>
 
@@ -359,6 +300,47 @@ comline_arg(3, "", "report.txt").</pre>
         succeeds.</p>
       </dd>
 
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>openappend(</code><i>SymbolicFileName</i><code>, </code><i>FileName</i><code>)</code></b></font></dt>
+      <dd><p>Opens the disk file <i>FileName</i> for appending and attaches the symbolic <i>FileName</i> to that file.
+      <i>SymbolicFileName</i> cannot be <code>screen</code>. The <i>FileName</i> must not begin with <code>res:</code> .
+      <p>Example:</p>
+      <p><code>openappend(datafile, "data.dat")</code></p>
+      </dd>
+
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>openread(</code><i>SymbolicFileName</i><code>, </code><i>FileName</i><code>)</code></b></font></dt>
+      <dd><p>Opens the disk file <i>FileName</i> for reading and attaches the <i>SymbolicFileName</i> to that file.
+      <i>SymbolicFileName</i> cannot be <code>keyboard</code>.
+      <p>Example:</p>
+      <p><code>openead(parameters, "motor/params.txt")</code></p>
+      </dd>
+
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>openwrite(</code><i>SymbolicFileName</i><code>, </code><i>FileName</i><code>)</code></b></font></dt>
+      <dd><p>Opens the disk file <i>FileName</i> for writing and attaches the symbolic <i>FileName</i> to that file.
+      If the file <i>FileName</i> alredy exists on the disk, it is deleted. <i>SymbolicFileName</i> cannot be <code>screen</code>. The <i>FileName</i> must not begin with <code>res:</code> .
+      <p>Example:</p>
+      <p><code>openwrite(report, "summary.txt")</code></p>
+      </dd>
+
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>readdevice(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
+      <dd><p>If <i>SymbolicFileName</i> is bound, then reassigns the current read device to the file opened with the given <i>SymbolicFileName</i>. If the symbol is <code>keyboard</code>, then assigns the current read device to the standard input.</p>
+      <p>If <i>SymbolicFileName</i> is free, then binds <i>SymbolicFileName</i> to the current read device.</p>
+      <p>Example:</p>
+      <p><code>readdevice(Temp),</code></p>
+      <p><code>readdevice(parameters),</code></p>
+      </dd>
+
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>readln(</code><i>StringVariable</i><code>)</code></b></font></dt>
+      <dd>
+        <p>Reads the characters from the current read device (the <code>keyboard</code> until the devce is changed with <code>readdevice</code>) to the <i>StringVariable</i> until the end of the line</p>
+        <p>Example:</p>
+        <p><code>readln(Line)</code></p>
+      </dd>
+
       <dt id="retract"><font size="+1"><b><code>retract(</code><i>Fact</i><code>)</code></b></font></dt>
       <dd>
         <p>Deletes the first fact in the database that matches the given <i>Fact</i>. The argument cannot be open. It must be a compound that can have open arguments.
@@ -375,6 +357,15 @@ comline_arg(3, "", "report.txt").</pre>
         </pre>
       </dd>
 
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>save(</code><i>FileName</i><code>)</code></b></font></dt>
+      <dt><font size="+1"><b><code>save(</code><i>FileName</i><code>, </code><i>DatabaseName</i><code>)</code></b></font></dt>
+      <dd><p>Saves all facts of a given database to a file <i>FileName</i>. If <code>save</code> is called with only one argument (no <i>DatabaseName</i>) it will save facts of the default <code>dbasedom</code> database to the file <i>FileName</i>. If <code>save</code> is called with two arguments (<i>FileName</i> and <i>DatabaseName</i>), it will save facts of the <i>DatabaseName</i> to the file <i>FileName</i>.</p>
+      <p>Example:</p>
+      <p><code>save("main_data.dat"), % </code>all facts of <code>dbasedom</code>.</p>
+      <p><code>save("settings.dat", settings), % </code>all facts of <code>settings</code>.</p>
+      </dd>
+
       <dt id="searchchar"><font size="+1"><b><code>searchchar(</code><i>Text</i><code>, </code>
         <i>Character</i><code>, </code><i>Position</i><code>)</code></b></font></dt>
       <dd>
@@ -383,7 +374,7 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Example:</p>
         <p>
         <code>searchchar("A-B+C-D", '-', P).</code><br/>
-        Returns <code>P</code> = 1 on first call. If backtracked returns <code>P</code> = 5. If backtracked again fails.
+        Returns <code>P</code> = 2 on first call. If backtracked returns <code>P</code> = 6. If backtracked again fails.
         </p>
       </dd>
 
@@ -395,7 +386,7 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Example:</p>
         <p>
         <code>searchstring("Apple,, Banana, Orange", ",,", P).</code><br/>
-        Returns <code>P</code> = 5 on first call. If backtracked fails.
+        Returns <code>P</code> = 6 on first call. If backtracked fails.
         </p>
       </dd>
 
@@ -429,6 +420,13 @@ comline_arg(3, "", "report.txt").</pre>
         </p>
       </dd>
 
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>subchar(</code><i>String</i><code>, </code><i>Position</i><code>, </code><i>Char</i><code>)</code></b></font></dt>
+      <dd><p><code>subchar</code> returns the character at a given position in a string. The first character has position 1.</p>
+      <p>Example:</p>
+      <p><code>subchar("ABC", 2, Char) % Char </code> is bound to <code>'B'</code>.</p>
+      </dd>
+
       <dt id="substring"><font size="+1"><b><code>substring(</code><i>LongString</i><code>, </code>
         <i>Pos</i><code>, </code><i>Len</i><code>, </code><i>SubString</i><code>)</code></b></font></dt>
       <dd>
@@ -438,9 +436,17 @@ comline_arg(3, "", "report.txt").</pre>
         </p>
         <p>Example:</p>
         <p>
-        <code>substring("Programs/Games/Chess.exe", 9, 5, S).</code><br/>
+        <code>substring("Programs/Games/Chess.exe", 10, 5, S).</code><br/>
         Returns <code>S</code> = <code>"Games"</code>.
         </p>
+      </dd>
+
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>term_str(</code><i>Domain</i><code>, </code><i>Term</i><code>, </code><i>String</i><code>)</code></b></font></dt>
+      <dd><p>Converts between terms and their string representations.</p>
+      <p>Example:</p>
+      <p><code>term_str(struct, a(3,"k"), S), %</code> binds <code>S</code> to the string <code>"a(3,\"k\")"</code>.</p>
+      <p><code>term_str(real, R, "3.141"), %</code> binds <code>R</code> to the number 3.141.
       </dd>
 
       <dt id="trap"><font size="+1"><b><code>trap(</code><i>Predicate_call</i><code>, </code>
@@ -473,6 +479,14 @@ comline_arg(3, "", "report.txt").</pre>
         <p>Example:</p>
         <p><code>write('a', "bc", 3.142)</code><br/>writes <code>abc3.142</code></p>
       </dd>
+
+      <!-- 1.5 -->
+      <dt><font size="+1"><b><code>writedevice(</code><i>SymbolicFileName</i><code>)</code></b></font></dt>
+      <dd><p>If <i>SymbolicFileName</i> is bound, then reassigns the current write device to the file opened with the given <i>SymbolicFileName</i>. If the symbol is <code>screen</code>, then assigns the current write device to the standard output.</p>
+      <p>If <i>SymbolicFileName</i> is free, then binds <i>SymbolicFileName</i> to the current write device.</p>
+      <p>Example:</p>
+      <p><code>writedevice(Temp),</code></p>
+      <p><code>writedevice(report),</code></p>
 
       <dt><font size="+1"><b><code>writeln(</code><i>parameters</i><code>)</code></b></font></dt>
       <dd>
@@ -806,8 +820,8 @@ to the file system prepend the name
 with "<code>file:</code>". In order to refer to a resource in the resource system 
 prepend the name with "<code>res:</code>". If neither is specified and the 
 filename is an absolute path it refers to the file system. A relative path
-refers to a file or resource in the current directory except that the predicate
-<code>consult</code> uses current consult directory instead.
+refers to a file or resource in the current directory except that the predicates
+<code>consult</code> and <code>include</code> use current consult directory instead.
   <DL>
   <DT><B>Examples:</B>
   <DD><CODE>"file:C:/data/trees.pro"</CODE> - refers to a file in the file

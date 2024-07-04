@@ -23,7 +23,7 @@ and computational linguistics.
 </blockquote>
 <p>Jalog makes traditional artificial intelligence techniques available to a 
 wide variety of devices and applications.</p>
-<p><strong>Version</strong> 1.5 2023-00-00</p>
+<p><strong>Version</strong> 1.5 2024-07-10</p>
 <p><a href="../versions.html">Other versions</a></p>
 <h3>Authors</h3>
 <p>Mikko Levanto<br>
@@ -40,7 +40,11 @@ X:><b>java -jar jalog.jar</b> <i>Parameters</i>
 <i>Parameters</i>: <i>jalog_options</i> <i>program_name</i> <i>program_arguments</i>
   <i>jalog_options</i>:
       -v <span class="n"> Show version information</span>
-      -w=<i>write_directory</i> <span class="n">- Permits writing and replacing files in the <i>write_directory</i>. Multiple </span>w<span class="n">-options are permitted.</span>
+      -r=<i>name</i> <span class="n">- Permits reading of the file <i>name</i> or files in the directory <i>name</i>. Multiple </span>r<span class="n">-options are permitted.</span>
+      -w=<i>name</i> <span class="n">- Permits writing of the file <i>name</i> or replacing files in the directory <i>name</i>. Multiple </span>w<span class="n">-options are permitted.</span>
+      -m=<i>name</i> <span class="n">- Permits modifying, reading and writing of the file <i>name</i> or files in the directory <i>name</i>. Multiple </span>m<span class="n">-options are permitted.</span>
+      -a=<i>name</i> <span class="n">- Permits appending to the file <i>name</i> or files in the directory <i>name</i>. Multiple </span>a<span class="n">-options are permitted.</span>
+    <span class="n">The </span>=<span class="n"> character can be replaced with the </span>:<span class="n"> character &#x2014; can be useful for example in Windows batch files.</span>
   <i>program_name</i> <span class="n">- complete file name - no default extensions</span>
   <i>program_arguments</i> <span class="n">- as the program needs them</span>
 </pre>
@@ -105,14 +109,15 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </pre>
 <hr />
 <h3>Version history</h3>
+<p><strong>1.5</strong> 2024-07-10 Reading and writing of text files</p>
 <p><strong>1.4</strong> 2023-09-07 More built-in predicates</p>
-<p><strong>1.3</strong> 2021-08-17 Integration to Android supported.</p>
-<p><strong>1.1.0</strong> 2021-02-02 More options for consult.</p>
+<p><strong>1.3</strong> 2021-08-17 Integration to Android supported</p>
+<p><strong>1.1.0</strong> 2021-02-02 More options for consult</p>
 <p><strong>1.0.0</strong> 2020-08-25 First release</p>
-<p><strong>0.4</strong> 2019-08-06 Build system for jar file: build_jar.bat.</p>
+<p><strong>0.4</strong> 2019-08-06 Build system for jar file: build_jar.bat</p>
 <p><strong>0.3</strong> 2019-07-24 Interface test completed and integrated to regression test.</p>
-<p><strong>0.2</strong> 2012-04-20 Minor corrections. Debug timing disabled.</p>
-<p><strong>0.1</strong> 2012-03-13 Initial version. Capable of solving Sudoku.</p>
+<p><strong>0.2</strong> 2012-04-20 Minor corrections, debug timing disabled</p>
+<p><strong>0.1</strong> 2012-03-13 Initial version, capable of solving Sudoku</p>
 </div>
 </body>
 </html>

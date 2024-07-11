@@ -15,8 +15,8 @@ Jalog gives ability to use [Prolog](https://en.wikipedia.org/wiki/Prolog) style 
 Documentation in HTML can be found at [https://jalogteam.github.io/](https://jalogteam.github.io/) 
 
 ## Source Codes
-Documentation in HTML can be found at [https://github.com/JalogTeam/Jalog](https://github.com/JalogTeam/Jalog) 
+Source codes can be found at [https://github.com/JalogTeam/Jalog](https://github.com/JalogTeam/Jalog) 
 
 ## JAR File
-JAR file can be downloaded from [https://jalogteam.github.io/](https://jalogteam.github.io/)
+A download link to the JAR file can be found at the documentation page [https://jalogteam.github.io/](https://jalogteam.github.io/)
 
